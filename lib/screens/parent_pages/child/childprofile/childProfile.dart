@@ -14,6 +14,7 @@ import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/shared/function.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthMain.dart';
 import 'package:ummicare/screens/parent_pages/child/health/addNewHealthData.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../../services/eduDatabase.dart';
 
@@ -28,6 +29,7 @@ class childProfile extends StatefulWidget {
 
 
 class _childProfileState extends State<childProfile> {
+  
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<ChildModel>(
@@ -381,7 +383,9 @@ class _childProfileState extends State<childProfile> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         healthMain(
-                                                            childId: child.childId),
+                                                            childId: child.childId,
+                                                            healthId: healthModelData[0].currentHeight,
+                                                            healthStatusId: healthModelData[0].healthStatusId,),
                                                   ));
                                             },
                                           ),
@@ -393,10 +397,10 @@ class _childProfileState extends State<childProfile> {
                                     height: 5.0,
                                   ),
                                   Text(
-                                    'Current Height:'//' ${healthModelData[0].physicalList}'
+                                    'Current Height:' '${healthModelData[0].currentHeight}'
                                   ),
                                   Text(
-                                    'Current Weight:' //${healthModelData[0].physicalList}'
+                                    'Current Weight:' '${healthModelData[0].currentWeight}'
                                   )
                                 ],
                               ),

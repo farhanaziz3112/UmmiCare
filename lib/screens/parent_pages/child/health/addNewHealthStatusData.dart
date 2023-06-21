@@ -5,20 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
 
-class addNewHealthData extends StatefulWidget {
-  const addNewHealthData({super.key, required this.childId});
-  final String childId;
+class addNewHealthStatusData extends StatefulWidget {
+  const addNewHealthStatusData({super.key, required this.healthStatusId});
+  final String healthStatusId;
 
   @override
-  State<addNewHealthData> createState() => _addNewHealthDataState();
+  State<addNewHealthStatusData> createState() => _addNewHealthDataState();
 }
 
-class _addNewHealthDataState extends State<addNewHealthData> {
+class _addNewHealthDataState extends State<addNewHealthStatusData> {
 
   final _formKey = GlobalKey<FormState>();
 
-  String _currentHeight = '';
-  String _currentWeight = '';
+  String _currentTemperature = '';
+  String _currentHeartRate = '';
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class _addNewHealthDataState extends State<addNewHealthData> {
       appBar: AppBar(
 
         title: Text(
-          "Add New Health Data",
+          "Add New Health Status Data",
           style: TextStyle(
             color: Colors.black,
             fontSize: 25,
@@ -52,7 +52,7 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(left: 20.0),
                   child: Text(
-                    'Current Height',
+                    'Current Temperature',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 15.0,
@@ -65,12 +65,12 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                   height: 30.0,
                 ),
                 TextFormField(
-                  initialValue: _currentHeight,
+                  initialValue: _currentTemperature,
                   decoration: textInputDecoration,
                   validator: (value) =>
                       value == '' ? 'Please enter current height' : null,
                   onChanged: (value) =>
-                      setState(() => _currentHeight = value),
+                      setState(() => _currentTemperature = value),
                 ),
                 SizedBox(
                   height: 30.0,
@@ -79,7 +79,7 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(left: 20.0),
                   child: Text(
-                    'Current Weight',
+                    'Current heart Rate',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 15.0,
@@ -92,12 +92,12 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                   height: 30.0,
                 ),
                 TextFormField(
-                  initialValue: _currentWeight,
+                  initialValue: _currentHeartRate,
                   decoration: textInputDecoration,
                   validator: (value) =>
                       value == '' ? 'Please enter current weight' : null,
                   onChanged: (value) =>
-                      setState(() => _currentWeight = value),
+                      setState(() => _currentHeartRate = value),
                 ),
                 SizedBox(
                   height: 30.0,
@@ -113,19 +113,23 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     //------------Health-------------
-                    String healthIdHolder =
+                    String healthConditionIdHolder =
                         DateTime.now().millisecondsSinceEpoch.toString() +
-                            widget.childId;
-                    String healthStatusIdHolder =
+                            widget.healthStatusId;
+                    String physicalConditionIdHolder =
                         DateTime.now().millisecondsSinceEpoch.toString() + "1" +
-                            widget.childId;
-                    await HealthDatabaseService(childId: widget.childId)
-                        .createHealthData(
-                            healthIdHolder,
-                            widget.childId,
-                            healthStatusIdHolder,
-                            _currentHeight,
-                            _currentWeight,);   
+                            widget.healthStatusId;
+                    String chronicConditionIdHolder =
+                        DateTime.now().millisecondsSinceEpoch.toString() + "2" +
+                            widget.healthStatusId;
+                    await HealthDatabaseService(childId: widget.healthStatusId)
+                        .createHealthStatusData(
+                            widget.healthStatusId,
+                            _currentTemperature,
+                            _currentHeartRate,
+                            healthConditionIdHolder,
+                            physicalConditionIdHolder,
+                            chronicConditionIdHolder,);   
                     }
 
                     Navigator.pop(context);

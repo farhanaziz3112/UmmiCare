@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ummicare/models/educationmodel.dart';
 import 'package:ummicare/models/usermodel.dart';
 import 'package:ummicare/models/healthmodel.dart';
 
@@ -9,18 +8,18 @@ class HealthDatabaseService {
   final String? healthId;
   final String? healthStatusId;
 
-  HealthDatabaseService({required this.childId, this.healthId, this.healthStatusId});
+  HealthDatabaseService(
+      {required this.childId, this.healthId, this.healthStatusId});
 
 //------------------------------Health----------------------------------
 
   //collection reference
-  final CollectionReference healthCollection =
+  static final CollectionReference healthCollection =
       FirebaseFirestore.instance.collection('Health');
 
   //collection reference
-  final CollectionReference healthSubjectsCollection = FirebaseFirestore
-      .instance
-      .collection('Health');
+  final CollectionReference healthSubjectsCollection =
+      FirebaseFirestore.instance.collection('Health');
 
   //get Health stream
   Stream<List<HealthModel>> get healthData {
@@ -34,30 +33,27 @@ class HealthDatabaseService {
   HealthModel _createHealthModelObject(DocumentSnapshot snapshot) {
     return HealthModel(
       healthId: snapshot.id,
-      physicalList: [],
+      currentHeight: snapshot['currentHeight'],
+      currentWeight: snapshot['currentWeight'],
       childId: snapshot['childId'],
       healthStatusId: snapshot['healthStatusId'],
     );
   }
 
-  //create a list of education model object
+  //create a list of Health model object
   List<HealthModel> _createHealthModelList(QuerySnapshot snapshot) {
     return snapshot.docs.map<HealthModel>((doc) {
       return HealthModel(
         healthId: doc.id,
-        physicalList: [],
+        currentHeight: doc.get('currentHeight') ?? '',
+        currentWeight: doc.get('currentWeight') ?? '',
         childId: doc.get('childId') ?? '',
         healthStatusId: doc.get('healthStatusId') ?? '',
       );
     }).toList();
   }
 
-  Future<List<PhysicalModel>> getPhysicalList(String healthId) async {
-    Future<DocumentSnapshot<Map<String, dynamic>>> querySnapshot =
-        healthCollection.doc(healthId).collection('physical').doc().get();
-    print(querySnapshot.toString());
-    return [];
-  }
+  
 
   //create a list of Health model object
   //List<HealthModel> _createHealthModelList(QuerySnapshot snapshot) {
@@ -73,24 +69,82 @@ class HealthDatabaseService {
 
   //create Health data
   Future<void> createHealthData(
-      String healthId,
-      String childId,
-      String healthStatusId) async {
-    return await healthCollection.doc().set({
+      String healthId, String childId, String healthStatusId, String currentHeight, String currentWeight) async {
+    return await healthCollection.doc(healthId).set({
       'childId': childId,
       'healthStatusId': healthStatusId,
+      'currentHeight': currentHeight,
+      'currentWeight': currentWeight,
     });
   }
 
+  Future<void> updateHealthData(
+    String healthId, String childId, String healthStatusId, String currentHeight, String currentWeight) async {
+    return await healthCollection.doc(healthId).update({
+      'childId': childId,
+      'healthStatusId': healthStatusId,
+      'currentHeight': currentHeight,
+      'currentWeight': currentWeight,
+    }).then((value) => print('Data updated successfully!'))
+    .catchError((error) => print('Failed to update data: $error'));;;
+  }
 
-  //------------------------------SUBJECTS LIST----------------------------------
+  Future<void> updateHeight(
+    String healthId, String currentHeight) async {
+    return await healthCollection.doc(healthId).update({
+      'currentHeight': currentHeight,
+    }).then((value) => print('Data updated successfully!'))
+    .catchError((error) => print('Failed to update data: $error'));;
+  }
 
-  // //get education stream
-  // Stream<Future<List<PhysicalModel>>> get physicalListData (String id){
-  //    return healthCollection
-  //        .where('childId', isEqualTo: childId)
-  //        .where('status', isEqualTo: 'active')
-  //        .snapshots()
-  //        .map(getPhysicalList(id));
-  // }
+  Future<void> updateWeight(
+    String healthId, String currentWeight) async {
+    return await healthCollection.doc(healthId).update({
+      'currentWeight': currentWeight,
+    }).then((value) => print('Data updated successfully!'))
+    .catchError((error) => print('Failed to update data: $error'));;
+  }
+
+//------------------------------HealthStatusId----------------------------------
+
+  //collection reference
+  final CollectionReference healthStatusCollection =
+      FirebaseFirestore.instance.collection('Health Status');
+
+  //get specific health document stream
+  Stream<HealthStatusModel> get healthStatusData {
+    return healthStatusCollection
+        .doc(healthStatusId)
+        .snapshots()
+        .map(_createHealthStatusModelObject);
+  }
+
+  //create a health status model
+  HealthStatusModel _createHealthStatusModelObject(DocumentSnapshot snapshot) {
+    return HealthStatusModel(
+      healthStatusId: snapshot.id,
+      currentTemperature: snapshot['currentTemperature'],
+      currentHeartRate: snapshot['currentHeartRate'],
+      healthConditionId: snapshot['healthConditionId'],
+      physicalConditionId: snapshot['physicalConditionId'],
+      chronicConditionId: snapshot['chronicConditionId'],
+    );
+  }
+
+  //create health status data
+  Future<void> createHealthStatusData(
+    String healthStatusId, 
+    String currentTemperature,
+    String currentHeartRate, 
+    String healthConditionId,
+    String physicalConditionId,
+    String chronicConditionId) async {
+    return await healthStatusCollection.doc(healthStatusId).set({
+      'currentTemperature': currentTemperature,
+      'currentHeartRate': currentHeartRate,
+      'healthConditionId': healthConditionId,
+      'physicalConditionId': physicalConditionId,
+      'chronicConditionId': chronicConditionId,
+    });
+  }
 }

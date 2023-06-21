@@ -2,15 +2,21 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/healthmodel.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ummicare/screens/parent_pages/child/education/educationMain.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthAppointment.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthStatus.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:ummicare/screens/parent_pages/child/health/editPhysical.dart';
+import 'package:ummicare/screens/parent_pages/child/health/addNewHealthStatusData.dart';
 
 import 'package:ummicare/services/healthDatabase.dart';
 
 class healthMain extends StatefulWidget {
-  const healthMain({super.key, required this.childId});
+  const healthMain({super.key, required this.childId, required this.healthId, required this.healthStatusId});
   final String childId;
+  final String healthId;
+  final String healthStatusId;
+
 
   @override
   State<healthMain> createState() => _healthMainState();
@@ -18,13 +24,15 @@ class healthMain extends StatefulWidget {
 
 class _healthMainState extends State<healthMain> {
 
-  void _showSettingsPanel() {
+  bool flag = true;
+
+  void _editPhysical() {
     showModalBottomSheet(
         context: context,
         builder: (context) {
           return Container(
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-            //child: SettingsForm(),
+            child: EditPhysical(childId: widget.childId, healthId: widget.healthId, healthStatusId: widget.healthStatusId,),
           );
         });
   }
@@ -48,6 +56,13 @@ class _healthMainState extends State<healthMain> {
             ),
             centerTitle: true,
             backgroundColor: const Color(0xffe1eef5),
+            actions: <Widget>[
+              TextButton.icon(
+                icon: Icon(Icons.person),
+                label: Text('EditHealth'),
+                onPressed: () => _editPhysical(),
+              )
+            ],
           ),
           body: SingleChildScrollView(
             child: Container(
@@ -107,27 +122,6 @@ class _healthMainState extends State<healthMain> {
                                       style: TextStyle(
                                           fontSize: 20.0, color: Colors.white),
                                     ),
-                                    Flexible(
-                                      child: Container(
-                                        alignment: Alignment.centerRight,
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.edit,
-                                            size: 25.0,
-                                            color: Colors.white,
-                                          ),
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      healthMain(
-                                                          childId: widget.childId),
-                                                ));
-                                          },
-                                        ),
-                                      ),
-                                    ),
                                   ],
                                 ),
                                 SizedBox(
@@ -161,27 +155,6 @@ class _healthMainState extends State<healthMain> {
                                       style: TextStyle(
                                           fontSize: 20.0, color: Colors.white),
                                     ),
-                                    Flexible(
-                                      child: Container(
-                                        alignment: Alignment.centerRight,
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.edit,
-                                            size: 25.0,
-                                            color: Colors.white,
-                                          ),
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      healthMain(
-                                                          childId: widget.childId),
-                                                ));
-                                          },
-                                        ),
-                                      ),
-                                    ),
                                   ],
                                 ),
                                 SizedBox(
@@ -197,7 +170,7 @@ class _healthMainState extends State<healthMain> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  Container(
+                   Container(
                     width: double.infinity,
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
@@ -231,13 +204,26 @@ class _healthMainState extends State<healthMain> {
                                       color: Colors.white,
                                     ),
                                     onPressed: () {
-                                      Navigator.push(
+                                      if(flag){
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                addNewHealthStatusData(
+                                                    healthStatusId: widget.healthStatusId,),
+                                          ));
+                                        flag = false;
+                                      }else{
+                                        Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 healthStatus(
-                                                    childId: widget.childId),
+                                                    childId: widget.childId, healthId: widget.healthId,healthStatusId: widget.healthStatusId
+                                                    ,),
                                           ));
+                                      }
+                                      
                                     },
                                   ),
                                 ),
@@ -250,6 +236,9 @@ class _healthMainState extends State<healthMain> {
                         ],
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 10.0,
                   ),
                   SizedBox(
                     height: 10.0,

@@ -1,47 +1,35 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
+import 'package:ummicare/models/healthmodel.dart';
+import 'package:ummicare/shared/loading.dart';
 
-class addNewHealthData extends StatefulWidget {
-  const addNewHealthData({super.key, required this.childId});
+class EditPhysical extends StatefulWidget {
+  const EditPhysical({super.key, required this.childId, required this.healthId,required this.healthStatusId});
   final String childId;
+  final String healthId;
+  final String healthStatusId;
 
   @override
-  State<addNewHealthData> createState() => _addNewHealthDataState();
+  State<EditPhysical> createState() => _EditPhysicalState();
 }
 
-class _addNewHealthDataState extends State<addNewHealthData> {
+class _EditPhysicalState extends State<EditPhysical> {
 
   final _formKey = GlobalKey<FormState>();
 
-  String _currentHeight = '';
+  String _currentPhysical = '';
+  String _healthStatusId ='';
   String _currentWeight = '';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-
-        title: Text(
-          "Add New Health Data",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        iconTheme: IconThemeData(color: Colors.black),
-        centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      ),
-      resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-          child: Form(
+    return StreamBuilder<List<HealthModel>>(
+      stream: HealthDatabaseService(childId: widget.childId).healthData,
+      builder: (context, snapshot) {
+        if(snapshot.hasData){
+          final healthData = snapshot.data;
+          return Form(
             key: _formKey,
             child: Column(
               children: <Widget>[
@@ -52,7 +40,7 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(left: 20.0),
                   child: Text(
-                    'Current Height',
+                    'Current Physical',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 15.0,
@@ -65,12 +53,12 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                   height: 30.0,
                 ),
                 TextFormField(
-                  initialValue: _currentHeight,
+                  initialValue: _currentPhysical,
                   decoration: textInputDecoration,
                   validator: (value) =>
-                      value == '' ? 'Please enter current height' : null,
+                      value == '' ? 'Please enter current Physical' : null,
                   onChanged: (value) =>
-                      setState(() => _currentHeight = value),
+                      setState(() => _currentPhysical = value),
                 ),
                 SizedBox(
                   height: 30.0,
@@ -107,35 +95,30 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                   backgroundColor: Colors.white,
                 ),
                 child: Text(
-                  'Submit',
+                  'Update',
                   style: TextStyle(color: Colors.black),
                 ),
                 onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    //------------Health-------------
-                    String healthIdHolder =
-                        DateTime.now().millisecondsSinceEpoch.toString() +
-                            widget.childId;
-                    String healthStatusIdHolder =
-                        DateTime.now().millisecondsSinceEpoch.toString() + "1" +
-                            widget.childId;
+                  if (_formKey.currentState!.validate()){
                     await HealthDatabaseService(childId: widget.childId)
-                        .createHealthData(
-                            healthIdHolder,
+                      .updateHealthData(
+                            widget.healthId,
                             widget.childId,
-                            healthStatusIdHolder,
-                            _currentHeight,
-                            _currentWeight,);   
-                    }
-
+                            widget.healthStatusId,
+                            _currentPhysical,
+                            _currentWeight,);
                     Navigator.pop(context);
+                  }
+                  
                 }
                 )
               ],
             ),
-          ),
-        ),
-      ),
+          );
+        }else{
+          return Loading();
+        }
+      }
     );
   }
 }
