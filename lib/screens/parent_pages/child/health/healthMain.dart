@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ummicare/models/healthmodel.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthAppointment.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthStatus.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:ummicare/services/healthDatabase.dart';
 
@@ -23,7 +24,7 @@ class _healthMainState extends State<healthMain> {
         builder: (context) {
           return Container(
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-            child: SettingsForm(),
+            //child: SettingsForm(),
           );
         });
   }

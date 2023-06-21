@@ -1,16 +1,26 @@
 class HealthModel {
   final String healthId;
-  late final String currentHeight;
-  late final String currentWeight;
   late final String childId;
   late final String healthStatusId;
+  late final List<String> physicalList;
 
   HealthModel({
     required this.healthId,
-    required this.currentHeight,
-    required this.currentWeight,
     required this.childId,
     required this.healthStatusId,
+    required this.physicalList,
+  });
+}
+
+class PhysicalModel{
+  final String physicalId;
+  late final String currentHeight;
+  late final String currentWeight;
+
+  PhysicalModel({
+    required this.physicalId,
+    required this.currentHeight,
+    required this.currentWeight,
   });
 }
 
