@@ -7,6 +7,7 @@ import 'package:ummicare/screens/parent_pages/child/childprofile/editChildProfil
 import 'package:ummicare/screens/parent_pages/child/education/educationMain.dart';
 import 'package:ummicare/services/database.dart';
 import 'package:ummicare/shared/function.dart';
+import 'package:ummicare/screens/parent_pages/child/health/healthMain.dart';
 
 import '../../../../services/eduDatabase.dart';
 
@@ -17,6 +18,8 @@ class childProfile extends StatefulWidget {
   @override
   State<childProfile> createState() => _childProfileState();
 }
+
+
 
 class _childProfileState extends State<childProfile> {
   @override
@@ -233,6 +236,27 @@ class _childProfileState extends State<childProfile> {
                                   ' Health',
                                   style: TextStyle(
                                       fontSize: 20.0, color: Colors.white),
+                                ),
+                                Flexible(
+                                  child: Container(
+                                    alignment: Alignment.centerRight,
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.edit,
+                                        size: 25.0,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  healthMain(
+                                                      childId: child.childId),
+                                            ));
+                                      },
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),

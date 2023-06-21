@@ -2,21 +2,22 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 
-class vaccinationCalendar extends StatefulWidget {
-  const vaccinationCalendar({super.key});
+class healthAppointment extends StatefulWidget {
+  const healthAppointment({super.key, required this.childId});
+  final String childId;
 
   @override
-  State<vaccinationCalendar> createState() => _vaccinationCalendarState();
+  State<healthAppointment> createState() => _healthCalendarState();
 }
 
-class _vaccinationCalendarState extends State<vaccinationCalendar> {
+class _healthCalendarState extends State<healthAppointment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
         title: const Text(
-          "Vaccination calendar",
+          "Health Appointment",
           style: TextStyle(
             color: Colors.black,
             fontSize: 25,
@@ -28,7 +29,7 @@ class _vaccinationCalendarState extends State<vaccinationCalendar> {
       ),
       body: const Center(
         child: Text(
-          'Vaccination calendar',
+          'Health Appointment',
           style: TextStyle(
           color: Colors.black,
           fontSize: 40,

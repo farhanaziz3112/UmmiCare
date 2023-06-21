@@ -18,7 +18,7 @@ import 'package:ummicare/screens/parent_pages/child/education/educationMain.dart
 import 'package:ummicare/screens/parent_pages/child/health/healthMain.dart';
 import 'package:ummicare/screens/parent_pages/child/health/addNewVaccineAppointment.dart';
 import 'package:ummicare/screens/parent_pages/child/health/editChildHealth.dart';
-import 'package:ummicare/screens/parent_pages/child/health/vaccinationCalendar.dart';
+import 'package:ummicare/screens/parent_pages/child/health/healthAppointment.dart';
 import 'package:ummicare/screens/wrapper.dart';
 import 'package:ummicare/screens/advisor_pages/mentee/menteeProfile/childProgress.dart';
 import 'package:ummicare/screens/advisor_pages/mentee/menteeProfile/chattingAdvisor.dart';
@@ -43,10 +43,10 @@ Map<String, WidgetBuilder> routes = {
   '/parent/child/childprofile/education/addnewexamresult': (context) => addNewExamResult(),
   '/parent/child/childprofile/education/addnewschoolfee': (context) => addNewSchoolFee(),
   '/parent/child/childprofile/education/editchildeducation': (context) => editChildEducation(),
-  '/parent/child/childprofile/health': (context) => healthMain(),
+  //'/parent/child/childprofile/health': (context) => healthMain(),
   '/parent/child/childprofile/health/addnewvaccineappointment': (context) => addNewVaccineAppointment(),
   '/parent/child/childprofile/health/editchildhealth': (context) => editChildHealth(),
-  '/parent/child/childprofile/health/vaccinationcalendar': (context) => vaccinationCalendar(),
+  //'/parent/child/childprofile/health/healthAppointment': (context) => healthAppointment(),
   '/advisor/mentee/menteeprofile': (context) => menteeProfile(),
   '/advisor/mentee/childprogress': (context) => childProgress(),
   '/advisor/mentee/chattingadvisor': (context) => chattingAdvisor(),
