@@ -23,7 +23,7 @@ class HomeParentState extends State<HomeParent> {
   final pages = [
     const parentMain(),
     const childMain(),
-    const buddyMain(),
+    const BuddyMain(),
     const settingsMain(),
   ];
 
