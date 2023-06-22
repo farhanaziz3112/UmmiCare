@@ -2,6 +2,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ummicare/screens/parent_pages/buddy/buddyMain.dart';
 import 'package:ummicare/services/buddydatabase.dart';
 import 'package:ummicare/shared/function.dart';
 
