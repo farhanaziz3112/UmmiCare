@@ -119,7 +119,7 @@ class _registerBuddyState extends State<registerBuddy> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xff8290F0)),
                   child: Text(
-                    'Create child profile',
+                    'Create Buddy profile',
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () async {

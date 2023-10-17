@@ -40,7 +40,7 @@ class _EditPhysicalState extends State<EditPhysical> {
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(left: 20.0),
                   child: Text(
-                    'Current Physical',
+                    'Current Height',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 15.0,

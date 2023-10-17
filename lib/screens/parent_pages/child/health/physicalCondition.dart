@@ -1,24 +1,32 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
-import 'package:ummicare/services/healthDatabase.dart';
+import 'package:ummicare/models/healthmodel.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ummicare/screens/parent_pages/child/education/educationMain.dart';
+import 'package:ummicare/screens/parent_pages/child/health/healthAppointment.dart';
+import 'package:ummicare/screens/parent_pages/child/health/healthStatus.dart';
+import 'package:ummicare/screens/parent_pages/child/health/editPhysical.dart';
+import 'package:ummicare/screens/parent_pages/child/health/addNewHealthStatusData.dart';
 import 'package:ummicare/shared/constant.dart';
+import 'package:ummicare/services/healthDatabase.dart';
 
-class addNewHealthStatusData extends StatefulWidget {
-  const addNewHealthStatusData({super.key, required this.healthStatusId});
+class physicalCondition extends StatefulWidget {
+  const physicalCondition({super.key, required this.childId, required this.healthId, required this.healthStatusId});
+  final String childId;
+  final String healthId;
   final String healthStatusId;
 
   @override
-  State<addNewHealthStatusData> createState() => _addNewHealthDataState();
+  State<physicalCondition> createState() => _physicalCondition();
 }
 
-class _addNewHealthDataState extends State<addNewHealthStatusData> {
+class _physicalCondition extends State<physicalCondition> {
 
   final _formKey = GlobalKey<FormState>();
 
-  String _currentTemperature = '';
-  String _currentHeartRate = '';
+  String _currentInjury = '';
+  String details= '';
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +34,7 @@ class _addNewHealthDataState extends State<addNewHealthStatusData> {
       appBar: AppBar(
 
         title: Text(
-          "Add New Health Status Data",
+          "Edit Physical Condition",
           style: TextStyle(
             color: Colors.black,
             fontSize: 25,
@@ -46,13 +54,13 @@ class _addNewHealthDataState extends State<addNewHealthStatusData> {
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: 30.0,
+                  height: 10.0,
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(left: 20.0),
                   child: Text(
-                    'Current Temperature',
+                    'Injury',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 15.0,
@@ -62,15 +70,15 @@ class _addNewHealthDataState extends State<addNewHealthStatusData> {
                   ),
                 ),
                 SizedBox(
-                  height: 30.0,
+                  height: 15.0,
                 ),
                 TextFormField(
-                  initialValue: _currentTemperature,
+                  initialValue: _currentInjury,
                   decoration: textInputDecoration,
                   validator: (value) =>
-                      value == '' ? 'Please enter current height' : null,
+                      value == '' ? 'Please enter current injury' : null,
                   onChanged: (value) =>
-                      setState(() => _currentTemperature = value),
+                      setState(() => _currentInjury = value),
                 ),
                 SizedBox(
                   height: 30.0,
@@ -79,7 +87,7 @@ class _addNewHealthDataState extends State<addNewHealthStatusData> {
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(left: 20.0),
                   child: Text(
-                    'Current heart Rate',
+                    'Details',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 15.0,
@@ -89,15 +97,15 @@ class _addNewHealthDataState extends State<addNewHealthStatusData> {
                   ),
                 ),
                 SizedBox(
-                  height: 30.0,
+                  height: 15.0,
                 ),
                 TextFormField(
-                  initialValue: _currentHeartRate,
+                  initialValue: details,
                   decoration: textInputDecoration,
                   validator: (value) =>
-                      value == '' ? 'Please enter current weight' : null,
+                      value == '' ? 'Please enter details' : null,
                   onChanged: (value) =>
-                      setState(() => _currentHeartRate = value),
+                      setState(() => details= value),
                 ),
                 SizedBox(
                   height: 30.0,
@@ -113,23 +121,21 @@ class _addNewHealthDataState extends State<addNewHealthStatusData> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     //------------Health-------------
-                    String healthConditionIdHolder =
+                    String healthIdHolder =
                         DateTime.now().millisecondsSinceEpoch.toString() +
-                            widget.healthStatusId;
-                    String physicalConditionIdHolder =
+                            widget.childId;
+                    String healthStatusIdHolder =
                         DateTime.now().millisecondsSinceEpoch.toString() + "1" +
-                            widget.healthStatusId;
-                    String chronicConditionIdHolder =
-                        DateTime.now().millisecondsSinceEpoch.toString() + "2" +
-                            widget.healthStatusId;
-                    await HealthDatabaseService(childId: widget.healthStatusId)
-                        .createHealthStatusData(
-                            widget.healthStatusId,
-                            healthConditionIdHolder,
-                            physicalConditionIdHolder,
-                            chronicConditionIdHolder,);   
+                            widget.childId;
+                    await HealthDatabaseService(childId: widget.childId)
+                        .createPhysicalConditionData(
+                            healthIdHolder,
+                            widget.childId,
+                            healthStatusIdHolder,
+                            _currentInjury,
+                            details,
+                            healthStatusIdHolder);
                     }
-
                     Navigator.pop(context);
                 }
                 )

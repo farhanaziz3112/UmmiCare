@@ -16,16 +16,12 @@ class HealthModel {
 
 class HealthStatusModel {
   final String healthStatusId;
-  late final String currentTemperature;
-  late final String currentHeartRate;
   late final String healthConditionId;
   late final String physicalConditionId;
   late final String chronicConditionId;
 
   HealthStatusModel({
     required this.healthStatusId,
-    required this.currentTemperature,
-    required this.currentHeartRate,
     required this.healthConditionId,
     required this.physicalConditionId,
     required this.chronicConditionId,
@@ -35,11 +31,15 @@ class HealthStatusModel {
 class HealthConditionModel {
   final String healthConditionId;
   late final String currentSymptom;
+  late final String currentTemperature;
+  late final String currentHeartRate;
   late final String currentIllness;
 
   HealthConditionModel({
     required this.healthConditionId,
     required this.currentSymptom,
+    required this.currentTemperature,
+    required this.currentHeartRate,
     required this.currentIllness,
   });
 }
@@ -47,12 +47,12 @@ class HealthConditionModel {
 class PhysicalConditionModel {
   final String physicalConditionModel;
   late final String currentInjury;
-  late final String other;
+  late final String details;
 
   PhysicalConditionModel({
     required this.physicalConditionModel,
     required this.currentInjury,
-    required this.other,
+    required this.details,
   });
 }
 

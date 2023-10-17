@@ -2,7 +2,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/healthmodel.dart';
+import 'package:ummicare/screens/parent_pages/child/health/healthCodition.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthMain.dart';
+import 'package:ummicare/screens/parent_pages/child/health/physicalCondition.dart';
 
 import 'package:ummicare/services/healthDatabase.dart';
 
@@ -104,7 +106,7 @@ class _healthStatusState extends State<healthStatus> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                healthStatus(
+                                                healthCondition(
                                                     childId: widget.childId, healthId: widget.healthId,healthStatusId: widget.healthStatusId,),
                                           ));
                                     },
@@ -161,7 +163,7 @@ class _healthStatusState extends State<healthStatus> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                healthMain(
+                                                physicalCondition(
                                                     childId: widget.childId,healthId: widget.healthId,healthStatusId: widget.healthStatusId,),
                                           ));
                                     },

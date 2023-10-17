@@ -53,19 +53,6 @@ class HealthDatabaseService {
     }).toList();
   }
 
-  
-
-  //create a list of Health model object
-  //List<HealthModel> _createHealthModelList(QuerySnapshot snapshot) {
-  //  return snapshot.docs.map<HealthModel>((doc) {
-  //    return HealthModel(
-  //     healthId: doc.id,
-  //      physicalList: [],
-  //      childId: doc.get('childId') ?? '',
-  //      healthStatusId: doc.get('healthStatusId') ?? '',
-  //    );
-  //  }).toList();
-  //}
 
   //create Health data
   Future<void> createHealthData(
@@ -105,7 +92,7 @@ class HealthDatabaseService {
     .catchError((error) => print('Failed to update data: $error'));;
   }
 
-//------------------------------HealthStatusId----------------------------------
+//------------------------------HealthStatus----------------------------------
 
   //collection reference
   final CollectionReference healthStatusCollection =
@@ -123,8 +110,6 @@ class HealthDatabaseService {
   HealthStatusModel _createHealthStatusModelObject(DocumentSnapshot snapshot) {
     return HealthStatusModel(
       healthStatusId: snapshot.id,
-      currentTemperature: snapshot['currentTemperature'],
-      currentHeartRate: snapshot['currentHeartRate'],
       healthConditionId: snapshot['healthConditionId'],
       physicalConditionId: snapshot['physicalConditionId'],
       chronicConditionId: snapshot['chronicConditionId'],
@@ -133,18 +118,47 @@ class HealthDatabaseService {
 
   //create health status data
   Future<void> createHealthStatusData(
-    String healthStatusId, 
-    String currentTemperature,
-    String currentHeartRate, 
+    String healthStatusId,
     String healthConditionId,
     String physicalConditionId,
     String chronicConditionId) async {
     return await healthStatusCollection.doc(healthStatusId).set({
-      'currentTemperature': currentTemperature,
-      'currentHeartRate': currentHeartRate,
       'healthConditionId': healthConditionId,
       'physicalConditionId': physicalConditionId,
-      'chronicConditionId': chronicConditionId,
+      'chronicConditionId' : chronicConditionId,
+    });
+  }  
+
+//------------------------------HealthCondition----------------------------------
+  Future<void> createHealthConditionData(
+    String healthID,
+    String childID,
+    String healthStatusId,
+    String currentSymptom,
+    String currentTemperature,
+    String currentHeartRate, 
+    String currentIllness,
+    String healthConditionId) async {
+    return await healthStatusCollection.doc(healthStatusId).set({
+      'currentSysmptom' : currentSymptom,
+      'currentTemperature': currentTemperature,
+      'currentHeartRate': currentHeartRate,
+      'currentIllness' : currentIllness,
+      'healthConditionId': healthConditionId,
+    });
+  }
+
+  Future<void> createPhysicalConditionData(
+    String healthID,
+    String childID,
+    String healthStatusId, 
+    String currentInjury,
+    String details,
+    String physicalConditionId) async {
+    return await healthStatusCollection.doc(healthStatusId).set({
+      'currentInjury': currentInjury,
+      'details': details,
+      'physicalConditionId': physicalConditionId,
     });
   }
 }
