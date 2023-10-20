@@ -1,16 +1,16 @@
 class HealthModel {
   final String healthId;
-  late final String currentHeight;
-  late final String currentWeight;
   late final String childId;
   late final String healthStatusId;
+  late final String currentHeight;
+  late final String currentWeight;
 
   HealthModel({
     required this.healthId,
-    required this.currentHeight,
-    required this.currentWeight,
     required this.childId,
     required this.healthStatusId,
+    required this.currentHeight,
+    required this.currentWeight,
   });
 }
 
@@ -36,23 +36,25 @@ class HealthConditionModel {
   final String healthConditionId;
   late final String currentSymptom;
   late final String currentIllness;
+  late final String notes;
 
   HealthConditionModel({
     required this.healthConditionId,
     required this.currentSymptom,
     required this.currentIllness,
+    required this.notes,
   });
 }
 
 class PhysicalConditionModel {
   final String physicalConditionModel;
   late final String currentInjury;
-  late final String other;
+  late final String details;
 
   PhysicalConditionModel({
     required this.physicalConditionModel,
     required this.currentInjury,
-    required this.other,
+    required this.details,
   });
 }
 

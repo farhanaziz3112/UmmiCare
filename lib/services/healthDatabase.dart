@@ -1,22 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ummicare/models/usermodel.dart';
 import 'package:ummicare/models/healthmodel.dart';
 
 class HealthDatabaseService {
   final String childId;
   final String? healthId;
+  final String? healthStatusId;
 
-  HealthDatabaseService({required this.childId, this.healthId});
+  HealthDatabaseService(
+      {required this.childId, this.healthId, this.healthStatusId});
 
 //------------------------------Health----------------------------------
 
   //collection reference
-  final CollectionReference healthCollection =
+  static final CollectionReference healthCollection =
       FirebaseFirestore.instance.collection('Health');
 
   //collection reference
-  final CollectionReference healthSubjectsCollection = FirebaseFirestore
-      .instance
-      .collection('Health');
+  final CollectionReference healthSubjectsCollection =
+      FirebaseFirestore.instance.collection('Health');
 
   //get Health stream
   Stream<List<HealthModel>> get healthData {
@@ -50,79 +53,114 @@ class HealthDatabaseService {
     }).toList();
   }
 
+
   //create Health data
   Future<void> createHealthData(
-      String healthId,
-      String currentHeight,
-      String currentWeight,
-      String childId,
-      String healthStatusId) async {
-    return await healthCollection.doc().set({
-      'currentHeight': currentHeight,
-      'currentWeight': currentWeight,
+      String healthId, String childId, String healthStatusId, String currentHeight, String currentWeight) async {
+    return await healthCollection.doc(healthId).set({
       'childId': childId,
       'healthStatusId': healthStatusId,
+      'currentHeight': currentHeight,
+      'currentWeight': currentWeight,
     });
   }
 
-/**------------------------------SCHOOL----------------------------------
+  Future<void> updateHealthData(
+    String healthId, String childId, String healthStatusId, String currentHeight, String currentWeight) async {
+    return await healthCollection.doc(healthId).update({
+      'childId': childId,
+      'healthStatusId': healthStatusId,
+      'currentHeight': currentHeight,
+      'currentWeight': currentWeight,
+    }).then((value) => print('Data updated successfully!'))
+    .catchError((error) => print('Failed to update data: $error'));;;
+  }
+
+  Future<void> updateHeight(
+    String healthId, String currentHeight) async {
+    return await healthCollection.doc(healthId).update({
+      'currentHeight': currentHeight,
+    }).then((value) => print('Data updated successfully!'))
+    .catchError((error) => print('Failed to update data: $error'));;
+  }
+
+  Future<void> updateWeight(
+    String healthId, String currentWeight) async {
+    return await healthCollection.doc(healthId).update({
+      'currentWeight': currentWeight,
+    }).then((value) => print('Data updated successfully!'))
+    .catchError((error) => print('Failed to update data: $error'));;
+  }
+
+//------------------------------HealthStatus----------------------------------
 
   //collection reference
-  final CollectionReference schoolCollection =
-      FirebaseFirestore.instance.collection('School');
+  final CollectionReference healthStatusCollection =
+      FirebaseFirestore.instance.collection('Health Status');
 
-  //create a school model
-  SchoolModel _createSchoolModelObject(DocumentSnapshot snapshot) {
-    return SchoolModel(
-      schoolId: snapshot.id,
-      schoolAddress: snapshot['schoolAddress'],
-      schoolEmail: snapshot['schoolEmail'],
-      schoolName: snapshot['schoolName'],
-      schoolPhoneNumber: snapshot['schoolPhoneNumber'],
+  //get specific health document stream
+  Stream<HealthStatusModel> get healthStatusData {
+    return healthStatusCollection
+        .doc(healthStatusId)
+        .snapshots()
+        .map(_createHealthStatusModelObject);
+  }
+
+  //create a health status model
+  HealthStatusModel _createHealthStatusModelObject(DocumentSnapshot snapshot) {
+    return HealthStatusModel(
+      healthStatusId: snapshot.id,
+      currentTemperature: snapshot['currentTemperature'],
+      currentHeartRate: snapshot['currentHeartRate'],
+      healthConditionId: snapshot['healthConditionId'],
+      physicalConditionId: snapshot['physicalConditionId'],
+      chronicConditionId: snapshot['chronicConditionId'],
     );
   }
 
-  //create school data
-  Future<void> createSchoolData(String schoolId, String schoolAddress,
-      String schoolEmail, String schoolName, String schoolPhoneNumber) async {
-    return await schoolCollection.doc(schoolId).set({
-      'schoolAddress': schoolAddress,
-      'schoolEmail': schoolEmail,
-      'schoolName': schoolName,
-      'schoolPhoneNumber': schoolPhoneNumber
+  //create health status data
+  Future<void> createHealthStatusData(
+    String healthStatusId,
+    String healthConditionId,
+    String physicalConditionId,
+    String chronicConditionId) async {
+    return await healthStatusCollection.doc(healthStatusId).set({
+      'healthConditionId': healthConditionId,
+      'physicalConditionId': physicalConditionId,
+      'chronicConditionId' : chronicConditionId,
+    });
+  }  
+
+//------------------------------HealthCondition----------------------------------
+  Future<void> createHealthConditionData(
+    String healthID,
+    String childID,
+    String healthStatusId,
+    String currentSymptom,
+    String currentTemperature,
+    String currentHeartRate, 
+    String currentIllness,
+    String healthConditionId) async {
+    return await healthStatusCollection.doc(healthStatusId).set({
+      'currentSysmptom' : currentSymptom,
+      'currentTemperature': currentTemperature,
+      'currentHeartRate': currentHeartRate,
+      'currentIllness' : currentIllness,
+      'healthConditionId': healthConditionId,
     });
   }
 
-//------------------------------CLASS----------------------------------
-
-  //collection reference
-  final CollectionReference classCollection =
-      FirebaseFirestore.instance.collection('Class');
-
-  //create a school model
-  ClassModel _createClassModelObject(DocumentSnapshot snapshot) {
-    return ClassModel(
-      classId: snapshot.id,
-      className: snapshot['className'],
-      classTeacherId: snapshot['classTeacherId'],
-      schoolId: snapshot['schoolId'],
-    );
+  Future<void> createPhysicalConditionData(
+    String healthID,
+    String childID,
+    String healthStatusId, 
+    String currentInjury,
+    String details,
+    String physicalConditionId) async {
+    return await healthStatusCollection.doc(healthStatusId).set({
+      'currentInjury': currentInjury,
+      'details': details,
+      'physicalConditionId': physicalConditionId,
+    });
   }
-
-//------------------------------TEACHER----------------------------------
-
-  final CollectionReference teacherCollection =
-      FirebaseFirestore.instance.collection('Teacher');
-
-  //create a school model
-  TeacherModel _createTeacherModelObject(DocumentSnapshot snapshot) {
-    return TeacherModel(
-      teacherId: snapshot.id,
-      teacherEmail: snapshot['teacherEmail'],
-      teacherName: snapshot['teacherName'],
-      teacherPhoneNumber: snapshot['teacherPhoneNumber'],
-      schoolId: snapshot['schoolId'],
-      classId: snapshot['classId'],
-    );
-  }*/
 }

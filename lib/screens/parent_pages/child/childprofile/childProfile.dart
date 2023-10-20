@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ummicare/models/childmodel.dart';
 import 'package:ummicare/models/educationmodel.dart';
+import 'package:ummicare/models/healthmodel.dart';
 import 'package:ummicare/screens/parent_pages/child/childprofile/editChildProfile.dart';
 import 'package:ummicare/screens/parent_pages/child/education/addNewEduCalendar.dart';
 import 'package:ummicare/screens/parent_pages/child/education/educationMain.dart';
+import 'package:ummicare/screens/parent_pages/child/health/addNewHealthData.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthMain.dart';
 import 'package:ummicare/services/childDatabase.dart';
+import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/shared/function.dart';
 
 import '../../../../services/eduDatabase.dart';
@@ -341,58 +344,194 @@ class _childProfileState extends State<childProfile> {
                     const SizedBox(
                       height: 15.0,
                     ),
-                    Container(
-                      width: double.infinity,
-                      alignment: Alignment.centerLeft,
-                      decoration: const BoxDecoration(
-                          color: Color(0xff8290F0),
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10.0))),
-                      child: Container(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                const Icon(
-                                  Icons.health_and_safety,
-                                  size: 30.0,
-                                  color: Colors.white,
-                                ),
-                                const Text(
-                                  ' Health',
-                                  style: TextStyle(
-                                      fontSize: 20.0, color: Colors.white),
-                                ),
-                                Flexible(
-                                  child: Container(
-                                    alignment: Alignment.centerRight,
-                                    child: IconButton(
-                                      icon: const Icon(
-                                        Icons.edit,
-                                        size: 25.0,
+                    StreamBuilder<List<HealthModel>>(
+                      stream: HealthDatabaseService(childId: widget.child.childId).healthData,
+                      builder: (context, snapshot) {
+                        if(snapshot.connectionState == ConnectionState.waiting){
+                          return Container(
+                            width: double.infinity,
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                                color: Color(0xff8290F0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0))),
+                            child: Container(
+                              padding: EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.health_and_safety,
+                                        size: 30.0,
                                         color: Colors.white,
                                       ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => healthMain(
-                                                  childId: child.childId),
-                                            ));
-                                      },
-                                    ),
+                                      Text(
+                                        ' Health',
+                                        style: TextStyle(
+                                            fontSize: 20.0, color: Colors.white),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
+                                  SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Container(
+                                      alignment: Alignment.center,
+                                      child: SpinKitPulse(
+                                        color: Colors.black,
+                                        size: 20.0,
+                                      )
+                                    )
+
+                                ],
+                              ),
                             ),
-                            const SizedBox(
-                              height: 5.0,
+                          );
+                        }else {
+                        List<HealthModel> healthModelData = [];
+                        if (snapshot.hasData) {
+                          healthModelData = snapshot.data!;
+                        }
+                        if (healthModelData.isEmpty) {
+                          return Container(
+                            width: double.infinity,
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                                color: Color(0xff8290F0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0))),
+                            child: Container(
+                              padding:
+                                  EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.health_and_safety,
+                                        size: 30.0,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        ' Health',
+                                        style: TextStyle(
+                                            fontSize: 20.0,
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "*Your child currently does not have Health Module. Please register by clicking the button below.",
+                                          style: TextStyle(
+                                              color: Colors.grey[800],
+                                              fontSize: 13.0),
+                                        ),
+                                        ElevatedButton(
+                                          child: Text(
+                                            'Register Health Module',
+                                            style: TextStyle(
+                                                color: Colors.black),
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.white),
+                                          onPressed: () async {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        addNewHealthData(
+                                                            childId: widget.child.childId)));
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
+                          );
+                        }else {
+                          return Container(
+                            width: double.infinity,
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                                color: Color(0xff8290F0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0))),
+                            child: Container(
+                              padding:
+                                  EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.health_and_safety,
+                                        size: 30.0,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        ' Health',
+                                        style: TextStyle(
+                                            fontSize: 20.0,
+                                            color: Colors.white),
+                                      ),
+                                      Flexible(
+                                        child: Container(
+                                          alignment: Alignment.centerRight,
+                                          child: IconButton(
+                                            icon: Transform.scale(
+                                              scaleX: -1,
+                                              child: Icon(
+                                                Icons.arrow_back,
+                                                size: 25.0,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        healthMain(
+                                                            childId: child.childId,
+                                                            healthId: healthModelData[0].currentHeight,
+                                                            healthStatusId: healthModelData[0].healthStatusId,),
+                                                  ));
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Text(
+                                    'Current Height:' '${healthModelData[0].currentHeight}'
+                                  ),
+                                  Text(
+                                    'Current Weight:' '${healthModelData[0].currentWeight}'
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+
+                        }
+                        }
+                      }
                     ),
                     // ),
                     // TextButton(
