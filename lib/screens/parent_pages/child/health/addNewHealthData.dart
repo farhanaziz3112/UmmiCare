@@ -127,7 +127,6 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                             _currentHeight,
                             _currentWeight,);   
                     }
-
                     Navigator.pop(context);
                 }
                 )

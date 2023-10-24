@@ -18,7 +18,7 @@ class _EditPhysicalState extends State<EditPhysical> {
 
   final _formKey = GlobalKey<FormState>();
 
-  String _currentPhysical = '';
+  String _currentHeight = '';
   String _healthStatusId ='';
   String _currentWeight = '';
 
@@ -53,12 +53,12 @@ class _EditPhysicalState extends State<EditPhysical> {
                   height: 30.0,
                 ),
                 TextFormField(
-                  initialValue: _currentPhysical,
+                  initialValue: _currentHeight,
                   decoration: textInputDecoration,
                   validator: (value) =>
-                      value == '' ? 'Please enter current Physical' : null,
+                      value == '' ? 'Please enter current Height' : null,
                   onChanged: (value) =>
-                      setState(() => _currentPhysical = value),
+                      setState(() => _currentHeight = value),
                 ),
                 SizedBox(
                   height: 30.0,
@@ -100,16 +100,15 @@ class _EditPhysicalState extends State<EditPhysical> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()){
-                    await HealthDatabaseService(childId: widget.childId)
+                    await HealthDatabaseService(childId: healthData![0].childId)
                       .updateHealthData(
-                            widget.healthId,
-                            widget.childId,
-                            widget.healthStatusId,
-                            _currentPhysical,
+                            healthData![0].healthId,
+                            healthData[0].childId,
+                            healthData[0].healthStatusId,
+                            _currentHeight,
                             _currentWeight,);
-                    Navigator.pop(context);
                   }
-                  
+                  Navigator.pop(context);
                 }
                 )
               ],

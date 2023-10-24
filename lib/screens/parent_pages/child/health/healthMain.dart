@@ -127,6 +127,9 @@ class _healthMainState extends State<healthMain> {
                                 SizedBox(
                                   height: 5.0,
                                 ),
+                                Text(
+                                    '${healthData?[0].currentHeight}'
+                                ),
                               ],
                             ),
                           ),
@@ -160,6 +163,9 @@ class _healthMainState extends State<healthMain> {
                                 SizedBox(
                                   height: 5.0,
                                 ),
+                                Text(
+                                    '${healthData?[0].currentWeight}'
+                                ,)
                               ],
                             ),
                           ),

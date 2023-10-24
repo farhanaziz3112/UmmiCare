@@ -73,7 +73,7 @@ class HealthDatabaseService {
       'currentHeight': currentHeight,
       'currentWeight': currentWeight,
     }).then((value) => print('Data updated successfully!'))
-    .catchError((error) => print('Failed to update data: $error'));;;
+    .catchError((error) => print('Failed to update data: $error'));
   }
 
   Future<void> updateHeight(
@@ -106,7 +106,7 @@ class HealthDatabaseService {
         .map(_createHealthStatusModelObject);
   }
 
-  //create a health status model
+  //create a Health Status model object
   HealthStatusModel _createHealthStatusModelObject(DocumentSnapshot snapshot) {
     return HealthStatusModel(
       healthStatusId: snapshot.id,
@@ -114,17 +114,21 @@ class HealthDatabaseService {
       currentHeartRate: snapshot['currentHeartRate'],
       healthConditionId: snapshot['healthConditionId'],
       physicalConditionId: snapshot['physicalConditionId'],
-      chronicConditionId: snapshot['chronicConditionId'],
+      chronicConditionId: snapshot['chronicConditionId']
     );
   }
 
   //create health status data
   Future<void> createHealthStatusData(
     String healthStatusId,
+    String currentTemperature,
+    String currentHeartRate,
     String healthConditionId,
     String physicalConditionId,
     String chronicConditionId) async {
     return await healthStatusCollection.doc(healthStatusId).set({
+      'currentTemperature': currentTemperature,
+      'currentHeartRate': currentHeartRate,
       'healthConditionId': healthConditionId,
       'physicalConditionId': physicalConditionId,
       'chronicConditionId' : chronicConditionId,

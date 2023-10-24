@@ -21,8 +21,8 @@ class healthStatus extends StatefulWidget {
 class _healthStatusState extends State<healthStatus> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<HealthModel>>(
-      stream: HealthDatabaseService(childId: widget.childId).healthData,
+    return StreamBuilder<HealthStatusModel>(
+      stream: HealthDatabaseService(childId: widget.childId).healthStatusData,
       builder: (context, snapshot){
         final healthData = snapshot;
         return Scaffold(
@@ -46,23 +46,83 @@ class _healthStatusState extends State<healthStatus> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    width: double.infinity,
                     alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius:
-                            BorderRadius.all(Radius.circular(10.0))),
-                    child: Container(
-                      padding: EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text("graph"),
-                          SizedBox(
-                            height: 5.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          width: 150,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                              color: Color(0xffF29180),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0))),
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(5, 20, 0, 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.height,
+                                      size: 30.0,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      'Temperature',
+                                      style: TextStyle(
+                                          fontSize: 20.0, color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5.0,
+                                ),
+                                Text(
+                                    'Current Temperature:' '${healthData.data?.currentTemperature}'
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          width: 150,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                              color: Color(0xff8290F0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0))),
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(5, 20, 0, 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.monitor_weight,
+                                      size: 30.0,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      'Heart Rate',
+                                      style: TextStyle(
+                                          fontSize: 20.0, color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5.0,
+                                ),
+                                Text(
+                                    'Heart Rate:' '${healthData.data?.currentHeartRate}'
+                                ,)
+                              ],
+                            ),
+                          ),
+                        ),
+                      ]
                     ),
                   ),
                   SizedBox(

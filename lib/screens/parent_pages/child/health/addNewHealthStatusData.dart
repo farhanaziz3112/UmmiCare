@@ -68,7 +68,7 @@ class _addNewHealthDataState extends State<addNewHealthStatusData> {
                   initialValue: _currentTemperature,
                   decoration: textInputDecoration,
                   validator: (value) =>
-                      value == '' ? 'Please enter current height' : null,
+                      value == '' ? 'Please enter current temperature' : null,
                   onChanged: (value) =>
                       setState(() => _currentTemperature = value),
                 ),
@@ -95,7 +95,7 @@ class _addNewHealthDataState extends State<addNewHealthStatusData> {
                   initialValue: _currentHeartRate,
                   decoration: textInputDecoration,
                   validator: (value) =>
-                      value == '' ? 'Please enter current weight' : null,
+                      value == '' ? 'Please enter current heart rate' : null,
                   onChanged: (value) =>
                       setState(() => _currentHeartRate = value),
                 ),
@@ -125,6 +125,8 @@ class _addNewHealthDataState extends State<addNewHealthStatusData> {
                     await HealthDatabaseService(childId: widget.healthStatusId)
                         .createHealthStatusData(
                             widget.healthStatusId,
+                            _currentTemperature,
+                            _currentHeartRate,
                             healthConditionIdHolder,
                             physicalConditionIdHolder,
                             chronicConditionIdHolder,);   
