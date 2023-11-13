@@ -41,9 +41,9 @@ class _parentEditProfileState extends State<parentEditProfile> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              iconTheme: IconThemeData(color: Colors.black),
+              iconTheme: const IconThemeData(color: Colors.black),
               centerTitle: true,
-              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
               elevation: 3,
             ),
             resizeToAvoidBottomInset: false,
@@ -51,7 +51,7 @@ class _parentEditProfileState extends State<parentEditProfile> {
               padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
               child: SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -80,12 +80,12 @@ class _parentEditProfileState extends State<parentEditProfile> {
                                   _storageService.uploadParentProfilePic(
                                       parent, file);
                                 },
-                                constraints: BoxConstraints.tight(Size(30, 30)),
+                                constraints: BoxConstraints.tight(const Size(30, 30)),
                                 elevation: 2.0,
-                                fillColor: Color.fromARGB(255, 216, 216, 216),
-                                child: Icon(Icons.edit, color: Colors.black),
-                                padding: EdgeInsets.all(0.0),
-                                shape: CircleBorder(),
+                                fillColor: const Color.fromARGB(255, 216, 216, 216),
+                                child: const Icon(Icons.edit, color: Colors.black),
+                                padding: const EdgeInsets.all(0.0),
+                                shape: const CircleBorder(),
                               ),
                             )
                           ],
@@ -94,12 +94,12 @@ class _parentEditProfileState extends State<parentEditProfile> {
                         //   radius: 50.0,
                         //   backgroundImage: NetworkImage(usermodel.userProfileImg),
                         // ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20.0,
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 20.0),
+                          padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
                             'Username',
                             textAlign: TextAlign.left,
@@ -110,7 +110,7 @@ class _parentEditProfileState extends State<parentEditProfile> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5.0,
                         ),
                         TextFormField(
@@ -123,12 +123,12 @@ class _parentEditProfileState extends State<parentEditProfile> {
                           onChanged: (value) =>
                               setState(() => _currentFullName = value),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 20.0),
+                          padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
                             'First Name',
                             textAlign: TextAlign.left,
@@ -139,7 +139,7 @@ class _parentEditProfileState extends State<parentEditProfile> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5.0,
                         ),
                         TextFormField(
@@ -152,12 +152,12 @@ class _parentEditProfileState extends State<parentEditProfile> {
                           onChanged: (value) =>
                               setState(() => _currentFirstName = value),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 20.0),
+                          padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
                             'Last Name',
                             textAlign: TextAlign.left,
@@ -168,7 +168,7 @@ class _parentEditProfileState extends State<parentEditProfile> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5.0,
                         ),
                         TextFormField(
@@ -181,12 +181,12 @@ class _parentEditProfileState extends State<parentEditProfile> {
                           onChanged: (value) =>
                               setState(() => _currentLastName = value),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 20.0),
+                          padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
                             'Phone Number',
                             textAlign: TextAlign.left,
@@ -197,7 +197,7 @@ class _parentEditProfileState extends State<parentEditProfile> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5.0,
                         ),
                         TextFormField(
@@ -210,17 +210,17 @@ class _parentEditProfileState extends State<parentEditProfile> {
                           onChanged: (value) =>
                               setState(() => _currentPhoneNumber = value),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xff8290F0),
+                            backgroundColor: const Color(0xff8290F0),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5)
                             ),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Update Profile Details',
                             style: TextStyle(color: Colors.white),
                           ),
@@ -242,7 +242,8 @@ class _parentEditProfileState extends State<parentEditProfile> {
                                       _currentPhoneNumber == ''
                                           ? parent.parentPhoneNumber
                                           : _currentPhoneNumber,
-                                      parent.parentProfileImg);
+                                      parent.parentProfileImg,
+                                      parent.advisorId);
                               Navigator.pop(context);
                             }
                           },
@@ -255,7 +256,7 @@ class _parentEditProfileState extends State<parentEditProfile> {
             ),
           );
         } else {
-          return Container(child: Text('no data'));
+          return Container(child: const Text('no data'));
         }
       },
     );

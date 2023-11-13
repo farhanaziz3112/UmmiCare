@@ -16,7 +16,6 @@ Future main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //will detect the change of user auth state
     return StreamProvider<userModel?>.value(
       value: AuthService().user,
       initialData: null,

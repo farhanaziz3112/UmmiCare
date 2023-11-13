@@ -38,6 +38,9 @@ class StorageService {
   //profile pic child folder reference
   late Reference medicalStaffFolderReference = referenceRoot.child('medicalStaff');
 
+  //profile pic child folder reference
+  late Reference chatFolderReference = referenceRoot.child('chat');
+
   //upload document for staff application
   Future<String> uploadDocumentForStaffApplication(String userType, PlatformFile? uploadedFile) async {
     String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
@@ -187,7 +190,8 @@ class StorageService {
         parent.parentLastName,
         parent.parentEmail,
         parent.parentPhoneNumber,
-        imageUrl);
+        imageUrl,
+        parent.advisorId);
   }
 
   //update user image url
@@ -220,4 +224,25 @@ class StorageService {
         child.childAgeCategory,
         imageUrl);
   }
+
+  //upload image for chat
+  //upload image to child folder
+  Future<String> uploadChatImage(XFile file) async {
+    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    Reference imageToUpload = chatFolderReference.child(uniqueFileName);
+
+    String imageUrl = '';
+
+    try {
+      await imageToUpload.putFile(File(file.path));
+      imageUrl = await imageToUpload.getDownloadURL();
+      print('Image URL: ${imageUrl}');
+    } catch (e) {
+      print(e);
+    }
+
+    return imageUrl;
+  }
+
 }

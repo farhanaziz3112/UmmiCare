@@ -1,7 +1,6 @@
 import 'package:ummicare/screens/auth/register.dart';
 import 'package:ummicare/screens/auth/signIn.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Authenticate extends StatefulWidget {
   const Authenticate({super.key});

@@ -6,6 +6,7 @@ class parentModel {
   late final String parentEmail;
   late final String parentPhoneNumber;
   late final String parentProfileImg;
+  late final String advisorId;
 
   parentModel(
       {required this.parentId,
@@ -14,6 +15,7 @@ class parentModel {
       required this.parentLastName,
       required this.parentEmail,
       required this.parentPhoneNumber,
-      required this.parentProfileImg,});
+      required this.parentProfileImg,
+      required this.advisorId});
 }
 

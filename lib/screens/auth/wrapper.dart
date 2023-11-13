@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
+import 'package:ummicare/models/parentModel.dart';
 import 'package:ummicare/screens/auth/authenticate.dart';
 import 'package:ummicare/models/userModel.dart';
-import 'package:ummicare/screens/verification/userTypeDecider.dart';
-import 'package:ummicare/services/userDatabase.dart';
+import 'package:ummicare/screens/parent_pages/home_parent.dart';
+import 'package:ummicare/services/parentDatabase.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});
@@ -13,18 +14,16 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<userModel?>(context);
 
-    //return either the Home or Auth pages
-    //depending on the current state of auth
     if (user == null) {
       return const Authenticate();
     } else {
-      return StreamProvider<userModel?>.value(
-        value: userDatabase(userId: user.userId).userData,
+      return StreamProvider<parentModel?>.value(
+        value: parentDatabase(parentId: user.userId).parentData,
         initialData: null,
         catchError: (_,__) {
           return null;
         },
-        child: userTypeDecider(),
+        child: HomeParent(),
       );
     }
   }

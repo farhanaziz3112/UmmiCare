@@ -1,12 +1,9 @@
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ummicare/models/educationmodel.dart';
 import 'package:ummicare/screens/parent_pages/child/education/addNewEduCalendar.dart';
-import 'package:ummicare/screens/parent_pages/child/education/editChildEducation.dart';
 import 'package:ummicare/screens/parent_pages/child/education/educationInfoSelection.dart';
-import 'package:ummicare/services/parentDatabase.dart';
 
 import '../../../../services/eduDatabase.dart';
 
@@ -25,7 +22,7 @@ class _educationMainState extends State<educationMain> {
         stream: EduDatabaseService(childId: widget.childId).educationData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: SpinKitPulse(
                 color: Colors.black,
                 size: 20.0,
@@ -39,7 +36,7 @@ class _educationMainState extends State<educationMain> {
             if (educationModelData.isEmpty) {
               return Scaffold(
                   appBar: AppBar(
-                    title: Text(
+                    title: const Text(
                       "Education",
                       style: TextStyle(
                         color: Colors.black,
@@ -47,15 +44,15 @@ class _educationMainState extends State<educationMain> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    iconTheme: IconThemeData(color: Colors.black),
+                    iconTheme: const IconThemeData(color: Colors.black),
                     centerTitle: true,
-                    backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                    backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                   ),
                   body: Center(
                       child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xff8290F0)),
-                    child: Text(
+                        backgroundColor: const Color(0xff8290F0)),
+                    child: const Text(
                       'Register New Education Module',
                       style: TextStyle(color: Colors.white),
                     ),
@@ -71,7 +68,7 @@ class _educationMainState extends State<educationMain> {
             } else {
               return Scaffold(
                 appBar: AppBar(
-                  title: Text(
+                  title: const Text(
                     "Education Module",
                     style: TextStyle(
                       color: Colors.black,
@@ -79,21 +76,21 @@ class _educationMainState extends State<educationMain> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  iconTheme: IconThemeData(color: Colors.black),
+                  iconTheme: const IconThemeData(color: Colors.black),
                   centerTitle: true,
-                  backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                  backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                 ),
                 body: SingleChildScrollView(
                   child: Container(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
+                        const EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
                     alignment: Alignment.center,
                     child: Column(
                       children: <Widget>[
                         Container(
                           width: double.infinity,
                           alignment: Alignment.centerLeft,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: Color.fromARGB(255, 255, 255, 255),
                               boxShadow: [
                                 BoxShadow(
@@ -104,18 +101,18 @@ class _educationMainState extends State<educationMain> {
                               ]),
                           child: Container(
                             padding:
-                                EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20.0),
+                                const EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Row(
                                   children: <Widget>[
-                                    Icon(
+                                    const Icon(
                                       Icons.school,
                                       size: 30.0,
                                       color: Colors.black,
                                     ),
-                                    Text(
+                                    const Text(
                                       ' Education Information',
                                       style: TextStyle(
                                           fontSize: 20.0, color: Colors.black),
@@ -124,7 +121,7 @@ class _educationMainState extends State<educationMain> {
                                       child: Container(
                                         alignment: Alignment.centerRight,
                                         child: IconButton(
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.edit,
                                             size: 25.0,
                                             color: Color.fromARGB(255, 0, 0, 0),
@@ -142,7 +139,7 @@ class _educationMainState extends State<educationMain> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5.0,
                                 ),
                                 Row(
@@ -158,7 +155,7 @@ class _educationMainState extends State<educationMain> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 3.0,
                                 ),
                                 Row(
@@ -178,7 +175,7 @@ class _educationMainState extends State<educationMain> {
                                       builder: (context, snapshot) {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
-                                          return SizedBox();
+                                          return const SizedBox();
                                         } else {
                                           return Flexible(
                                             child: Text(
@@ -191,7 +188,7 @@ class _educationMainState extends State<educationMain> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 3.0,
                                 ),
                                 Row(
@@ -211,7 +208,7 @@ class _educationMainState extends State<educationMain> {
                                       builder: (context, snapshot) {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
-                                          return SizedBox();
+                                          return const SizedBox();
                                         } else {
                                           return Text(
                                             '${snapshot.data!.className}',
@@ -221,7 +218,7 @@ class _educationMainState extends State<educationMain> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 3.0,
                                 ),
                                 Row(
@@ -241,7 +238,7 @@ class _educationMainState extends State<educationMain> {
                                       builder: (context, snapshot) {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
-                                          return SizedBox();
+                                          return const SizedBox();
                                         } else {
                                           return Text(
                                             '${snapshot.data!.teacherName}',
@@ -255,7 +252,7 @@ class _educationMainState extends State<educationMain> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         Container(
@@ -266,7 +263,7 @@ class _educationMainState extends State<educationMain> {
                             children: <Widget>[
                               Expanded(
                                 child: Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Color(0xff71CBCA),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10.0))),
@@ -278,7 +275,7 @@ class _educationMainState extends State<educationMain> {
                                         child: IconButton(
                                           icon: Transform.scale(
                                             scaleX: -1,
-                                            child: Icon(
+                                            child: const Icon(
                                               Icons.arrow_back,
                                               size: 25.0,
                                               color: Colors.white,
@@ -288,22 +285,22 @@ class _educationMainState extends State<educationMain> {
                                         ),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 15.0),
+                                        padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 15.0),
                                         child: Column(
                                           children: <Widget>[
-                                            Icon(
+                                            const Icon(
                                               Icons.attach_money,
                                               size: 50.0,
                                               color: Colors.white,
                                             ),
-                                            Text(
+                                            const Text(
                                               'Fee Payment',
                                               style: TextStyle(
                                                 fontSize: 17.0,
                                                 color: Colors.white
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 10.0,
                                             ),
                                             Text(
@@ -320,12 +317,12 @@ class _educationMainState extends State<educationMain> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10.0,
                               ),
                               Expanded(
                                 child: Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                   color: Color(0xff8290F0),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10.0))),
@@ -337,7 +334,7 @@ class _educationMainState extends State<educationMain> {
                                         child: IconButton(
                                           icon: Transform.scale(
                                             scaleX: -1,
-                                            child: Icon(
+                                            child: const Icon(
                                               Icons.arrow_back,
                                               size: 25.0,
                                               color: Colors.white,
@@ -347,22 +344,22 @@ class _educationMainState extends State<educationMain> {
                                         ),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 15.0),
+                                        padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 15.0),
                                         child: Column(
                                           children: <Widget>[
-                                            Icon(
+                                            const Icon(
                                               Icons.menu_book_rounded,
                                               size: 50.0,
                                               color: Colors.white,
                                             ),
-                                            Text(
+                                            const Text(
                                               'Homework',
                                               style: TextStyle(
                                                 fontSize: 17.0,
                                                 color: Colors.white
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 10.0,
                                             ),
                                             Text(
@@ -382,13 +379,13 @@ class _educationMainState extends State<educationMain> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         Container(
                           width: double.infinity,
                           alignment: Alignment.center,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: Color(0xffF29180),
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10.0))),
@@ -400,7 +397,7 @@ class _educationMainState extends State<educationMain> {
                                 child: IconButton(
                                   icon: Transform.scale(
                                     scaleX: -1,
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.arrow_back,
                                       size: 25.0,
                                       color: Colors.white,
@@ -410,9 +407,9 @@ class _educationMainState extends State<educationMain> {
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 15.0),
+                                padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 15.0),
                                 alignment: Alignment.centerLeft,
-                                child: Row(
+                                child: const Row(
                                   children: <Widget>[
                                     Icon(
                                       Icons.library_books,
@@ -430,7 +427,7 @@ class _educationMainState extends State<educationMain> {
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   'Upcoming Examination:',
@@ -440,13 +437,13 @@ class _educationMainState extends State<educationMain> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 2.0,
                               ),
                               Container(
-                                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                 alignment: Alignment.centerLeft,
-                                child: Text(
+                                child: const Text(
                                   'Exam Midyear - 22 June 2023',
                                   style: TextStyle(
                                     color: Colors.black,
@@ -454,11 +451,11 @@ class _educationMainState extends State<educationMain> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20.0,
                               ),
                               Container(
-                                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   'Current Performance',
@@ -468,11 +465,11 @@ class _educationMainState extends State<educationMain> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 25.0,
                               ),
                               Container(
-                                padding: EdgeInsets.fromLTRB(15.0, 0, 15.0, 15.0),
+                                padding: const EdgeInsets.fromLTRB(15.0, 0, 15.0, 15.0),
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   'Examination Results',
@@ -482,7 +479,7 @@ class _educationMainState extends State<educationMain> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 35.0,
                               )
                             ],

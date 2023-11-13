@@ -40,7 +40,7 @@ class AuthService {
       await userDatabase(userId: user!.uid)
           .updateUserData(user.uid, 'parent', user.email.toString());
       await parentDatabase(parentId: user.uid).updateParentData(
-          user.uid, 'New User', '-', '-', user.email.toString(), '-', '-');
+          user.uid, 'New User', '-', '-', user.email.toString(), '-', '-', '');
       return _userAuthObjectFromFirebase(user);
     } catch (e) {
       print(e.toString());

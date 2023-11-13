@@ -24,16 +24,16 @@ class parentDatabase {
     return parentCollection
         .doc(parentId)
         .snapshots()
-        .map(_createparentModelObject);
+        .map(_createParentModelObject);
   }
 
   //get all userdetails stream
   Stream<List<parentModel>> get allParentData {
-    return parentCollection.snapshots().map(_createparentModelList);
+    return parentCollection.snapshots().map(_createParentModelList);
   }
 
   //create a user model object
-  parentModel _createparentModelObject(DocumentSnapshot snapshot) {
+  parentModel _createParentModelObject(DocumentSnapshot snapshot) {
     return parentModel(
       parentId: parentId,
       parentFullName: snapshot['parentFullName'],
@@ -42,21 +42,22 @@ class parentDatabase {
       parentEmail: snapshot['parentEmail'],
       parentPhoneNumber: snapshot['parentPhoneNumber'],
       parentProfileImg: snapshot['parentProfileImg'],
+      advisorId: snapshot['advisorId'],
     );
   }
 
   //create a list of user model object
-  List<parentModel> _createparentModelList(QuerySnapshot snapshot) {
+  List<parentModel> _createParentModelList(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return parentModel(
-        parentId: parentId,
-        parentFullName: doc.get('parentFullName'),
-        parentFirstName: doc.get('parentFirstName'),
-        parentLastName: doc.get('parentLastName'),
-        parentEmail: doc.get('parentEmail'),
-        parentPhoneNumber: doc.get('parentPhoneNumber'),
-        parentProfileImg: doc.get('parentProfileImg'),
-      );
+          parentId: parentId,
+          parentFullName: doc.get('parentFullName'),
+          parentFirstName: doc.get('parentFirstName'),
+          parentLastName: doc.get('parentLastName'),
+          parentEmail: doc.get('parentEmail'),
+          parentPhoneNumber: doc.get('parentPhoneNumber'),
+          parentProfileImg: doc.get('parentProfileImg'),
+          advisorId: doc.get('advisorId'));
     }).toList();
   }
 
@@ -68,7 +69,8 @@ class parentDatabase {
       String parentLastName,
       String parentEmail,
       String parentPhoneNumber,
-      String parentProfileImg) async {
+      String parentProfileImg,
+      String advisorId) async {
     return await parentCollection.doc(parentId).set({
       'parentId': parentId,
       'parentFullName': parentFullName,
@@ -77,6 +79,7 @@ class parentDatabase {
       'parentEmail': parentEmail,
       'parentPhoneNumber': parentPhoneNumber,
       'parentProfileImg': parentProfileImg,
+      'advisorId' : advisorId
     });
   }
 
@@ -172,7 +175,6 @@ class parentDatabase {
       'childProfileImg': childProfileImg,
     });
   }
-
 
 // //------------------------------EDUCATION----------------------------------
 
