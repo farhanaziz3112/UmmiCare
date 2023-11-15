@@ -1,17 +1,15 @@
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ummicare/models/childmodel.dart';
+import 'package:ummicare/models/childModel.dart';
 import 'package:ummicare/services/childDatabase.dart';
-import 'package:ummicare/services/parentDatabase.dart';
 
 import '../../../../services/storage.dart';
 import '../../../../shared/constant.dart';
 
 class editChildProfile extends StatefulWidget {
   const editChildProfile({super.key, required this.child});
-  final ChildModel child;
+  final childModel child;
 
   @override
   State<editChildProfile> createState() => _editChildProfileState();
@@ -28,10 +26,10 @@ class _editChildProfileState extends State<editChildProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<ChildModel>(
-        stream: childDatabase(parentId: widget.child.parentId, childId: widget.child.childId).childData,
+    return StreamBuilder<childModel>(
+        stream: childDatabase(childId: widget.child.childId).childData,
         builder: (context, snapshot) {
-          ChildModel? child = snapshot.data;
+          childModel? child = snapshot.data;
           return Scaffold(
             appBar: AppBar(
               title: Text(
@@ -195,10 +193,11 @@ class _editChildProfileState extends State<editChildProfile> {
                           ),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              await childDatabase(parentId: widget.child.parentId, childId: widget.child.childId)
+                              await childDatabase(childId: widget.child.childId)
                                   .updateChildData(
                                       child.childId,
                                       child.parentId,
+                                      child.childCreatedDate,
                                       _currentChildName == ''
                                           ? child.childName
                                           : _currentChildName,
@@ -211,7 +210,9 @@ class _editChildProfileState extends State<editChildProfile> {
                                       child.childBirthday,
                                       child.childCurrentAge,
                                       child.childAgeCategory,
-                                      child.childProfileImg);
+                                      child.childProfileImg,
+                                      child.educationId,
+                                      child.healthId);
                               Navigator.pop(context);
                             }
                           },

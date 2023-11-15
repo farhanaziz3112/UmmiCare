@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ummicare/models/advisormodel.dart';
+import 'package:ummicare/models/advisorModel.dart';
 import 'package:ummicare/models/chatmodel.dart';
+import 'package:ummicare/screens/parent_pages/child/advisory/viewChatImage.dart';
 import 'package:ummicare/services/advisorDatabase.dart';
 import 'package:ummicare/services/chatDatabase.dart';
 import 'package:ummicare/services/storage.dart';
@@ -51,8 +52,10 @@ class _chatState extends State<chat> {
   }
 
   _scrollToEnd(int time) async {
-    listScrollController.animateTo(listScrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: time), curve: Curves.easeOut);
+    listScrollController.animateTo(
+        listScrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: time),
+        curve: Curves.easeOut);
   }
 
   @override
@@ -83,9 +86,10 @@ class _chatState extends State<chat> {
             ),
             resizeToAvoidBottomInset: false,
             body: Padding(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Column(
-                  children: <Widget>[buildListMessage(), buildInput()],
+                children: <Widget>[buildListMessage(), buildInput()],
               ),
             ),
           );
@@ -118,30 +122,35 @@ class _chatState extends State<chat> {
         children: <Widget>[
           message.type == 'text'
               ? Container(
-                  margin: EdgeInsets.only(bottom: 10),
+                  margin: const EdgeInsets.only(bottom: 10),
                   padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                   width: 200,
                   decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: const Color(0xff8290F0),
                       borderRadius: BorderRadius.circular(8)),
                   child: Text(
                     message.content,
-                    style: const TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 )
               : Container(
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    style:
-                        OutlinedButton.styleFrom(backgroundColor: Colors.grey),
-                    child: Material(
-                      child: Container(
-                        width: 200,
-                        height: 200,
-                        child: Image.network(
-                          message.content,
-                        ),
-                      ),
+                  margin: const EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                  decoration: BoxDecoration(
+                      color: const Color(0xff8290F0),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => viewChatImage(
+                                imageLink: message.content),
+                          ));
+                    },
+                    child: Image.network(
+                      message.content,
+                      height: 400,
                     ),
                   ),
                 ),
@@ -153,30 +162,35 @@ class _chatState extends State<chat> {
         children: <Widget>[
           message.type == 'text'
               ? Container(
-                  margin: EdgeInsets.only(bottom: 10),
+                  margin: const EdgeInsets.only(bottom: 10),
                   padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                   width: 200,
                   decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: const Color(0xff71CBCA),
                       borderRadius: BorderRadius.circular(8)),
                   child: Text(
                     message.content,
-                    style: const TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 )
               : Container(
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    style:
-                        OutlinedButton.styleFrom(backgroundColor: Colors.grey),
-                    child: Material(
-                      child: Container(
-                        width: 200,
-                        height: 200,
-                        child: Image.network(
-                          message.content,
-                        ),
-                      ),
+                  margin: const EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                  decoration: BoxDecoration(
+                      color: const Color(0xff71CBCA),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => viewChatImage(
+                                imageLink: message.content),
+                          ));
+                    },
+                    child: Image.network(
+                      message.content,
+                      height: 400,
                     ),
                   ),
                 ),
@@ -218,34 +232,28 @@ class _chatState extends State<chat> {
 
   Widget buildInput() {
     return Container(
+      margin: const EdgeInsets.all(10),
       width: double.infinity,
       height: 50,
-      decoration: const BoxDecoration(
-          border: Border(top: BorderSide(color: Colors.white, width: 0.5)),
-          color: Colors.white),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black),
+        color: Colors.white,
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
       child: Row(
         children: <Widget>[
-          Material(
-            color: Colors.white,
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 1),
-              child: IconButton(
-                icon: const Icon(Icons.image),
-                onPressed: getImage,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          Material(
-            color: Colors.white,
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 1),
-              child: IconButton(
-                icon: const Icon(Icons.face),
-                onPressed: () {},
-                color: Colors.black,
-              ),
-            ),
+          IconButton(
+            icon: const Icon(Icons.image),
+            onPressed: getImage,
+            color: Colors.black,
           ),
           Flexible(
             child: Container(
@@ -253,7 +261,7 @@ class _chatState extends State<chat> {
                 onSubmitted: (value) {
                   onSendMessage(textEditingController.text, 'text');
                 },
-                style: TextStyle(color: Colors.black, fontSize: 15),
+                style: const TextStyle(color: Colors.black, fontSize: 15),
                 controller: textEditingController,
                 decoration: const InputDecoration.collapsed(
                   hintText: 'Type your message...',
@@ -264,18 +272,12 @@ class _chatState extends State<chat> {
               ),
             ),
           ),
-          Material(
-            color: Colors.white,
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8),
-              child: IconButton(
-                icon: const Icon(Icons.send),
-                onPressed: () {
-                  onSendMessage(textEditingController.text, 'text');
-                },
-                color: Colors.black,
-              ),
-            ),
+          IconButton(
+            icon: const Icon(Icons.send),
+            onPressed: () {
+              onSendMessage(textEditingController.text, 'text');
+            },
+            color: Colors.black,
           ),
         ],
       ),
@@ -294,15 +296,17 @@ class _chatState extends State<chat> {
   }
 
   void onSendMessage(String content, String type) {
-    textEditingController.clear();
-    chatDatabase(chatId: chatId).updateMessageData(
-        DateTime.now().millisecondsSinceEpoch.toString(),
-        parentId,
-        advisorId,
-        content,
-        type);
-    if (listScrollController.hasClients) {
-      _scrollToEnd(3000);
-    }
+    if (content != '') {
+      textEditingController.clear();
+      chatDatabase(chatId: chatId).updateMessageData(
+          DateTime.now().millisecondsSinceEpoch.toString(),
+          parentId,
+          advisorId,
+          content,
+          type);
+      if (listScrollController.hasClients) {
+        _scrollToEnd(3000);
+      }
+    } else {}
   }
 }

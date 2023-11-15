@@ -1,7 +1,7 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ummicare/models/advisormodel.dart';
+import 'package:ummicare/models/advisorModel.dart';
 import 'package:ummicare/models/parentModel.dart';
 import 'package:ummicare/screens/parent_pages/child/advisory/chat.dart';
 import 'package:ummicare/screens/parent_pages/child/childlist/childlist.dart';
@@ -10,7 +10,7 @@ import 'package:ummicare/services/advisorDatabase.dart';
 import 'package:ummicare/services/chatDatabase.dart';
 import 'package:ummicare/services/parentDatabase.dart';
 
-import '../../../models/childmodel.dart';
+import '../../../models/childModel.dart';
 
 class childMain extends StatefulWidget {
   const childMain({super.key});
@@ -25,7 +25,7 @@ class _childMainState extends State<childMain> {
     parentModel? parent = Provider.of<parentModel?>(context);
     final parentId = parent!.parentId;
 
-    return StreamProvider<List<ChildModel>>.value(
+    return StreamProvider<List<childModel>>.value(
       initialData: [],
       value: parentDatabase(parentId: parentId).allChildData,
       child: Container(
@@ -127,6 +127,7 @@ class _childMainState extends State<childMain> {
                                                 assignedAdvisor.advisorId)
                                         .addParent({
                                       'parentId': parent.parentId,
+                                      'parentCreatedDate': parent.parentCreatedDate,
                                       'parentFullName': parent.parentFullName,
                                       'parentFirstName': parent.parentFirstName,
                                       'parentLastName': parent.parentLastName,
@@ -135,18 +136,21 @@ class _childMainState extends State<childMain> {
                                           parent.parentPhoneNumber,
                                       'parentProfileImg':
                                           parent.parentProfileImg,
-                                      'advisorId': assignedAdvisor.advisorId
+                                      'advisorId': assignedAdvisor.advisorId,
+                                      'noOfChild': parent.noOfChild
                                     }, assignedAdvisor, parentId);
                                     parentDatabase(parentId: parentId)
                                         .updateParentData(
                                             parentId,
+                                            parent.parentCreatedDate,
                                             parent.parentFullName,
                                             parent.parentFirstName,
                                             parent.parentLastName,
                                             parent.parentEmail,
                                             parent.parentPhoneNumber,
                                             parent.parentProfileImg,
-                                            assignedAdvisor.advisorId);
+                                            assignedAdvisor.advisorId,
+                                            parent.noOfChild);
                                     chatDatabase(
                                             chatId:
                                                 "${assignedAdvisor.advisorId}${parent.parentId}")

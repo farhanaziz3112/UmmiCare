@@ -27,6 +27,7 @@ class staffDatabase {
   staffUserModel _createStaffModelObject(DocumentSnapshot snapshot) {
     return staffUserModel(
       staffId: snapshot.id,
+      staffCreatedDate: snapshot['staffCreatedDate'],
       staffUserType: snapshot['staffUserType'],
       staffFullName: snapshot['staffFullName'],
       staffFirstName: snapshot['staffFirstName'],
@@ -44,6 +45,7 @@ class staffDatabase {
     return snapshot.docs.map((doc) {
       return staffUserModel(
           staffId: doc.get('staffId'),
+          staffCreatedDate: doc.get('staffCreatedDate'),
           staffUserType: doc.get('staffUserType'),
           staffFullName: doc.get('staffFullName'),
           staffFirstName: doc.get('staffFirstName'),
@@ -59,6 +61,7 @@ class staffDatabase {
   //update user data
   Future<void> updateStaffData(
       String staffId,
+      String staffCreatedDate,
       String staffUserType,
       String staffFullName,
       String staffFirstName,
@@ -70,6 +73,7 @@ class staffDatabase {
       String isVerified,) async {
     return await staffCollection.doc(staffId).set({
       'staffId': staffId,
+      'staffCreatedDate': staffCreatedDate,
       'staffUserType': staffUserType,
       'staffFullName': staffFullName,
       'staffFirstName': staffFirstName,

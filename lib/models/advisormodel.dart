@@ -1,6 +1,7 @@
 
 class advisorModel {
   final String advisorId;
+  late final String advisorCreatedDate;
   late final String advisorFullName;
   late final String advisorFirstName;
   late final String advisorLastName;
@@ -11,6 +12,7 @@ class advisorModel {
 
   advisorModel({
     required this.advisorId,
+    required this.advisorCreatedDate,
     required this.advisorFullName,
     required this.advisorFirstName,
     required this.advisorLastName,

@@ -1,5 +1,6 @@
 class staffUserModel {
   final String staffId;
+  late final String staffCreatedDate;
   late final String staffUserType;
   late final String staffFullName;
   late final String staffFirstName;
@@ -12,6 +13,7 @@ class staffUserModel {
 
   staffUserModel({
     required this.staffId,
+    required this.staffCreatedDate,
     required this.staffUserType,
     required this.staffFullName,
     required this.staffFirstName,

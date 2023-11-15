@@ -1,5 +1,4 @@
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:ummicare/models/childmodel.dart';
+import 'package:ummicare/models/childModel.dart';
 import 'package:flutter/material.dart';
 import 'package:ummicare/screens/parent_pages/child/childprofile/childProfile.dart';
 import 'package:ummicare/services/childDatabase.dart';
@@ -10,7 +9,7 @@ class childTile extends StatefulWidget {
       required this.childDetail,
       required this.childColorIndex,
       required this.childId});
-  final ChildModel childDetail;
+  final childModel childDetail;
   final String childId;
   final int childColorIndex;
 
@@ -21,11 +20,11 @@ class childTile extends StatefulWidget {
 class _childTileState extends State<childTile> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<ChildModel>(
-      stream: childDatabase(parentId: widget.childDetail.parentId, childId: widget.childId).childData,
+    return StreamBuilder<childModel>(
+      stream: childDatabase(childId: widget.childId).childData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          ChildModel? child = snapshot.data;
+          childModel? child = snapshot.data;
           if (widget.childColorIndex == 0) {
             return InkWell(
               onTap: () {

@@ -39,48 +39,11 @@ class AuthService {
       User? user = authResult.user;
       await userDatabase(userId: user!.uid)
           .updateUserData(user.uid, 'parent', user.email.toString());
+      //for createdDate store in db
+      String createdDate = DateTime.now().millisecondsSinceEpoch.toString();
       await parentDatabase(parentId: user.uid).updateParentData(
-          user.uid, 'New User', '-', '-', user.email.toString(), '-', '-', '');
+          user.uid, createdDate, 'New User', '-', '-', user.email.toString(), '-', '-', '', '0');
       return _userAuthObjectFromFirebase(user);
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  }
-
-  //register new staff with email and password
-  Future registerStaffWithEmailAndPassword(
-    String email,
-    String password,
-    String staffUserType,
-    String staffFullName,
-    String staffFirstName,
-    String staffLastName,
-    String staffPhoneNumber,
-    String staffProfileImg,
-    String staffSupportingDocumentLink,
-    String isVerified
-  ) async {
-    try {
-      //var originalUser = _auth.currentUser!;
-      UserCredential authResult = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      //_auth.sign(originalUser);
-      User? user = authResult.user;
-      await userDatabase(userId: user!.uid)
-          .updateUserData(user.uid, staffUserType, user.email.toString());
-      await staffDatabase(staffId: user.uid).updateStaffData(
-          user.uid,
-          staffUserType,
-          staffFullName,
-          staffFirstName,
-          staffLastName,
-          email,
-          staffPhoneNumber,
-          staffSupportingDocumentLink,
-          '-',
-          isVerified);
-      //return _userAuthObjectFromFirebase(user);
     } catch (e) {
       print(e.toString());
       return null;

@@ -229,6 +229,7 @@ class _parentEditProfileState extends State<parentEditProfile> {
                               await parentDatabase(parentId: widget.parentId)
                                   .updateParentData(
                                       parent.parentId,
+                                      parent.parentCreatedDate,
                                       _currentFullName == ''
                                           ? parent.parentFullName
                                           : _currentFullName,
@@ -243,7 +244,8 @@ class _parentEditProfileState extends State<parentEditProfile> {
                                           ? parent.parentPhoneNumber
                                           : _currentPhoneNumber,
                                       parent.parentProfileImg,
-                                      parent.advisorId);
+                                      parent.advisorId,
+                                      parent.noOfChild);
                               Navigator.pop(context);
                             }
                           },

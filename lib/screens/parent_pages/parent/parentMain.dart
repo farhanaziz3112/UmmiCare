@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ummicare/models/childModel.dart';
 import 'package:ummicare/models/parentModel.dart';
 import 'package:ummicare/services/auth.dart';
 import 'package:ummicare/services/parentDatabase.dart';
 import 'package:ummicare/screens/parent_pages/child/childlist/childlist.dart';
-import '../../../models/childmodel.dart';
 
 class parentMain extends StatefulWidget {
   const parentMain({super.key});
@@ -21,7 +21,7 @@ class _parentMainState extends State<parentMain> {
   @override
   Widget build(BuildContext context) {
     parentModel? parent = Provider.of<parentModel?>(context);
-    return StreamProvider<List<ChildModel>>.value(
+    return StreamProvider<List<childModel>>.value(
       initialData: [],
       value: parentDatabase(parentId: parent!.parentId).allChildData,
       child: Container(

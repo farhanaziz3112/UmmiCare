@@ -1,7 +1,7 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:ummicare/models/childmodel.dart';
+import 'package:ummicare/models/childModel.dart';
 import 'package:ummicare/models/educationmodel.dart';
 import 'package:ummicare/models/healthmodel.dart';
 import 'package:ummicare/screens/parent_pages/child/childprofile/editChildProfile.dart';
@@ -17,7 +17,7 @@ import '../../../../services/eduDatabase.dart';
 
 class childProfile extends StatefulWidget {
   const childProfile({super.key, required this.child});
-  final ChildModel child;
+  final childModel child;
 
   @override
   State<childProfile> createState() => _childProfileState();
@@ -26,12 +26,11 @@ class childProfile extends StatefulWidget {
 class _childProfileState extends State<childProfile> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<ChildModel>(
-        stream: childDatabase(
-                parentId: widget.child.parentId, childId: widget.child.childId)
+    return StreamBuilder<childModel>(
+        stream: childDatabase(childId: widget.child.childId)
             .childData,
         builder: (context, snapshot) {
-          ChildModel? child = snapshot.data;
+          childModel? child = snapshot.data;
           return Scaffold(
             appBar: AppBar(
               title: Text(
@@ -351,16 +350,16 @@ class _childProfileState extends State<childProfile> {
                           return Container(
                             width: double.infinity,
                             alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Color(0xff8290F0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10.0))),
                             child: Container(
-                              padding: EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20.0),
+                              padding: const EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Row(
+                                  const Row(
                                     children: <Widget>[
                                       Icon(
                                         Icons.health_and_safety,
@@ -374,12 +373,12 @@ class _childProfileState extends State<childProfile> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5.0,
                                   ),
                                   Container(
                                       alignment: Alignment.center,
-                                      child: SpinKitPulse(
+                                      child: const SpinKitPulse(
                                         color: Colors.black,
                                         size: 20.0,
                                       )
@@ -398,17 +397,17 @@ class _childProfileState extends State<childProfile> {
                           return Container(
                             width: double.infinity,
                             alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Color(0xff8290F0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10.0))),
                             child: Container(
                               padding:
-                                  EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20.0),
+                                  const EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Row(
+                                  const Row(
                                     children: <Widget>[
                                       Icon(
                                         Icons.health_and_safety,
@@ -423,7 +422,7 @@ class _childProfileState extends State<childProfile> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5.0,
                                   ),
                                   Container(
@@ -437,11 +436,6 @@ class _childProfileState extends State<childProfile> {
                                               fontSize: 13.0),
                                         ),
                                         ElevatedButton(
-                                          child: Text(
-                                            'Register Health Module',
-                                            style: TextStyle(
-                                                color: Colors.black),
-                                          ),
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.white),
                                           onPressed: () async {
@@ -452,6 +446,11 @@ class _childProfileState extends State<childProfile> {
                                                         addNewHealthData(
                                                             childId: widget.child.childId)));
                                           },
+                                          child: const Text(
+                                            'Register Health Module',
+                                            style: TextStyle(
+                                                color: Colors.black),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -464,24 +463,24 @@ class _childProfileState extends State<childProfile> {
                           return Container(
                             width: double.infinity,
                             alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Color(0xff8290F0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10.0))),
                             child: Container(
                               padding:
-                                  EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20.0),
+                                  const EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Row(
                                     children: <Widget>[
-                                      Icon(
+                                      const Icon(
                                         Icons.health_and_safety,
                                         size: 30.0,
                                         color: Colors.white,
                                       ),
-                                      Text(
+                                      const Text(
                                         ' Health',
                                         style: TextStyle(
                                             fontSize: 20.0,
@@ -493,7 +492,7 @@ class _childProfileState extends State<childProfile> {
                                           child: IconButton(
                                             icon: Transform.scale(
                                               scaleX: -1,
-                                              child: Icon(
+                                              child: const Icon(
                                                 Icons.arrow_back,
                                                 size: 25.0,
                                                 color: Colors.white,
@@ -515,7 +514,7 @@ class _childProfileState extends State<childProfile> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5.0,
                                   ),
                                   Text(

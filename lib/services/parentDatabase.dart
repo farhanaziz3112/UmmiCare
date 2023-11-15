@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ummicare/models/parentModel.dart';
 
-import '../models/childmodel.dart';
+import '../models/childModel.dart';
 
 class parentDatabase {
   final String parentId;
@@ -24,126 +24,143 @@ class parentDatabase {
     return parentCollection
         .doc(parentId)
         .snapshots()
-        .map(_createParentModelObject);
+        .map(_createparentModelObject);
   }
 
   //get all userdetails stream
   Stream<List<parentModel>> get allParentData {
-    return parentCollection.snapshots().map(_createParentModelList);
+    return parentCollection.snapshots().map(_createparentModelList);
   }
 
   //create a user model object
-  parentModel _createParentModelObject(DocumentSnapshot snapshot) {
+  parentModel _createparentModelObject(DocumentSnapshot snapshot) {
     return parentModel(
-      parentId: parentId,
-      parentFullName: snapshot['parentFullName'],
-      parentFirstName: snapshot['parentFirstName'],
-      parentLastName: snapshot['parentLastName'],
-      parentEmail: snapshot['parentEmail'],
-      parentPhoneNumber: snapshot['parentPhoneNumber'],
-      parentProfileImg: snapshot['parentProfileImg'],
-      advisorId: snapshot['advisorId'],
-    );
+        parentId: parentId,
+        parentCreatedDate: snapshot['parentCreatedDate'],
+        parentFullName: snapshot['parentFullName'],
+        parentFirstName: snapshot['parentFirstName'],
+        parentLastName: snapshot['parentLastName'],
+        parentEmail: snapshot['parentEmail'],
+        parentPhoneNumber: snapshot['parentPhoneNumber'],
+        parentProfileImg: snapshot['parentProfileImg'],
+        advisorId: snapshot['advisorId'],
+        noOfChild: snapshot['noOfChild']);
   }
 
   //create a list of user model object
-  List<parentModel> _createParentModelList(QuerySnapshot snapshot) {
+  List<parentModel> _createparentModelList(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return parentModel(
           parentId: parentId,
+          parentCreatedDate: doc.get('parentCreatedDate'),
           parentFullName: doc.get('parentFullName'),
           parentFirstName: doc.get('parentFirstName'),
           parentLastName: doc.get('parentLastName'),
           parentEmail: doc.get('parentEmail'),
           parentPhoneNumber: doc.get('parentPhoneNumber'),
           parentProfileImg: doc.get('parentProfileImg'),
-          advisorId: doc.get('advisorId'));
+          advisorId: doc.get('advisorId'),
+          noOfChild: doc.get('noOfChild'));
     }).toList();
   }
 
   //update user data
   Future<void> updateParentData(
       String parentId,
+      String parentCreatedDate,
       String parentFullName,
       String parentFirstName,
       String parentLastName,
       String parentEmail,
       String parentPhoneNumber,
       String parentProfileImg,
-      String advisorId) async {
+      String advisorId,
+      String noOfChild) async {
     return await parentCollection.doc(parentId).set({
       'parentId': parentId,
+      'parentCreatedDate': parentCreatedDate,
       'parentFullName': parentFullName,
       'parentFirstName': parentFirstName,
       'parentLastName': parentLastName,
       'parentEmail': parentEmail,
       'parentPhoneNumber': parentPhoneNumber,
       'parentProfileImg': parentProfileImg,
-      'advisorId' : advisorId
+      'advisorId': advisorId,
+      'noOfChild': noOfChild
     });
   }
 
   //get specific child document stream
-  Stream<ChildModel> get childData {
+  Stream<childModel> get childData {
     return childCollection
         .doc(parentId)
         .snapshots()
-        .map(_createChildModelObject);
+        .map(_createchildModelObject);
   }
 
   //get all childs stream
-  Stream<List<ChildModel>> get allChildData {
+  Stream<List<childModel>> get allChildData {
     return childCollection
         .where('parentId', isEqualTo: parentId)
         .snapshots()
-        .map(_createChildModelList);
+        .map(_createchildModelList);
   }
 
   //create a list of child model object
-  List<ChildModel> _createChildModelList(QuerySnapshot snapshot) {
-    return snapshot.docs.map<ChildModel>((doc) {
-      return ChildModel(
+  List<childModel> _createchildModelList(QuerySnapshot snapshot) {
+    return snapshot.docs.map<childModel>((doc) {
+      return childModel(
         childId: doc.id,
         parentId: doc.get('parentId') ?? '',
+        childCreatedDate: doc.get('childCreatedDate') ?? '',
         childName: doc.get('childName') ?? '',
         childFirstname: doc.get('childFirstname') ?? '',
         childLastname: doc.get('childLastname') ?? '',
         childBirthday: doc.get('childBirthday') ?? '',
-        childCurrentAge: doc.get('childCurrentAge') ?? 2,
+        childCurrentAge: doc.get('childCurrentAge') ?? '',
         childAgeCategory: doc.get('childAgeCategory') ?? '',
         childProfileImg: doc.get('childProfileImg') ?? '',
+        educationId: doc.get('educationId') ?? '',
+        healthId: doc.get('healthId') ?? '',
       );
     }).toList();
   }
 
   //create a child model object
-  ChildModel _createChildModelObject(DocumentSnapshot snapshot) {
-    return ChildModel(
-      childId: snapshot.id,
-      parentId: snapshot['parentId'],
-      childName: snapshot['childName'],
-      childFirstname: snapshot['childFirstname'],
-      childLastname: snapshot['childLastname'],
-      childBirthday: snapshot['childBirthday'],
-      childCurrentAge: snapshot['childCurrentAge'],
-      childAgeCategory: snapshot['childAgeCategory'],
-      childProfileImg: snapshot['childProfileImg'],
-    );
+  childModel _createchildModelObject(DocumentSnapshot snapshot) {
+    return childModel(
+        childId: snapshot.id,
+        parentId: snapshot['parentId'],
+        childCreatedDate: snapshot['childCreatedDate'],
+        childName: snapshot['childName'],
+        childFirstname: snapshot['childFirstname'],
+        childLastname: snapshot['childLastname'],
+        childBirthday: snapshot['childBirthday'],
+        childCurrentAge: snapshot['childCurrentAge'],
+        childAgeCategory: snapshot['childAgeCategory'],
+        childProfileImg: snapshot['childProfileImg'],
+        educationId: snapshot['educationId'],
+        healthId: snapshot['healthId']);
   }
 
   //update child data
   Future<void> updateChildData(
       String childId,
       String parentId,
+      String childCreatedDate,
       String childName,
       String childFirstname,
       String childLastname,
       String childBirthday,
       int childCurrentAge,
       String childAgeCategory,
-      String childProfileImg) async {
+      String childProfileImg,
+      String educationId,
+      String healthId) async {
     return await childCollection.doc(childId).set({
+      'childId': childId,
       'parentId': parentId,
+      'childCreatedDate': childCreatedDate,
       'childName': childName,
       'childFirstname': childFirstname,
       'childLastname': childLastname,
@@ -151,21 +168,29 @@ class parentDatabase {
       'childCurrentAge': childCurrentAge,
       'childAgeCategory': childAgeCategory,
       'childProfileImg': childProfileImg,
+      'educationId': educationId,
+      'healthId': healthId
     });
   }
 
   //create child data
   Future<void> createChildData(
       String parentId,
+      String childCreatedDate,
       String childName,
       String childFirstname,
       String childLastname,
       String childBirthday,
       int childCurrentAge,
       String childAgeCategory,
-      String childProfileImg) async {
-    return await childCollection.doc().set({
+      String childProfileImg,
+      String educationId,
+      String healthId) async {
+    final document = childCollection.doc();
+    await childCollection.doc(document.id).set({
+      'childId': document.id,
       'parentId': parentId,
+      'childCreatedDate': childCreatedDate,
       'childName': childName,
       'childFirstname': childFirstname,
       'childLastname': childLastname,
@@ -173,8 +198,15 @@ class parentDatabase {
       'childCurrentAge': childCurrentAge,
       'childAgeCategory': childAgeCategory,
       'childProfileImg': childProfileImg,
+      'educationId': educationId,
+      'healthId': healthId
+    });
+    return await parentCollection.doc(parentId).collection('Child').doc(document.id).set({
+      'childId': document.id,
     });
   }
+}
+
 
 // //------------------------------EDUCATION----------------------------------
 
@@ -272,4 +304,4 @@ class parentDatabase {
 //       classId: snapshot['classId'],
 //     );
 //   }
-}
+
