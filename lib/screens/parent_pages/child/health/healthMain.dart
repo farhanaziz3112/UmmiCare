@@ -1,9 +1,6 @@
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/healthmodel.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:ummicare/screens/parent_pages/child/education/educationMain.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthAppointment.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthStatus.dart';
 import 'package:ummicare/screens/parent_pages/child/health/editPhysical.dart';
