@@ -5,9 +5,17 @@ class HealthDatabaseService {
   final String childId;
   final String? healthId;
   final String? healthStatusId;
+  final String? healthConditionId;
+  final String? physicalConditionId;
+  final String? chronicConditionId;
+  final String? vaccincationAppointmentId;
+  final String? clinicId;
+  final String? doctorId;
 
   HealthDatabaseService(
-      {required this.childId, this.healthId, this.healthStatusId});
+      {required this.childId, this.healthId, this.healthStatusId, this.healthConditionId,
+      this.physicalConditionId, this.chronicConditionId, this.vaccincationAppointmentId,
+      this.clinicId,this.doctorId});
 
 //------------------------------Health----------------------------------
 
@@ -90,13 +98,13 @@ class HealthDatabaseService {
     .catchError((error) => print('Failed to update data: $error'));
   }
 
-//------------------------------HealthStatus----------------------------------
+//------------------------------Health Status----------------------------------
 
   //collection reference
   final CollectionReference healthStatusCollection =
       FirebaseFirestore.instance.collection('Health Status');
 
-  //get specific health document stream
+  //get specific health status document stream
   Stream<HealthStatusModel> get healthStatusData {
     return healthStatusCollection
         .doc(healthStatusId)
@@ -133,36 +141,216 @@ class HealthDatabaseService {
     });
   }  
 
-//------------------------------HealthCondition----------------------------------
+//------------------------------Health Condition----------------------------------
+  //collection reference
+  final CollectionReference healthConditionCollection =
+      FirebaseFirestore.instance.collection('Health Condition');
+
+  //get specific health Condition document stream
+  Stream<HealthConditionModel> get healthConditionData {
+    return healthConditionCollection
+        .doc(healthConditionId)
+        .snapshots()
+        .map(_createHealthConditionModelObject);
+  }
+
+  //create a Health Condition model object
+  HealthConditionModel _createHealthConditionModelObject(DocumentSnapshot snapshot) {
+    return HealthConditionModel(
+      healthConditionId: snapshot.id,
+      currentSymptom: snapshot['currentSymptom'],
+      currentIllness: snapshot['currentIllness'],
+      notes: snapshot['notes']
+    );
+  }
+
+  //create health condition data
   Future<void> createHealthConditionData(
-    String healthID,
-    String childID,
-    String healthStatusId,
+    String healthConditionId,
     String currentSymptom,
-    String currentTemperature,
-    String currentHeartRate, 
     String currentIllness,
-    String healthConditionId) async {
-    return await healthStatusCollection.doc(healthStatusId).set({
+    String notes) async {
+    return await healthConditionCollection.doc(healthConditionId).set({
       'currentSysmptom' : currentSymptom,
-      'currentTemperature': currentTemperature,
-      'currentHeartRate': currentHeartRate,
       'currentIllness' : currentIllness,
-      'healthConditionId': healthConditionId,
+      'notes': notes,
     });
   }
 
+//------------------------------Physical Condition----------------------------------
+  //collection reference
+  final CollectionReference physicalConditionCollection =
+      FirebaseFirestore.instance.collection('Physical Condition');
+
+  //get specific physical Condition document stream
+  Stream<PhysicalConditionModel> get physicalConditionData {
+    return physicalConditionCollection
+        .doc(physicalConditionId)
+        .snapshots()
+        .map(_createPhysicalConditionModelObject);
+  }
+
+  //create a Physical Condition model object
+  PhysicalConditionModel _createPhysicalConditionModelObject(DocumentSnapshot snapshot) {
+    return PhysicalConditionModel(
+      physicalConditionId: snapshot.id,
+      currentInjury: snapshot['currentInjur'],
+      details: snapshot['details']
+    );
+  }
+
+  //create physical condition data
   Future<void> createPhysicalConditionData(
-    String healthID,
-    String childID,
-    String healthStatusId, 
+    String physicalConditionId,
     String currentInjury,
-    String details,
-    String physicalConditionId) async {
-    return await healthStatusCollection.doc(healthStatusId).set({
+    String details) async {
+    return await physicalConditionCollection.doc(physicalConditionId).set({
       'currentInjury': currentInjury,
       'details': details,
-      'physicalConditionId': physicalConditionId,
+    });
+  }
+
+  //------------------------------Chronic Condition----------------------------------
+  //collection reference
+  final CollectionReference chronicConditionCollection =
+      FirebaseFirestore.instance.collection('Chronic Condition');
+
+  //get specific chronic Condition document stream
+  Stream<ChronicConditionModel> get chronicConditionData {
+    return chronicConditionCollection
+        .doc(chronicConditionId)
+        .snapshots()
+        .map(_createChronicConditionModelObject);
+  }
+
+  //create a Chronic Condition model object
+  ChronicConditionModel _createChronicConditionModelObject(DocumentSnapshot snapshot) {
+    return ChronicConditionModel(
+      chronicConditionId: snapshot.id,
+      childAllergies: snapshot['childAllergies'],
+      childChronic: snapshot['childChronic']
+    );
+  }
+
+  //create chronic condition data
+  Future<void> createChronicConditionData(
+    String chronicConditionId,
+    String childAllergies,
+    String childChronic) async {
+    return await chronicConditionCollection.doc(chronicConditionId).set({
+      'childAllergies': childAllergies,
+      'childChronic': childChronic,
+    });
+  }
+
+  //------------------------------Vaccincation Appointment----------------------------------
+  //collection reference
+  final CollectionReference vaccincationAppointmentCollection =
+      FirebaseFirestore.instance.collection('Vaccincation Appointment');
+
+  //get specific Vaccincation Appointment document stream
+  Stream<VaccincationAppointmentModel> get vaccincationAppointmentData {
+    return vaccincationAppointmentCollection
+        .doc(vaccincationAppointmentId)
+        .snapshots()
+        .map(_createVaccincationAppointmentModelObject);
+  }
+
+  //create a Vaccincation Appointment model object
+  VaccincationAppointmentModel _createVaccincationAppointmentModelObject(DocumentSnapshot snapshot) {
+    return VaccincationAppointmentModel(
+      vaccincationAppointmentId: snapshot.id,
+      vaccineType: snapshot['vaccineType'],
+      vaccineTime: snapshot['vaccineTime'],
+      clinicId: snapshot['clinicId'],
+      doctorId: snapshot['doctorId'],
+      healthId: snapshot['healthId']
+    );
+  }
+
+  //create Vaccincation Appointment data
+  Future<void> createVaccincationAppointmentData(
+    String vaccincationAppointmentId,
+    String vaccineType,
+    String vaccineTime,
+    String clinicId,
+    String doctorId,
+    String healthId) async {
+    return await vaccincationAppointmentCollection.doc(vaccincationAppointmentId).set({
+      'vaccineType': vaccineType,
+      'vaccineTime': vaccineTime,
+      'clinicId': clinicId,
+      'doctorId': doctorId,
+      'healthId': healthId,
+    });
+  }
+
+  //------------------------------Clinic----------------------------------
+  //collection reference
+  final CollectionReference clinicCollection =
+      FirebaseFirestore.instance.collection('Clinic');
+
+  //get specific Clinic document stream
+  Stream<ClinicModel> get clinicData {
+    return clinicCollection
+        .doc(clinicId)
+        .snapshots()
+        .map(_createClinicModelObject);
+  }
+
+  //create a Clinic model object
+  ClinicModel _createClinicModelObject(DocumentSnapshot snapshot) {
+    return ClinicModel(
+      clinicId: snapshot.id,
+      clinicName: snapshot['clinicName'],
+      clinicAddress: snapshot['clinicAddress'],
+      clinicPhoneNumber: snapshot['clinicPhoneNumber']
+    );
+  }
+
+  //create Clinic data
+  Future<void> createClinicData(
+    String clinicId,
+    String clinicName,
+    String clinicAddress,
+    String clinicPhoneNumber) async {
+    return await clinicCollection.doc(clinicId).set({
+      'clinicName': clinicName,
+      'clinicAddress': clinicAddress,
+      'clinicPhoneNumber': clinicPhoneNumber,
+    });
+  }
+
+  //------------------------------Doctor----------------------------------
+  //collection reference
+  final CollectionReference doctorCollection =
+      FirebaseFirestore.instance.collection('Doctor');
+
+  //get specific Doctor document stream
+  Stream<DoctorModel> get doctorData {
+    return doctorCollection
+        .doc(doctorId)
+        .snapshots()
+        .map(_createDoctorModelObject);
+  }
+
+  //create a Doctor model object
+  DoctorModel _createDoctorModelObject(DocumentSnapshot snapshot) {
+    return DoctorModel(
+      doctorId: snapshot.id,
+      doctorFullName: snapshot['doctorFullName'],
+      doctorPhoneNumber: snapshot['doctorPhoneNumber'],
+    );
+  }
+
+  //create Doctor data
+  Future<void> createDoctorData(
+    String doctorId,
+    String doctorFullName,
+    String doctorPhoneNumber) async {
+    return await doctorCollection.doc(doctorId).set({
+      'doctorFullName': doctorFullName,
+      'doctorPhoneNumber': doctorPhoneNumber,
     });
   }
 }

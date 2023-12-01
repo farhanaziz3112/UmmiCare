@@ -19,7 +19,6 @@ class _EditPhysicalState extends State<EditPhysical> {
   final _formKey = GlobalKey<FormState>();
 
   String _currentHeight = '';
-  String _healthStatusId ='';
   String _currentWeight = '';
 
   @override
@@ -102,7 +101,7 @@ class _EditPhysicalState extends State<EditPhysical> {
                   if (_formKey.currentState!.validate()){
                     await HealthDatabaseService(childId: healthData![0].childId)
                       .updateHealthData(
-                            healthData![0].healthId,
+                            healthData[0].healthId,
                             healthData[0].childId,
                             healthData[0].healthStatusId,
                             _currentHeight,

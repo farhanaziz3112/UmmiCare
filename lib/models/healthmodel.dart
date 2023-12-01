@@ -47,31 +47,31 @@ class HealthConditionModel {
 }
 
 class PhysicalConditionModel {
-  final String physicalConditionModel;
+  final String physicalConditionId;
   late final String currentInjury;
   late final String details;
 
   PhysicalConditionModel({
-    required this.physicalConditionModel,
+    required this.physicalConditionId,
     required this.currentInjury,
     required this.details,
   });
 }
 
 class ChronicConditionModel {
-  final String chronicConditionModel;
+  final String chronicConditionId;
   late final String childAllergies;
   late final String childChronic;
 
   ChronicConditionModel({
-    required this.chronicConditionModel,
+    required this.chronicConditionId,
     required this.childAllergies,
     required this.childChronic,
   });
 }
 
 class VaccincationAppointmentModel {
-  final String vaccincationAppointmentModel;
+  final String vaccincationAppointmentId;
   late final String vaccineType;
   late final String vaccineTime;
   late final String clinicId;
@@ -79,7 +79,7 @@ class VaccincationAppointmentModel {
   late final String healthId;
 
   VaccincationAppointmentModel({
-    required this.vaccincationAppointmentModel,
+    required this.vaccincationAppointmentId,
     required this.vaccineType,
     required this.vaccineTime,
     required this.clinicId,
