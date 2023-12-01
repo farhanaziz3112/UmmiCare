@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class educationInfoSelection extends StatefulWidget {
   const educationInfoSelection({super.key, required this.childId});
@@ -15,7 +14,7 @@ class _educationInfoSelectionState extends State<educationInfoSelection> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             "Education Information",
             style: TextStyle(
               color: Colors.black,
@@ -23,32 +22,32 @@ class _educationInfoSelectionState extends State<educationInfoSelection> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: const IconThemeData(color: Colors.black),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         ),
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
+            padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
             alignment: Alignment.center,
             child: Column(
               children: <Widget>[
                 Container(
                   width: double.infinity,
                   alignment: Alignment.centerLeft,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Color(0xff71CBCA),
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   child: Container(
-                    padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 10.0),
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 10.0),
                     child: Row(
                       children: <Widget>[
-                        Icon(
+                        const Icon(
                           Icons.school,
                           size: 30.0,
                           color: Colors.black,
                         ),
-                        Text(
+                        const Text(
                           ' Current School Information',
                           style: TextStyle(fontSize: 17.0, color: Colors.black),
                         ),
@@ -58,7 +57,7 @@ class _educationInfoSelectionState extends State<educationInfoSelection> {
                             child: IconButton(
                               icon: Transform.scale(
                                 scaleX: -1,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.arrow_back,
                                   size: 25.0,
                                   color: Colors.white,
@@ -72,25 +71,25 @@ class _educationInfoSelectionState extends State<educationInfoSelection> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
                 Container(
                   width: double.infinity,
                   alignment: Alignment.centerLeft,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Color(0xffF29180),
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   child: Container(
-                    padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 10.0),
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 10.0),
                     child: Row(
                       children: <Widget>[
-                        Icon(
+                        const Icon(
                           Icons.calendar_month,
                           size: 30.0,
                           color: Colors.black,
                         ),
-                        Text(
+                        const Text(
                           ' Update Study Calendar',
                           style: TextStyle(fontSize: 17.0, color: Colors.black),
                         ),
@@ -100,7 +99,7 @@ class _educationInfoSelectionState extends State<educationInfoSelection> {
                             child: IconButton(
                               icon: Transform.scale(
                                 scaleX: -1,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.arrow_back,
                                   size: 25.0,
                                   color: Colors.white,
@@ -114,25 +113,25 @@ class _educationInfoSelectionState extends State<educationInfoSelection> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
                 Container(
                   width: double.infinity,
                   alignment: Alignment.centerLeft,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Color(0xff8290F0),
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   child: Container(
-                    padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 10.0),
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 10.0),
                     child: Row(
                       children: <Widget>[
-                        Icon(
+                        const Icon(
                           Icons.list,
                           size: 30.0,
                           color: Colors.black,
                         ),
-                        Text(
+                        const Text(
                           ' View Previous Education Record',
                           style: TextStyle(fontSize: 17.0, color: Colors.black),
                         ),
@@ -142,7 +141,7 @@ class _educationInfoSelectionState extends State<educationInfoSelection> {
                             child: IconButton(
                               icon: Transform.scale(
                                 scaleX: -1,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.arrow_back,
                                   size: 25.0,
                                   color: Colors.white,

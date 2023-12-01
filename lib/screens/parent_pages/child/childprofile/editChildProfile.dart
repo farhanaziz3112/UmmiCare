@@ -22,7 +22,6 @@ class _editChildProfileState extends State<editChildProfile> {
   String _currentChildName = "";
   String _currentChildFirstName = "";
   String _currentChildLastName = "";
-  DateTime _currentChildBirthday = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class _editChildProfileState extends State<editChildProfile> {
           childModel? child = snapshot.data;
           return Scaffold(
             appBar: AppBar(
-              title: Text(
+              title: const Text(
                 'Edit Child Profile',
                 style: TextStyle(
                   color: Colors.black,
@@ -42,15 +41,15 @@ class _editChildProfileState extends State<editChildProfile> {
               ),
               elevation: 3,
               centerTitle: true,
-              iconTheme: IconThemeData(color: Colors.black),
-              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              iconTheme: const IconThemeData(color: Colors.black),
+              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
             ),
             resizeToAvoidBottomInset: false,
             body: Padding(
               padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
               child: SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -80,22 +79,22 @@ class _editChildProfileState extends State<editChildProfile> {
                                   _storageService.uploadChildProfilePic(
                                       child, file);
                                 },
-                                constraints: BoxConstraints.tight(Size(30, 30)),
+                                constraints: BoxConstraints.tight(const Size(30, 30)),
                                 elevation: 2.0,
-                                fillColor: Color.fromARGB(255, 216, 216, 216),
-                                child: Icon(Icons.edit, color: Colors.black),
-                                padding: EdgeInsets.all(0.0),
-                                shape: CircleBorder(),
+                                fillColor: const Color.fromARGB(255, 216, 216, 216),
+                                child: const Icon(Icons.edit, color: Colors.black),
+                                padding: const EdgeInsets.all(0.0),
+                                shape: const CircleBorder(),
                               ),
                             )
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20.0,
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 20.0),
+                          padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
                             'Username',
                             textAlign: TextAlign.left,
@@ -105,7 +104,7 @@ class _editChildProfileState extends State<editChildProfile> {
                                 color: Colors.grey[500]),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5.0,
                         ),
                         TextFormField(
@@ -119,12 +118,12 @@ class _editChildProfileState extends State<editChildProfile> {
                           onChanged: (value) =>
                               setState(() => _currentChildName = value),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 20.0),
+                          padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
                             'First Name',
                             textAlign: TextAlign.left,
@@ -135,7 +134,7 @@ class _editChildProfileState extends State<editChildProfile> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5.0,
                         ),
                         TextFormField(
@@ -148,12 +147,12 @@ class _editChildProfileState extends State<editChildProfile> {
                           onChanged: (value) =>
                               setState(() => _currentChildFirstName = value),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 20.0),
+                          padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
                             'Last Name',
                             textAlign: TextAlign.left,
@@ -164,7 +163,7 @@ class _editChildProfileState extends State<editChildProfile> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5.0,
                         ),
                         TextFormField(
@@ -177,17 +176,17 @@ class _editChildProfileState extends State<editChildProfile> {
                           onChanged: (value) =>
                               setState(() => _currentChildLastName = value),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xff8290F0),
+                              backgroundColor: const Color(0xff8290F0),
                               shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5)
                             ),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Update Child Details',
                             style: TextStyle(color: Colors.white),
                           ),

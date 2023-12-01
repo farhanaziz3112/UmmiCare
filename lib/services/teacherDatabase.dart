@@ -30,6 +30,7 @@ class teacherDatabase {
       teacherEmail: snapshot['teacherEmail'],
       teacherPhoneNumber: snapshot['teacherPhoneNumber'],
       teacherProfileImg: snapshot['teacherProfileImg'],
+      schoolId: snapshot['schoolId'],
     );
   }
 
@@ -44,7 +45,8 @@ class teacherDatabase {
           teacherLastName: doc.data().toString().contains('teacherLastName') ? doc.get('teacherLastName') : '',
           teacherEmail: doc.data().toString().contains('teacherEmail') ? doc.get('teacherEmail') : '',
           teacherPhoneNumber: doc.data().toString().contains('teacherPhoneNumber') ? doc.get('teacherPhoneNumber') : '',
-          teacherProfileImg: doc.data().toString().contains('teacherProfileImg') ? doc.get('teacherProfileImg') : '');
+          teacherProfileImg: doc.data().toString().contains('teacherProfileImg') ? doc.get('teacherProfileImg') : '',
+          schoolId: doc.data().toString().contains('schoolId') ? doc.get('schoolId') : '');
     }).toList();
   }
 
@@ -81,7 +83,8 @@ class teacherDatabase {
       String teacherLastName,
       String teacherEmail,
       String teacherPhoneNumber,
-      String teacherProfileImg,) async {
+      String teacherProfileImg,
+      String schoolId) async {
     return await teacherCollection.doc(teacherId).set({
       'teacherId': teacherId,
       'teacherCreatedDate': teacherCreatedDate,
@@ -91,8 +94,28 @@ class teacherDatabase {
       'teacherEmail': teacherEmail,
       'teacherPhoneNumber': teacherPhoneNumber,
       'teacherProfileImg': teacherProfileImg,
+      'schoolId': schoolId,
     });
   }
+
+  Stream<List<teacherClassModel>> getTeacherClassList(String teacherId) {
+    return teacherCollection.doc(teacherId).collection('Class').snapshots().map(_createTeacherClassModelList);
+  } 
+
+  List<teacherClassModel> _createTeacherClassModelList(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return teacherClassModel(
+        classId: doc.data().toString().contains('classId') ? doc.get('classId') : '',
+        teacherId: doc.data().toString().contains('teacherId') ? doc.get('teacherId') : '',
+      );
+    }).toList();
+  }
   
+  addClass(String classId, String teacherId) {
+    teacherCollection.doc(teacherId).collection('Class').doc(classId).set({
+      'classId': classId,
+      'teacherId': teacherId
+    });
+  }
 
 }

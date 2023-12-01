@@ -8,6 +8,34 @@ String convertTimeToDate(String timeInMilliseconds) {
       date.year.toString();
 }
 
+String convertTimeToDateWithStringMonth(String timeInMilliseconds) {
+  int temp = int.parse(timeInMilliseconds);
+  DateTime date = DateTime.fromMillisecondsSinceEpoch(temp);
+  return date.day.toString() +
+      " " +
+      monthToString(date.month) +
+      " " +
+      date.year.toString();
+}
+
+String monthToString(int month) {
+  List<String> months = [
+    'Jan',
+    'Feb',
+    'Mac',
+    'Apr',
+    'May',
+    'June',
+    'July',
+    'Aug',
+    'Sept',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+  return months.elementAt(month-1);
+}
+
 int getAge(String timeInMilliseconds) {
   int temp = int.parse(timeInMilliseconds);
   DateTime birthDate = DateTime.fromMillisecondsSinceEpoch(temp);

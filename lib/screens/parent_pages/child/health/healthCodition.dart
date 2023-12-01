@@ -1,13 +1,5 @@
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
-import 'package:ummicare/models/healthmodel.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:ummicare/screens/parent_pages/child/education/educationMain.dart';
-import 'package:ummicare/screens/parent_pages/child/health/healthAppointment.dart';
-import 'package:ummicare/screens/parent_pages/child/health/healthStatus.dart';
-import 'package:ummicare/screens/parent_pages/child/health/editPhysical.dart';
-import 'package:ummicare/screens/parent_pages/child/health/addNewHealthStatusData.dart';
 import 'package:ummicare/shared/constant.dart';
 import 'package:ummicare/services/healthDatabase.dart';
 
@@ -35,7 +27,7 @@ class _healthCondition extends State<healthCondition> {
     return Scaffold(
       appBar: AppBar(
 
-        title: Text(
+        title: const Text(
           "Edit Health Condition",
           style: TextStyle(
             color: Colors.black,
@@ -43,24 +35,24 @@ class _healthCondition extends State<healthCondition> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
           child: Form(
             key: _formKey,
             child: Column(
               children: <Widget>[
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
                     'Symptom',
                     textAlign: TextAlign.left,
@@ -71,7 +63,7 @@ class _healthCondition extends State<healthCondition> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
                 TextFormField(
@@ -82,12 +74,12 @@ class _healthCondition extends State<healthCondition> {
                   onChanged: (value) =>
                       setState(() => _currentSymptom = value),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30.0,
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
                     'Current Temperature',
                     textAlign: TextAlign.left,
@@ -98,7 +90,7 @@ class _healthCondition extends State<healthCondition> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
                 TextFormField(
@@ -109,12 +101,12 @@ class _healthCondition extends State<healthCondition> {
                   onChanged: (value) =>
                       setState(() => _currentTemperature = value),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30.0,
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
                     'Current Heart Rate',
                     textAlign: TextAlign.left,
@@ -125,7 +117,7 @@ class _healthCondition extends State<healthCondition> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
                 TextFormField(
@@ -136,12 +128,12 @@ class _healthCondition extends State<healthCondition> {
                   onChanged: (value) =>
                       setState(() => _currentHeartRate = value),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30.0,
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
                     'Current Illness',
                     textAlign: TextAlign.left,
@@ -152,7 +144,7 @@ class _healthCondition extends State<healthCondition> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
                 TextFormField(
@@ -163,14 +155,14 @@ class _healthCondition extends State<healthCondition> {
                   onChanged: (value) =>
                       setState(() => _currentIllness = value),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                 ),
-                child: Text(
+                child: const Text(
                   'Submit',
                   style: TextStyle(color: Colors.black),
                 ),

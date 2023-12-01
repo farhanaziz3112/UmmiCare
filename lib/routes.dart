@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ummicare/screens/parent_pages/child/childprofile/childProfile.dart';
 import 'package:ummicare/screens/parent_pages/child/childprofile/childStory.dart';
 import 'package:ummicare/screens/parent_pages/child/childprofile/addNewChildStory.dart';
 import 'package:ummicare/screens/parent_pages/child/advisory/advisoryMain.dart';
@@ -6,6 +7,7 @@ import 'package:ummicare/screens/parent_pages/child/advisory/advisorProfile.dart
 import 'package:ummicare/screens/parent_pages/child/education/academicCalendar.dart';
 import 'package:ummicare/screens/parent_pages/child/education/addNewExamResult.dart';
 import 'package:ummicare/screens/parent_pages/child/education/addNewSchoolFee.dart';
+import 'package:ummicare/screens/parent_pages/child/education/educationMain.dart';
 import 'package:ummicare/screens/parent_pages/child/health/addNewVaccineAppointment.dart';
 import 'package:ummicare/screens/parent_pages/child/health/editChildHealth.dart';
 import 'package:ummicare/screens/auth/wrapper.dart';
@@ -16,14 +18,14 @@ import 'package:ummicare/screens/auth/wrapper.dart';
 
 Map<String, WidgetBuilder> routes = {
   '/': (context) => Wrapper(),
-  //'/parent/child/childprofile': (context) => childProfile(),
+  //'/parent/child/childprofile': (context) => childProfile(child: null,),
   //'/parent/child/childprofile/editchildprofile': (context) => editChildProfile(),
   '/parent/child/childprofile/childstory': (context) => childStory(),
   '/parent/child/childprofile/addnewchildstory': (context) => addNewChildStory(),
   //'/parent/child/registerchild': (context) => registerChild(),
   '/parent/child/advisory': (context) => advisoryMain(),
   '/parent/child/advisory/advisorprofile': (context) => advisorProfile(),
-  //'/parent/child/childprofile/education': (context) => educationMain(),
+  '/parent/child/childprofile/education': (context) => educationMain(studentId: '',childId: ''),
   '/parent/child/childprofile/education/academiccalendar': (context) => academicCalendar(),
   '/parent/child/childprofile/education/addnewexamresult': (context) => addNewExamResult(),
   '/parent/child/childprofile/education/addnewschoolfee': (context) => addNewSchoolFee(),

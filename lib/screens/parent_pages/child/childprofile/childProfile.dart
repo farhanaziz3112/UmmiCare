@@ -1,19 +1,25 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ummicare/models/academicCalendarModel.dart';
 import 'package:ummicare/models/childModel.dart';
-import 'package:ummicare/models/educationmodel.dart';
 import 'package:ummicare/models/healthmodel.dart';
+import 'package:ummicare/models/schoolModel.dart';
+import 'package:ummicare/models/studentModel.dart';
+import 'package:ummicare/models/teacherModel.dart';
 import 'package:ummicare/screens/parent_pages/child/childprofile/editChildProfile.dart';
-import 'package:ummicare/screens/parent_pages/child/education/addNewEduCalendar.dart';
 import 'package:ummicare/screens/parent_pages/child/education/educationMain.dart';
+import 'package:ummicare/screens/parent_pages/child/education/registerNewEducationPages.dart/addSchool.dart';
 import 'package:ummicare/screens/parent_pages/child/health/addNewHealthData.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthMain.dart';
+import 'package:ummicare/services/academicCalendarDatabase.dart';
 import 'package:ummicare/services/childDatabase.dart';
 import 'package:ummicare/services/healthDatabase.dart';
+import 'package:ummicare/services/schoolDatabase.dart';
+import 'package:ummicare/services/studentDatabase.dart';
+import 'package:ummicare/services/teacherDatabase.dart';
 import 'package:ummicare/shared/function.dart';
-
-import '../../../../services/eduDatabase.dart';
+import 'package:ummicare/shared/loading.dart';
 
 class childProfile extends StatefulWidget {
   const childProfile({super.key, required this.child});
@@ -27,8 +33,7 @@ class _childProfileState extends State<childProfile> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<childModel>(
-        stream: childDatabase(childId: widget.child.childId)
-            .childData,
+        stream: childDatabase(childId: widget.child.childId).childData,
         builder: (context, snapshot) {
           childModel? child = snapshot.data;
           return Scaffold(
@@ -121,21 +126,39 @@ class _childProfileState extends State<childProfile> {
                             const SizedBox(
                               height: 5.0,
                             ),
-                            Text(
-                              'First Name: ${child.childFirstname}',
+                            const Text(
+                              'First Name',
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              'Last Name: ${child.childLastname}',
+                              child.childFirstname
                             ),
-                            Text(
-                              'Birthday: ${convertTimeToDate(child.childBirthday)}',
+                            const SizedBox(height: 5,),
+                            const Text(
+                              'Last Name',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold
+                              ),
                             ),
-                            Text(
-                              'Current Age: ${getAge(child.childBirthday)}',
+                            Text(child.childLastname),
+                            const SizedBox(height: 5),
+                            const Text(
+                              'Birthday',
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text(
-                              'Age Category: ${child.childAgeCategory}',
+                            Text(convertTimeToDate(child.childBirthday)),
+                            const SizedBox(height: 5,),
+                            const Text(
+                              'Current Age',
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
+                            Text(getAge(child.childBirthday).toString()),
+                            const SizedBox(height: 5,),
+                            const Text(
+                              'Age Category',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(child.childAgeCategory)
                           ],
                         ),
                       ),
@@ -143,10 +166,317 @@ class _childProfileState extends State<childProfile> {
                     const SizedBox(
                       height: 15.0,
                     ),
-                    StreamBuilder<List<EducationModel>>(
+                    child.educationId == ''
+                        ? Container(
+                            width: double.infinity,
+                            alignment: Alignment.centerLeft,
+                            decoration: const BoxDecoration(
+                                color: Color(0xffF29180),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0))),
+                            child: Container(
+                              padding: const EdgeInsets.fromLTRB(
+                                  20.0, 10.0, 10.0, 20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  const Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.school,
+                                        size: 30.0,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        ' Education',
+                                        style: TextStyle(
+                                            fontSize: 20.0,
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "*Your child currently does not have Education Module. Please register by clicking the button below.",
+                                          style: TextStyle(
+                                              color: Colors.grey[800],
+                                              fontSize: 13.0),
+                                        ),
+                                        const SizedBox(height: 3),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                          ),
+                                          onPressed: () async {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        addSchool(
+                                                          childId: widget
+                                                              .child.childId,
+                                                        )));
+                                          },
+                                          child: const Text(
+                                            'Register Education Module',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        : StreamBuilder<studentModel>(
+                            stream: studentDatabase()
+                                .studentData(child.educationId),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Container(
+                                  width: double.infinity,
+                                  alignment: Alignment.centerLeft,
+                                  decoration: const BoxDecoration(
+                                      color: Color(0xffF29180),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  child: Container(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20.0, 10.0, 10.0, 20.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        const Row(
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.school,
+                                              size: 30.0,
+                                              color: Colors.white,
+                                            ),
+                                            Text(
+                                              ' Education',
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5.0,
+                                        ),
+                                        Container(
+                                            alignment: Alignment.center,
+                                            child: const SpinKitPulse(
+                                              color: Colors.black,
+                                              size: 20.0,
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                if (snapshot.hasData) {
+                                  studentModel? student = snapshot.data;
+                                  return StreamBuilder<academicCalendarModel>(
+                                      stream: academicCalendarDatabase()
+                                          .academicCalendarData(
+                                              student!.academicCalendarId),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          academicCalendarModel?
+                                              academicCalendar = snapshot.data;
+                                          return Container(
+                                            width: double.infinity,
+                                            alignment: Alignment.centerLeft,
+                                            decoration: const BoxDecoration(
+                                                color: Color(0xffF29180),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10.0))),
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      20.0, 10.0, 10.0, 20.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Row(
+                                                    children: <Widget>[
+                                                      const Icon(
+                                                        Icons.school,
+                                                        size: 30.0,
+                                                        color: Colors.white,
+                                                      ),
+                                                      const Text(
+                                                        ' Education',
+                                                        style: TextStyle(
+                                                            fontSize: 20.0,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                      Flexible(
+                                                        child: Container(
+                                                          alignment: Alignment
+                                                              .centerRight,
+                                                          child: IconButton(
+                                                            icon:
+                                                                Transform.scale(
+                                                              scaleX: -1,
+                                                              child: const Icon(
+                                                                Icons
+                                                                    .arrow_back,
+                                                                size: 25.0,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            educationMain(
+                                                                      studentId:
+                                                                          child
+                                                                              .educationId,
+                                                                      childId: child
+                                                                          .childId,
+                                                                    ),
+                                                                  ));
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5.0,
+                                                  ),
+                                                  StreamBuilder<schoolModel>(
+                                                      stream: schoolDatabase()
+                                                          .schoolData(
+                                                              student.schoolId),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot.hasData) {
+                                                          return Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              const Text(
+                                                                'School',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                              Text(snapshot
+                                                                  .data!
+                                                                  .schoolName),
+                                                            ],
+                                                          );
+                                                        } else {
+                                                          return Container();
+                                                        }
+                                                      }),
+                                                  const SizedBox(
+                                                    height: 5.0,
+                                                  ),
+                                                  StreamBuilder<classModel>(
+                                                      stream: schoolDatabase()
+                                                          .classData(
+                                                              student.classId),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot.hasData) {
+                                                          return Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              const Text(
+                                                                'Class',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                              Text(
+                                                                  '${snapshot.data!.classYear} - ${snapshot.data!.className}'),
+                                                            ],
+                                                          );
+                                                        } else {
+                                                          return Container();
+                                                        }
+                                                      }),
+                                                  const SizedBox(
+                                                    height: 5.0,
+                                                  ),
+                                                  StreamBuilder<teacherModel>(
+                                                      stream: teacherDatabase(
+                                                              teacherId:
+                                                                  academicCalendar!
+                                                                      .teacherId)
+                                                          .teacherData,
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot.hasData) {
+                                                          return Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              const Text(
+                                                                'Teacher',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                              Text(snapshot
+                                                                  .data!
+                                                                  .teacherFullName)
+                                                            ],
+                                                          );
+                                                        } else {
+                                                          return Container();
+                                                        }
+                                                      })
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          return const Loading();
+                                        }
+                                      });
+                                } else {
+                                  return const Loading();
+                                }
+                              }
+                            }),
+                    const SizedBox(
+                      height: 15.0,
+                    ),
+                    StreamBuilder<List<HealthModel>>(
                         stream:
-                            EduDatabaseService(childId: widget.child.childId)
-                                .educationData,
+                            HealthDatabaseService(childId: widget.child.childId)
+                                .healthData,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -154,7 +484,7 @@ class _childProfileState extends State<childProfile> {
                               width: double.infinity,
                               alignment: Alignment.centerLeft,
                               decoration: const BoxDecoration(
-                                  color: Color(0xffF29180),
+                                  color: Color(0xff8290F0),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10.0))),
                               child: Container(
@@ -166,12 +496,12 @@ class _childProfileState extends State<childProfile> {
                                     const Row(
                                       children: <Widget>[
                                         Icon(
-                                          Icons.school,
+                                          Icons.health_and_safety,
                                           size: 30.0,
                                           color: Colors.white,
                                         ),
                                         Text(
-                                          ' Education',
+                                          ' Health',
                                           style: TextStyle(
                                               fontSize: 20.0,
                                               color: Colors.white),
@@ -192,16 +522,16 @@ class _childProfileState extends State<childProfile> {
                               ),
                             );
                           } else {
-                            List<EducationModel> educationModelData = [];
+                            List<HealthModel> healthModelData = [];
                             if (snapshot.hasData) {
-                              educationModelData = snapshot.data!;
+                              healthModelData = snapshot.data!;
                             }
-                            if (educationModelData.isEmpty) {
+                            if (healthModelData.isEmpty) {
                               return Container(
                                 width: double.infinity,
                                 alignment: Alignment.centerLeft,
                                 decoration: const BoxDecoration(
-                                    color: Color(0xffF29180),
+                                    color: Color(0xff8290F0),
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(10.0))),
                                 child: Container(
@@ -214,12 +544,12 @@ class _childProfileState extends State<childProfile> {
                                       const Row(
                                         children: <Widget>[
                                           Icon(
-                                            Icons.school,
+                                            Icons.health_and_safety,
                                             size: 30.0,
                                             color: Colors.white,
                                           ),
                                           Text(
-                                            ' Education',
+                                            ' Health',
                                             style: TextStyle(
                                                 fontSize: 20.0,
                                                 color: Colors.white),
@@ -234,32 +564,27 @@ class _childProfileState extends State<childProfile> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              "*Your child currently does not have Education Module. Please register by clicking the button below.",
+                                              "*Your child currently does not have Health Module. Please register by clicking the button below.",
                                               style: TextStyle(
                                                   color: Colors.grey[800],
                                                   fontSize: 13.0),
                                             ),
-                                            const SizedBox(height: 3),
                                             ElevatedButton(
                                               style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5)),
-                                              ),
+                                                  backgroundColor:
+                                                      Colors.white),
                                               onPressed: () async {
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            addNewEduCalendar(
+                                                            addNewHealthData(
                                                                 childId: widget
                                                                     .child
                                                                     .childId)));
                                               },
                                               child: const Text(
-                                                'Register Education Module',
+                                                'Register Health Module',
                                                 style: TextStyle(
                                                     color: Colors.black),
                                               ),
@@ -276,7 +601,7 @@ class _childProfileState extends State<childProfile> {
                                 width: double.infinity,
                                 alignment: Alignment.centerLeft,
                                 decoration: const BoxDecoration(
-                                    color: Color(0xffF29180),
+                                    color: Color(0xff8290F0),
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(10.0))),
                                 child: Container(
@@ -289,12 +614,12 @@ class _childProfileState extends State<childProfile> {
                                       Row(
                                         children: <Widget>[
                                           const Icon(
-                                            Icons.school,
+                                            Icons.health_and_safety,
                                             size: 30.0,
                                             color: Colors.white,
                                           ),
                                           const Text(
-                                            ' Education',
+                                            ' Health',
                                             style: TextStyle(
                                                 fontSize: 20.0,
                                                 color: Colors.white),
@@ -316,9 +641,16 @@ class _childProfileState extends State<childProfile> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                            educationMain(
-                                                                childId: child
-                                                                    .childId),
+                                                            healthMain(
+                                                          childId:
+                                                              child.childId,
+                                                          healthId:
+                                                              healthModelData[0]
+                                                                  .currentHeight,
+                                                          healthStatusId:
+                                                              healthModelData[0]
+                                                                  .healthStatusId,
+                                                        ),
                                                       ));
                                                 },
                                               ),
@@ -329,10 +661,10 @@ class _childProfileState extends State<childProfile> {
                                       const SizedBox(
                                         height: 5.0,
                                       ),
-                                      Text(
-                                          'Current Year: ${educationModelData[0].currentYear}'),
-                                      Text(
-                                          'Status: ${educationModelData[0].status}')
+                                      Text('Current Height:'
+                                          '${healthModelData[0].currentHeight}'),
+                                      Text('Current Weight:'
+                                          '${healthModelData[0].currentWeight}')
                                     ],
                                   ),
                                 ),
@@ -340,198 +672,6 @@ class _childProfileState extends State<childProfile> {
                             }
                           }
                         }),
-                    const SizedBox(
-                      height: 15.0,
-                    ),
-                    StreamBuilder<List<HealthModel>>(
-                      stream: HealthDatabaseService(childId: widget.child.childId).healthData,
-                      builder: (context, snapshot) {
-                        if(snapshot.connectionState == ConnectionState.waiting){
-                          return Container(
-                            width: double.infinity,
-                            alignment: Alignment.centerLeft,
-                            decoration: const BoxDecoration(
-                                color: Color(0xff8290F0),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0))),
-                            child: Container(
-                              padding: const EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  const Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.health_and_safety,
-                                        size: 30.0,
-                                        color: Colors.white,
-                                      ),
-                                      Text(
-                                        ' Health',
-                                        style: TextStyle(
-                                            fontSize: 20.0, color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5.0,
-                                  ),
-                                  Container(
-                                      alignment: Alignment.center,
-                                      child: const SpinKitPulse(
-                                        color: Colors.black,
-                                        size: 20.0,
-                                      )
-                                    )
-
-                                ],
-                              ),
-                            ),
-                          );
-                        }else {
-                        List<HealthModel> healthModelData = [];
-                        if (snapshot.hasData) {
-                          healthModelData = snapshot.data!;
-                        }
-                        if (healthModelData.isEmpty) {
-                          return Container(
-                            width: double.infinity,
-                            alignment: Alignment.centerLeft,
-                            decoration: const BoxDecoration(
-                                color: Color(0xff8290F0),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0))),
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  const Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.health_and_safety,
-                                        size: 30.0,
-                                        color: Colors.white,
-                                      ),
-                                      Text(
-                                        ' Health',
-                                        style: TextStyle(
-                                            fontSize: 20.0,
-                                            color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5.0,
-                                  ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "*Your child currently does not have Health Module. Please register by clicking the button below.",
-                                          style: TextStyle(
-                                              color: Colors.grey[800],
-                                              fontSize: 13.0),
-                                        ),
-                                        ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.white),
-                                          onPressed: () async {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        addNewHealthData(
-                                                            childId: widget.child.childId)));
-                                          },
-                                          child: const Text(
-                                            'Register Health Module',
-                                            style: TextStyle(
-                                                color: Colors.black),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        }else {
-                          return Container(
-                            width: double.infinity,
-                            alignment: Alignment.centerLeft,
-                            decoration: const BoxDecoration(
-                                color: Color(0xff8290F0),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0))),
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      const Icon(
-                                        Icons.health_and_safety,
-                                        size: 30.0,
-                                        color: Colors.white,
-                                      ),
-                                      const Text(
-                                        ' Health',
-                                        style: TextStyle(
-                                            fontSize: 20.0,
-                                            color: Colors.white),
-                                      ),
-                                      Flexible(
-                                        child: Container(
-                                          alignment: Alignment.centerRight,
-                                          child: IconButton(
-                                            icon: Transform.scale(
-                                              scaleX: -1,
-                                              child: const Icon(
-                                                Icons.arrow_back,
-                                                size: 25.0,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        healthMain(
-                                                            childId: child.childId,
-                                                            healthId: healthModelData[0].currentHeight,
-                                                            healthStatusId: healthModelData[0].healthStatusId,),
-                                                  ));
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5.0,
-                                  ),
-                                  Text(
-                                    'Current Height:' '${healthModelData[0].currentHeight}'
-                                  ),
-                                  Text(
-                                    'Current Weight:' '${healthModelData[0].currentWeight}'
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-
-                        }
-                        }
-                      }
-                    ),
                     // ),
                     // TextButton(
                     //   style: TextButton.styleFrom(primary: Colors.blue),

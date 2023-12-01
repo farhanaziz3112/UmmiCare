@@ -1,9 +1,6 @@
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/healthmodel.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:ummicare/screens/parent_pages/child/education/educationMain.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthAppointment.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthStatus.dart';
 import 'package:ummicare/screens/parent_pages/child/health/editPhysical.dart';
@@ -31,7 +28,7 @@ class _healthMainState extends State<healthMain> {
         context: context,
         builder: (context) {
           return Container(
-            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
             child: EditPhysical(childId: widget.childId, healthId: widget.healthId, healthStatusId: widget.healthStatusId,),
           );
         });
@@ -58,15 +55,15 @@ class _healthMainState extends State<healthMain> {
             backgroundColor: const Color(0xffe1eef5),
             actions: <Widget>[
               TextButton.icon(
-                icon: Icon(Icons.person),
-                label: Text('EditHealth'),
+                icon: const Icon(Icons.person),
+                label: const Text('EditHealth'),
                 onPressed: () => _editPhysical(),
               )
             ],
           ),
           body: SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
+              padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
                 alignment: Alignment.center,
               child: Column(
                 children: <Widget>[
@@ -76,10 +73,10 @@ class _healthMainState extends State<healthMain> {
                     decoration: BoxDecoration(
                         color: Colors.grey[200],
                         borderRadius:
-                            BorderRadius.all(Radius.circular(10.0))),
+                            const BorderRadius.all(Radius.circular(10.0))),
                     child: Container(
-                      padding: EdgeInsets.all(20.0),
-                      child: Column(
+                      padding: const EdgeInsets.all(20.0),
+                      child: const Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text("graph"),
@@ -90,7 +87,7 @@ class _healthMainState extends State<healthMain> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10.0,
                   ),
                   Container(
@@ -101,16 +98,16 @@ class _healthMainState extends State<healthMain> {
                         Container(
                           width: 150,
                           alignment: Alignment.centerLeft,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: Color(0xffF29180),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10.0))),
                           child: Container(
-                            padding: EdgeInsets.fromLTRB(5, 20, 0, 20),
+                            padding: const EdgeInsets.fromLTRB(5, 20, 0, 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Row(
+                                const Row(
                                   children: <Widget>[
                                     Icon(
                                       Icons.height,
@@ -124,7 +121,7 @@ class _healthMainState extends State<healthMain> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5.0,
                                 ),
                                 Text(
@@ -137,16 +134,16 @@ class _healthMainState extends State<healthMain> {
                         Container(
                           width: 150,
                           alignment: Alignment.centerLeft,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: Color(0xff8290F0),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10.0))),
                           child: Container(
-                            padding: EdgeInsets.fromLTRB(5, 20, 0, 20),
+                            padding: const EdgeInsets.fromLTRB(5, 20, 0, 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Row(
+                                const Row(
                                   children: <Widget>[
                                     Icon(
                                       Icons.monitor_weight,
@@ -160,7 +157,7 @@ class _healthMainState extends State<healthMain> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5.0,
                                 ),
                                 Text(
@@ -173,29 +170,29 @@ class _healthMainState extends State<healthMain> {
                       ]
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10.0,
                   ),
                    Container(
                     width: double.infinity,
                     alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Color(0xff71CBCA),
                         borderRadius:
                             BorderRadius.all(Radius.circular(10.0))),
                     child: Container(
-                      padding: EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Icon(
+                              const Icon(
                                 Icons.health_and_safety,
                                 size: 30.0,
                                 color: Colors.white,
                               ),
-                              Text(
+                              const Text(
                                 ' Health Status',
                                 style: TextStyle(
                                     fontSize: 20.0, color: Colors.white),
@@ -204,7 +201,7 @@ class _healthMainState extends State<healthMain> {
                                 child: Container(
                                   alignment: Alignment.centerRight,
                                   child: IconButton(
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.edit,
                                       size: 25.0,
                                       color: Colors.white,
@@ -236,39 +233,39 @@ class _healthMainState extends State<healthMain> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5.0,
                           ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10.0,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10.0,
                   ),
                   Container(
                     width: double.infinity,
                     alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Color(0xffF29180),
                         borderRadius:
                             BorderRadius.all(Radius.circular(10.0))),
                     child: Container(
-                      padding: EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Icon(
+                              const Icon(
                                 Icons.vaccines,
                                 size: 30.0,
                                 color: Colors.white,
                               ),
-                              Text(
+                              const Text(
                                 ' Health Appointment',
                                 style: TextStyle(
                                     fontSize: 20.0, color: Colors.white),
@@ -277,7 +274,7 @@ class _healthMainState extends State<healthMain> {
                                 child: Container(
                                   alignment: Alignment.centerRight,
                                   child: IconButton(
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.edit,
                                       size: 25.0,
                                       color: Colors.white,
@@ -296,7 +293,7 @@ class _healthMainState extends State<healthMain> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5.0,
                           ),
                         ],

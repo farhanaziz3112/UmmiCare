@@ -57,8 +57,18 @@ class advisorDatabase {
     advisorCollection.doc(advisor.advisorId).collection('Parent').doc(parentId).set(parent);
   }
 
-  Stream<List<parentModel>> getParents(String docId) {
-    return advisorCollection.doc(docId).collection('Parent').snapshots().map(_createParentModelList);
+   Stream<List<parentAdvisorModel>> getParentList(String docId) {
+    return advisorCollection.doc(docId).collection('Parent').snapshots().map(_createParentAdvisorModelList);
+  }
+
+  //create a list of user model object
+  List<parentAdvisorModel> _createParentAdvisorModelList(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return parentAdvisorModel(
+        parentId: doc.data().toString().contains('parentId') ? doc.get('parentId') : '',
+        assignedDate: doc.data().toString().contains('assignedDate') ? doc.get('assignedDate') : '',
+      );
+    }).toList();
   }
 
   //create a list of user model object

@@ -3,10 +3,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ummicare/models/advisorModel.dart';
 import 'package:ummicare/models/childModel.dart';
+import 'package:ummicare/models/feeModel.dart';
 import 'package:ummicare/models/parentModel.dart';
 import 'package:ummicare/models/staffUserModel.dart';
 import 'package:ummicare/services/advisorDatabase.dart';
 import 'package:ummicare/services/childDatabase.dart';
+import 'package:ummicare/services/feeDatabase.dart';
 import 'dart:io';
 
 import 'package:ummicare/services/parentDatabase.dart';
@@ -40,6 +42,10 @@ class StorageService {
 
   //profile pic child folder reference
   late Reference chatFolderReference = referenceRoot.child('chat');
+
+  //profile pic child folder reference
+  late Reference studentFeePaymentFolderReference =
+      referenceRoot.child('student').child('payment');
 
   //upload document for staff application
   Future<String> uploadDocumentForStaffApplication(
@@ -258,20 +264,19 @@ class StorageService {
   //update child image url
   void updateChildProfileImageUrl(childModel child, String imageUrl) {
     print('Updating user: ${child.childId}');
-    childDatabase(childId: child.childId)
-        .updateChildData(
-            child.childId,
-            child.parentId,
-            child.childCreatedDate,
-            child.childName,
-            child.childFirstname,
-            child.childLastname,
-            child.childBirthday,
-            child.childCurrentAge,
-            child.childAgeCategory,
-            imageUrl,
-            child.educationId,
-            child.healthId);
+    childDatabase(childId: child.childId).updateChildData(
+        child.childId,
+        child.parentId,
+        child.childCreatedDate,
+        child.childName,
+        child.childFirstname,
+        child.childLastname,
+        child.childBirthday,
+        child.childCurrentAge,
+        child.childAgeCategory,
+        imageUrl,
+        child.educationId,
+        child.healthId);
   }
 
   Future<String> uploadChatImage(XFile file) async {
@@ -290,5 +295,40 @@ class StorageService {
     }
 
     return imageUrl;
+  }
+
+  //upload image to child folder
+  Future<String> uploadPaymentProofImg(
+      feePaymentModel feePayment, XFile file) async {
+    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    Reference imageToUpload = studentFeePaymentFolderReference.child(uniqueFileName);
+
+    String imageUrl = '';
+
+    try {
+      await imageToUpload.putFile(File(file.path));
+      imageUrl = await imageToUpload.getDownloadURL();
+      print('Image URL: ${imageUrl}');
+      updateFeePaymentProofImgUrl(feePayment, imageUrl);
+    } catch (e) {
+      print(e);
+    }
+
+    return imageUrl;
+  }
+
+  //update child image url
+  void updateFeePaymentProofImgUrl(
+      feePaymentModel feePayment, String imageUrl) {
+    feeDatabase().updateFeePaymentData(
+        feePayment.feePaymentId,
+        feePayment.feeId,
+        feePayment.studentId,
+        feePayment.academicCalendarId,
+        feePayment.feePaymentAmountPaid,
+        feePayment.feePaymentStatus,
+        feePayment.feePaymentDate,
+        imageUrl);
   }
 }

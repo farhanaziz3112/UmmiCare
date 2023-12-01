@@ -8,6 +8,7 @@ class teacherModel {
   late final String teacherEmail;
   late final String teacherPhoneNumber;
   late final String teacherProfileImg;
+  late final String schoolId;
 
   teacherModel({
     required this.teacherId,
@@ -18,6 +19,17 @@ class teacherModel {
     required this.teacherEmail,
     required this.teacherPhoneNumber,
     required this.teacherProfileImg,
+    required this.schoolId,
   });
 
+}
+
+class teacherClassModel {
+  final String classId;
+  final String teacherId;
+
+  teacherClassModel({
+    required this.classId,
+    required this.teacherId
+  });
 }

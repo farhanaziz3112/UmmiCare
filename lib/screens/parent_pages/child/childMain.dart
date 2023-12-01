@@ -122,22 +122,15 @@ class _childMainState extends State<childMain> {
                                 }
                                 return ElevatedButton(
                                   onPressed: () {
+                                    String assignedDate = DateTime.now()
+                                        .millisecondsSinceEpoch
+                                        .toString();
                                     advisorDatabase(
                                             advisorId:
                                                 assignedAdvisor.advisorId)
                                         .addParent({
                                       'parentId': parent.parentId,
-                                      'parentCreatedDate': parent.parentCreatedDate,
-                                      'parentFullName': parent.parentFullName,
-                                      'parentFirstName': parent.parentFirstName,
-                                      'parentLastName': parent.parentLastName,
-                                      'parentEmail': parent.parentEmail,
-                                      'parentPhoneNumber':
-                                          parent.parentPhoneNumber,
-                                      'parentProfileImg':
-                                          parent.parentProfileImg,
-                                      'advisorId': assignedAdvisor.advisorId,
-                                      'noOfChild': parent.noOfChild
+                                      'assignedDate': assignedDate
                                     }, assignedAdvisor, parentId);
                                     parentDatabase(parentId: parentId)
                                         .updateParentData(

@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ummicare/models/usermodel.dart';
 import 'package:ummicare/models/healthmodel.dart';
 
 class HealthDatabaseService {
@@ -81,7 +79,7 @@ class HealthDatabaseService {
     return await healthCollection.doc(healthId).update({
       'currentHeight': currentHeight,
     }).then((value) => print('Data updated successfully!'))
-    .catchError((error) => print('Failed to update data: $error'));;
+    .catchError((error) => print('Failed to update data: $error'));
   }
 
   Future<void> updateWeight(
@@ -89,7 +87,7 @@ class HealthDatabaseService {
     return await healthCollection.doc(healthId).update({
       'currentWeight': currentWeight,
     }).then((value) => print('Data updated successfully!'))
-    .catchError((error) => print('Failed to update data: $error'));;
+    .catchError((error) => print('Failed to update data: $error'));
   }
 
 //------------------------------HealthStatus----------------------------------

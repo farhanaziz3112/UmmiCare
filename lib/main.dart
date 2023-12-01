@@ -19,7 +19,9 @@ class MyApp extends StatelessWidget {
     return StreamProvider<userModel?>.value(
       value: AuthService().user,
       initialData: null,
-      catchError: (_,__) {},
+      catchError: (_,__) {
+        return null;
+      },
       child: MaterialApp(
         theme: ThemeData(fontFamily: 'ABeeZee'),
         routes: routes,

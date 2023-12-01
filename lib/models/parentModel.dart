@@ -23,3 +23,13 @@ class parentModel {
       required this.noOfChild});
 }
 
+class parentAdvisorModel {
+  final String parentId;
+  late final String assignedDate;
+
+  parentAdvisorModel({
+    required this.parentId,
+    required this.assignedDate
+  });
+}
+
