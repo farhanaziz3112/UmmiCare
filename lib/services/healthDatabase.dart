@@ -64,10 +64,11 @@ class HealthDatabaseService {
 
   //create Health data
   Future<void> createHealthData(
-      String healthId, String childId, String healthStatusId, String currentHeight, String currentWeight) async {
+      String healthId, String childId, String healthStatusId, String vaccinationAppointmentId, String currentHeight, String currentWeight) async {
     return await healthCollection.doc(healthId).set({
       'childId': childId,
       'healthStatusId': healthStatusId,
+      'vaccinationAppointmentId' : vaccinationAppointmentId,
       'currentHeight': currentHeight,
       'currentWeight': currentWeight,
     });

@@ -117,11 +117,15 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                     String healthStatusIdHolder =
                         DateTime.now().millisecondsSinceEpoch.toString() + "1" +
                             widget.childId;
+                    String vaccinationAppointmentId =
+                        DateTime.now().millisecondsSinceEpoch.toString() + "2" +
+                            widget.childId;
                     await HealthDatabaseService(childId: widget.childId)
                         .createHealthData(
                             healthIdHolder,
                             widget.childId,
                             healthStatusIdHolder,
+                            vaccinationAppointmentId,
                             _currentHeight,
                             _currentWeight,);   
                     }

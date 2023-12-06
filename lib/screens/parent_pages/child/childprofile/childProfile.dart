@@ -473,7 +473,199 @@ class _childProfileState extends State<childProfile> {
                     const SizedBox(
                       height: 15.0,
                     ),
-                    StreamBuilder<HealthModel>(
+                    child.healthId == ''
+                      ? Container(
+                        width: double.infinity,
+                        alignment: Alignment.centerLeft,
+                        decoration: const BoxDecoration(
+                            color: Color(0xff8290F0),
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(10.0))),
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(
+                              20.0, 10.0, 10.0, 20.0),
+                          child: Column(
+                            crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                            children: <Widget>[
+                              const Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.health_and_safety,
+                                    size: 30.0,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    'Health',
+                                    style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 5.0,
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "*Your child currently does not have Health Module. Please register by clicking the button below.",
+                                      style: TextStyle(
+                                          color: Colors.grey[800],
+                                          fontSize: 13.0),
+                                    ),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              Colors.white),
+                                      onPressed: () async {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    addNewHealthData(
+                                                        childId: widget
+                                                            .child
+                                                            .childId)));
+                                      },
+                                      child: const Text(
+                                        'Register Health Module',
+                                        style: TextStyle(
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    : StreamBuilder<HealthModel>(
+                        stream:HealthDatabaseService(childId: widget.child.childId).healthData,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Container(
+                              width: double.infinity,
+                              alignment: Alignment.centerLeft,
+                              decoration: const BoxDecoration(
+                                  color: Color(0xff8290F0),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0))),
+                              child: Container(
+                                padding: const EdgeInsets.fromLTRB(
+                                    20.0, 10.0, 10.0, 20.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    const Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.health_and_safety,
+                                          size: 30.0,
+                                          color: Colors.white,
+                                        ),
+                                        Text(
+                                          'Health',
+                                          style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5.0,
+                                    ),
+                                    Container(
+                                        alignment: Alignment.center,
+                                        child: const SpinKitPulse(
+                                          color: Colors.black,
+                                          size: 20.0,
+                                        ))
+                                  ],
+                                ),
+                              ),
+                            );
+                          } else {
+                            if (snapshot.hasData) {
+                              final healthData = snapshot.data;
+                              return Container(
+                                width: double.infinity,
+                                alignment: Alignment.centerLeft,
+                                decoration: const BoxDecoration(
+                                    color: Color(0xff8290F0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                child: Container(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      20.0, 10.0, 10.0, 20.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          const Icon(
+                                            Icons.health_and_safety,
+                                            size: 30.0,
+                                            color: Colors.white,
+                                          ),
+                                          const Text(
+                                            'Health',
+                                            style: TextStyle(
+                                                fontSize: 20.0,
+                                                color: Colors.white),
+                                          ),
+                                          Flexible(
+                                            child: Container(
+                                              alignment: Alignment.centerRight,
+                                              child: IconButton(
+                                                icon: Transform.scale(
+                                                  scaleX: -1,
+                                                  child: const Icon(
+                                                    Icons.arrow_back,
+                                                    size: 25.0,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            healthMain(
+                                                          childId:
+                                                              child.childId,
+                                                          healthId:
+                                                              healthData!.healthId,
+                                                        ),
+                                                      ));
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Text('Current Height:'
+                                          '${healthData?.currentHeight}'),
+                                      Text('Current Weight:'
+                                          '${healthData?.currentWeight}')
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }else {
+                              return const Loading();
+                            }
+                          }
+                        }),
+                    /*StreamBuilder<HealthModel>(
                         stream:HealthDatabaseService(childId: widget.child.childId).healthData,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
@@ -521,7 +713,7 @@ class _childProfileState extends State<childProfile> {
                             );
                           } else {
                             if (snapshot.hasData) {
-                              HealthModel? healthData = snapshot.data;
+                              final healthData = snapshot.data;
                               return Container(
                                 width: double.infinity,
                                 alignment: Alignment.centerLeft,
@@ -662,7 +854,7 @@ class _childProfileState extends State<childProfile> {
                               );
                             }
                           }
-                        }),
+                        }),*/
                     // ),
                     // TextButton(
                     //   style: TextButton.styleFrom(primary: Colors.blue),
