@@ -520,11 +520,77 @@ class _childProfileState extends State<childProfile> {
                               ),
                             );
                           } else {
-                            var healthData;
                             if (snapshot.hasData) {
-                              healthData = snapshot.data!;
-                            }
-                            if (healthData == null) {
+                              HealthModel? healthData = snapshot.data;
+                              return Container(
+                                width: double.infinity,
+                                alignment: Alignment.centerLeft,
+                                decoration: const BoxDecoration(
+                                    color: Color(0xff8290F0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                child: Container(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      20.0, 10.0, 10.0, 20.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          const Icon(
+                                            Icons.health_and_safety,
+                                            size: 30.0,
+                                            color: Colors.white,
+                                          ),
+                                          const Text(
+                                            ' Health',
+                                            style: TextStyle(
+                                                fontSize: 20.0,
+                                                color: Colors.white),
+                                          ),
+                                          Flexible(
+                                            child: Container(
+                                              alignment: Alignment.centerRight,
+                                              child: IconButton(
+                                                icon: Transform.scale(
+                                                  scaleX: -1,
+                                                  child: const Icon(
+                                                    Icons.arrow_back,
+                                                    size: 25.0,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            healthMain(
+                                                          childId:
+                                                              child.childId,
+                                                          healthId:
+                                                              healthData!.currentHeight,
+                                                        ),
+                                                      ));
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Text('Current Height:'
+                                          '${healthData?.currentHeight}'),
+                                      Text('Current Weight:'
+                                          '${healthData?.currentWeight}')
+                                    ],
+                                  ),
+                                ),
+                              );
+                            } else {
                               return Container(
                                 width: double.infinity,
                                 alignment: Alignment.centerLeft,
@@ -590,75 +656,6 @@ class _childProfileState extends State<childProfile> {
                                           ],
                                         ),
                                       )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            } else {
-                              return Container(
-                                width: double.infinity,
-                                alignment: Alignment.centerLeft,
-                                decoration: const BoxDecoration(
-                                    color: Color(0xff8290F0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                child: Container(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      20.0, 10.0, 10.0, 20.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Row(
-                                        children: <Widget>[
-                                          const Icon(
-                                            Icons.health_and_safety,
-                                            size: 30.0,
-                                            color: Colors.white,
-                                          ),
-                                          const Text(
-                                            ' Health',
-                                            style: TextStyle(
-                                                fontSize: 20.0,
-                                                color: Colors.white),
-                                          ),
-                                          Flexible(
-                                            child: Container(
-                                              alignment: Alignment.centerRight,
-                                              child: IconButton(
-                                                icon: Transform.scale(
-                                                  scaleX: -1,
-                                                  child: const Icon(
-                                                    Icons.arrow_back,
-                                                    size: 25.0,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            healthMain(
-                                                          childId:
-                                                              child.childId,
-                                                          healthId:
-                                                              healthData.currentHeight,
-                                                        ),
-                                                      ));
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5.0,
-                                      ),
-                                      Text('Current Height:'
-                                          '${healthData.currentHeight}'),
-                                      Text('Current Weight:'
-                                          '${healthData.currentWeight}')
                                     ],
                                   ),
                                 ),
