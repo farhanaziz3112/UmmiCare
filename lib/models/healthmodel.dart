@@ -2,6 +2,7 @@ class HealthModel {
   final String healthId;
   late final String childId;
   late final String healthStatusId;
+  late final String vaccinationAppointmentId;
   late final String currentHeight;
   late final String currentWeight;
 
@@ -9,6 +10,7 @@ class HealthModel {
     required this.healthId,
     required this.childId,
     required this.healthStatusId,
+    required this.vaccinationAppointmentId,
     required this.currentHeight,
     required this.currentWeight,
   });
@@ -70,21 +72,19 @@ class ChronicConditionModel {
   });
 }
 
-class VaccincationAppointmentModel {
-  final String vaccincationAppointmentId;
+class VaccinationAppointmentModel {
+  final String vaccinationAppointmentId;
   late final String vaccineType;
   late final String vaccineTime;
   late final String clinicId;
   late final String doctorId;
-  late final String healthId;
 
-  VaccincationAppointmentModel({
-    required this.vaccincationAppointmentId,
+  VaccinationAppointmentModel({
+    required this.vaccinationAppointmentId,
     required this.vaccineType,
     required this.vaccineTime,
     required this.clinicId,
     required this.doctorId,
-    required this.healthId,
   });
 }
 

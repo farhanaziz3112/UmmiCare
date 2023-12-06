@@ -8,13 +8,13 @@ class HealthDatabaseService {
   final String? healthConditionId;
   final String? physicalConditionId;
   final String? chronicConditionId;
-  final String? vaccincationAppointmentId;
+  final String? vaccinationAppointmentId;
   final String? clinicId;
   final String? doctorId;
 
   HealthDatabaseService(
       {required this.childId, this.healthId, this.healthStatusId, this.healthConditionId,
-      this.physicalConditionId, this.chronicConditionId, this.vaccincationAppointmentId,
+      this.physicalConditionId, this.chronicConditionId, this.vaccinationAppointmentId,
       this.clinicId,this.doctorId});
 
 //------------------------------Health----------------------------------
@@ -28,21 +28,22 @@ class HealthDatabaseService {
       FirebaseFirestore.instance.collection('Health');
 
   //get Health stream
-  Stream<List<HealthModel>> get healthData {
-    return healthCollection
-        .where('childId', isEqualTo: childId)
+  Stream<HealthModel> get healthData {
+    return healthStatusCollection
+        .doc(healthId)
         .snapshots()
-        .map(_createHealthModelList);
+        .map(_createHealthModelObject);
   }
 
   //create a Health model object
   HealthModel _createHealthModelObject(DocumentSnapshot snapshot) {
     return HealthModel(
       healthId: snapshot.id,
-      currentHeight: snapshot['currentHeight'],
-      currentWeight: snapshot['currentWeight'],
       childId: snapshot['childId'],
       healthStatusId: snapshot['healthStatusId'],
+      vaccinationAppointmentId: snapshot['vaccinationAppointmentId'],
+      currentHeight: snapshot['currentHeight'],
+      currentWeight: snapshot['currentWeight'],
     );
   }
 
@@ -51,10 +52,11 @@ class HealthDatabaseService {
     return snapshot.docs.map<HealthModel>((doc) {
       return HealthModel(
         healthId: doc.id,
-        currentHeight: doc.get('currentHeight') ?? '',
-        currentWeight: doc.get('currentWeight') ?? '',
         childId: doc.get('childId') ?? '',
         healthStatusId: doc.get('healthStatusId') ?? '',
+        vaccinationAppointmentId: doc.get('vaccinationAppointmentId') ?? '',
+        currentHeight: doc.get('currentHeight') ?? '',
+        currentWeight: doc.get('currentWeight') ?? '',
       );
     }).toList();
   }
@@ -245,38 +247,36 @@ class HealthDatabaseService {
 
   //------------------------------Vaccincation Appointment----------------------------------
   //collection reference
-  final CollectionReference vaccincationAppointmentCollection =
-      FirebaseFirestore.instance.collection('Vaccincation Appointment');
+  final CollectionReference vaccinationAppointmentCollection =
+      FirebaseFirestore.instance.collection('Vaccination Appointment');
 
   //get specific Vaccincation Appointment document stream
-  Stream<VaccincationAppointmentModel> get vaccincationAppointmentData {
-    return vaccincationAppointmentCollection
-        .doc(vaccincationAppointmentId)
-        .snapshots()
-        .map(_createVaccincationAppointmentModelObject);
+  Stream<VaccinationAppointmentModel> get vaccincationAppointmentData {
+    return vaccinationAppointmentCollection
+      .doc(vaccinationAppointmentId).snapshots()
+      .map(_createVaccinationAppointmentModelObject);
   }
 
   //create a Vaccincation Appointment model object
-  VaccincationAppointmentModel _createVaccincationAppointmentModelObject(DocumentSnapshot snapshot) {
-    return VaccincationAppointmentModel(
-      vaccincationAppointmentId: snapshot.id,
+  VaccinationAppointmentModel _createVaccinationAppointmentModelObject(DocumentSnapshot snapshot) {
+    return VaccinationAppointmentModel(
+      vaccinationAppointmentId: snapshot.id,
       vaccineType: snapshot['vaccineType'],
-      vaccineTime: snapshot['vaccineTime'],
+      vaccineTime: snapshot['vaccineTime' as Timestamp].toDate(),
       clinicId: snapshot['clinicId'],
-      doctorId: snapshot['doctorId'],
-      healthId: snapshot['healthId']
+      doctorId: snapshot['doctorId']
     );
   }
 
   //create Vaccincation Appointment data
-  Future<void> createVaccincationAppointmentData(
-    String vaccincationAppointmentId,
+  Future<void> createVaccinationAppointmentData(
+    String vaccinationAppointmentId,
     String vaccineType,
     String vaccineTime,
     String clinicId,
     String doctorId,
     String healthId) async {
-    return await vaccincationAppointmentCollection.doc(vaccincationAppointmentId).set({
+    return await vaccinationAppointmentCollection.doc(vaccinationAppointmentId).set({
       'vaccineType': vaccineType,
       'vaccineTime': vaccineTime,
       'clinicId': clinicId,

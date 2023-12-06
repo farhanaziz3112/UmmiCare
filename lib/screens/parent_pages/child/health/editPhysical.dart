@@ -5,10 +5,9 @@ import 'package:ummicare/models/healthmodel.dart';
 import 'package:ummicare/shared/loading.dart';
 
 class EditPhysical extends StatefulWidget {
-  const EditPhysical({super.key, required this.childId, required this.healthId,required this.healthStatusId});
+  const EditPhysical({super.key, required this.childId, required this.healthId});
   final String childId;
   final String healthId;
-  final String healthStatusId;
 
   @override
   State<EditPhysical> createState() => _EditPhysicalState();
@@ -23,7 +22,7 @@ class _EditPhysicalState extends State<EditPhysical> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<HealthModel>>(
+    return StreamBuilder<HealthModel>(
       stream: HealthDatabaseService(childId: widget.childId).healthData,
       builder: (context, snapshot) {
         if(snapshot.hasData){
@@ -99,11 +98,11 @@ class _EditPhysicalState extends State<EditPhysical> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()){
-                    await HealthDatabaseService(childId: healthData![0].childId)
+                    await HealthDatabaseService(childId: healthData!.childId)
                       .updateHealthData(
-                            healthData[0].healthId,
-                            healthData[0].childId,
-                            healthData[0].healthStatusId,
+                            healthData.healthId,
+                            healthData.childId,
+                            healthData.healthStatusId,
                             _currentHeight,
                             _currentWeight,);
                   }

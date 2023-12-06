@@ -473,10 +473,8 @@ class _childProfileState extends State<childProfile> {
                     const SizedBox(
                       height: 15.0,
                     ),
-                    StreamBuilder<List<HealthModel>>(
-                        stream:
-                            HealthDatabaseService(childId: widget.child.childId)
-                                .healthData,
+                    StreamBuilder<HealthModel>(
+                        stream:HealthDatabaseService(childId: widget.child.childId).healthData,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -522,11 +520,11 @@ class _childProfileState extends State<childProfile> {
                               ),
                             );
                           } else {
-                            List<HealthModel> healthModelData = [];
+                            var healthData;
                             if (snapshot.hasData) {
-                              healthModelData = snapshot.data!;
+                              healthData = snapshot.data!;
                             }
-                            if (healthModelData.isEmpty) {
+                            if (healthData == null) {
                               return Container(
                                 width: double.infinity,
                                 alignment: Alignment.centerLeft,
@@ -645,11 +643,7 @@ class _childProfileState extends State<childProfile> {
                                                           childId:
                                                               child.childId,
                                                           healthId:
-                                                              healthModelData[0]
-                                                                  .currentHeight,
-                                                          healthStatusId:
-                                                              healthModelData[0]
-                                                                  .healthStatusId,
+                                                              healthData.currentHeight,
                                                         ),
                                                       ));
                                                 },
@@ -662,9 +656,9 @@ class _childProfileState extends State<childProfile> {
                                         height: 5.0,
                                       ),
                                       Text('Current Height:'
-                                          '${healthModelData[0].currentHeight}'),
+                                          '${healthData.currentHeight}'),
                                       Text('Current Weight:'
-                                          '${healthModelData[0].currentWeight}')
+                                          '${healthData.currentWeight}')
                                     ],
                                   ),
                                 ),

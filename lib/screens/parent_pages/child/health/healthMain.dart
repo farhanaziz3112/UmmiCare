@@ -9,10 +9,9 @@ import 'package:ummicare/screens/parent_pages/child/health/addNewHealthStatusDat
 import 'package:ummicare/services/healthDatabase.dart';
 
 class healthMain extends StatefulWidget {
-  const healthMain({super.key, required this.childId, required this.healthId, required this.healthStatusId});
+  const healthMain({super.key, required this.childId, required this.healthId});
   final String childId;
   final String healthId;
-  final String healthStatusId;
 
 
   @override
@@ -29,14 +28,14 @@ class _healthMainState extends State<healthMain> {
         builder: (context) {
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-            child: EditPhysical(childId: widget.childId, healthId: widget.healthId, healthStatusId: widget.healthStatusId,),
+            child: EditPhysical(childId: widget.childId, healthId: widget.healthId),
           );
         });
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<HealthModel>>(
+    return StreamBuilder<HealthModel>(
       stream: HealthDatabaseService(childId: widget.childId).healthData,
       builder: (context, snapshot) {
         final healthData = snapshot.data;
@@ -125,7 +124,7 @@ class _healthMainState extends State<healthMain> {
                                   height: 5.0,
                                 ),
                                 Text(
-                                    '${healthData?[0].currentHeight}'
+                                    '${healthData?.currentHeight}'
                                 ),
                               ],
                             ),
@@ -161,7 +160,7 @@ class _healthMainState extends State<healthMain> {
                                   height: 5.0,
                                 ),
                                 Text(
-                                    '${healthData?[0].currentWeight}'
+                                    '${healthData?.currentWeight}'
                                 ,)
                               ],
                             ),
@@ -213,7 +212,7 @@ class _healthMainState extends State<healthMain> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 addNewHealthStatusData(
-                                                    healthStatusId: widget.healthStatusId,),
+                                                    healthStatusId: healthData!.vaccinationAppointmentId),
                                           ));
                                         flag = false;
                                       }else{
@@ -222,8 +221,7 @@ class _healthMainState extends State<healthMain> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 healthStatus(
-                                                    childId: widget.childId, healthId: widget.healthId,healthStatusId: widget.healthStatusId
-                                                    ,),
+                                                    childId: widget.childId, healthId: widget.healthId,healthStatusId: healthData!.healthStatusId),
                                           ));
                                       }
                                       
@@ -285,7 +283,7 @@ class _healthMainState extends State<healthMain> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 healthAppointment(
-                                                    childId: widget.childId),
+                                                    childId: widget.childId, healthId: widget.healthId, vaccincationAppointmentId: healthData!.vaccinationAppointmentId),
                                           ));
                                     },
                                   ),
