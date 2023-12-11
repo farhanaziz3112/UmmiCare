@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:ummicare/models/healthmodel.dart';
 
 class HealthDatabaseService {
@@ -23,16 +24,19 @@ class HealthDatabaseService {
   static final CollectionReference healthCollection =
       FirebaseFirestore.instance.collection('Health');
 
-  //collection reference
-  final CollectionReference healthSubjectsCollection =
-      FirebaseFirestore.instance.collection('Health');
 
   //get Health stream
   Stream<HealthModel> get healthData {
-    return healthStatusCollection
+    return healthCollection
         .doc(healthId)
         .snapshots()
         .map(_createHealthModelObject);
+  }
+
+  Stream <List<HealthModel>> get allHealthData{
+    return healthCollection
+          .snapshots()
+          .map(_createHealthModelList);
   }
 
   //create a Health model object
@@ -41,7 +45,6 @@ class HealthDatabaseService {
       healthId: snapshot.id,
       childId: snapshot['childId'],
       healthStatusId: snapshot['healthStatusId'],
-      vaccinationAppointmentId: snapshot['vaccinationAppointmentId'],
       currentHeight: snapshot['currentHeight'],
       currentWeight: snapshot['currentWeight'],
     );
@@ -54,7 +57,6 @@ class HealthDatabaseService {
         healthId: doc.id,
         childId: doc.get('childId') ?? '',
         healthStatusId: doc.get('healthStatusId') ?? '',
-        vaccinationAppointmentId: doc.get('vaccinationAppointmentId') ?? '',
         currentHeight: doc.get('currentHeight') ?? '',
         currentWeight: doc.get('currentWeight') ?? '',
       );
@@ -64,11 +66,10 @@ class HealthDatabaseService {
 
   //create Health data
   Future<void> createHealthData(
-      String healthId, String childId, String healthStatusId, String vaccinationAppointmentId, String currentHeight, String currentWeight) async {
+      String healthId, String childId, String healthStatusId, String currentHeight, String currentWeight) async {
     return await healthCollection.doc(healthId).set({
       'childId': childId,
       'healthStatusId': healthStatusId,
-      'vaccinationAppointmentId' : vaccinationAppointmentId,
       'currentHeight': currentHeight,
       'currentWeight': currentWeight,
     });
@@ -115,6 +116,12 @@ class HealthDatabaseService {
         .map(_createHealthStatusModelObject);
   }
 
+  Stream<List<HealthStatusModel>> get allHealthStatusData {
+    return healthStatusCollection
+        .snapshots()
+        .map(_createHealthStatusModelList);
+  }
+
   //create a Health Status model object
   HealthStatusModel _createHealthStatusModelObject(DocumentSnapshot snapshot) {
     return HealthStatusModel(
@@ -125,6 +132,19 @@ class HealthDatabaseService {
       physicalConditionId: snapshot['physicalConditionId'],
       chronicConditionId: snapshot['chronicConditionId']
     );
+  }
+
+  List<HealthStatusModel> _createHealthStatusModelList(QuerySnapshot snapshot) {
+    return snapshot.docs.map<HealthStatusModel>((doc) {
+      return HealthStatusModel(
+        healthStatusId: doc.id,
+        currentTemperature: doc.get('currentTemperature') ?? '',
+        currentHeartRate: doc.get('currentHeartRate') ?? '',
+        healthConditionId: doc.get('healthConditionId') ?? '',
+        physicalConditionId: doc.get('physicalConditionId') ?? '',
+        chronicConditionId: doc.get('chronicConditionId') ?? '',
+      );
+    }).toList();
   }
 
   //create health status data
@@ -254,8 +274,15 @@ class HealthDatabaseService {
   //get specific Vaccincation Appointment document stream
   Stream<VaccinationAppointmentModel> get vaccincationAppointmentData {
     return vaccinationAppointmentCollection
-      .doc(vaccinationAppointmentId).snapshots()
+      .doc(vaccinationAppointmentId)
+      .snapshots()
       .map(_createVaccinationAppointmentModelObject);
+  }
+
+  Stream<List<VaccinationAppointmentModel>> get allVaccincationAppointmentData {
+    return vaccinationAppointmentCollection
+      .snapshots()
+      .map(_createVaccinationAppointmentModelList);
   }
 
   //create a Vaccincation Appointment model object
@@ -263,27 +290,64 @@ class HealthDatabaseService {
     return VaccinationAppointmentModel(
       vaccinationAppointmentId: snapshot.id,
       vaccineType: snapshot['vaccineType'],
-      vaccineTime: snapshot['vaccineTime' as Timestamp].toDate(),
+      vaccineDate: snapshot['vaccineDate'],
+      vaccineTime: snapshot['vaccineTime'],
+      healthId: snapshot['healthId'],
       clinicId: snapshot['clinicId'],
       doctorId: snapshot['doctorId']
     );
+  }
+
+  List<VaccinationAppointmentModel> _createVaccinationAppointmentModelList(QuerySnapshot snapshot) {
+    return snapshot.docs.map<VaccinationAppointmentModel>((doc) {
+      return VaccinationAppointmentModel(
+        vaccinationAppointmentId: doc.id,
+        vaccineType: doc.get('vaccineType') ?? '',
+        vaccineDate: doc.get('vaccineDate') ?? '',
+        vaccineTime: doc.get('vaccineTime') ?? '',
+        healthId: doc.get('healthId') ?? '',
+        clinicId: doc.get('clinicId') ?? '',
+        doctorId: doc.get('doctorId') ?? '',
+      );
+    }).toList();
   }
 
   //create Vaccincation Appointment data
   Future<void> createVaccinationAppointmentData(
     String vaccinationAppointmentId,
     String vaccineType,
+    String vaccineDate,
     String vaccineTime,
+    String healthId,
     String clinicId,
-    String doctorId,
-    String healthId) async {
+    String doctorId,) async {
     return await vaccinationAppointmentCollection.doc(vaccinationAppointmentId).set({
       'vaccineType': vaccineType,
+      'vaccineDate': vaccineDate,
       'vaccineTime': vaccineTime,
+      'healthId': healthId,
       'clinicId': clinicId,
       'doctorId': doctorId,
-      'healthId': healthId,
     });
+  }
+
+  Future<void> updateVaccinationAppointmentData(
+    String vaccinationAppointmentId,
+    String vaccineType,
+    String vaccineDate,
+    String vaccineTime,
+    String healthId,
+    String clinicId,
+    String doctorId,) async {
+    return await vaccinationAppointmentCollection.doc(vaccinationAppointmentId).update({
+      'vaccineType': vaccineType,
+      'vaccineDate': vaccineDate,
+      'vaccineTime': vaccineTime,
+      'healthId': healthId,
+      'clinicId': clinicId,
+      'doctorId': doctorId,
+    }).then((value) => print('Data updated successfully!'))
+    .catchError((error) => print('Failed to update data: $error'));
   }
 
   //------------------------------Clinic----------------------------------

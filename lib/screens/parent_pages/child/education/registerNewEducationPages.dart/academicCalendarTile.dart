@@ -436,7 +436,7 @@ class _academicCalendarTileState extends State<academicCalendarTile> {
                           Expanded(
                             flex: 2,
                             child: Text(
-                              convertTimeToDate(
+                              convertTimeToDateString(
                                   academicCalendar.academicCalendarStartDate),
                               textAlign: TextAlign.start,
                               style: const TextStyle(
@@ -460,7 +460,7 @@ class _academicCalendarTileState extends State<academicCalendarTile> {
                           Expanded(
                             flex: 2,
                             child: Text(
-                              convertTimeToDate(
+                              convertTimeToDateString(
                                   academicCalendar.academicCalendarEndDate),
                               textAlign: TextAlign.start,
                               style: const TextStyle(

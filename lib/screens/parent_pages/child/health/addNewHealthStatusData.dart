@@ -8,10 +8,10 @@ class addNewHealthStatusData extends StatefulWidget {
   final String healthStatusId;
 
   @override
-  State<addNewHealthStatusData> createState() => _addNewHealthDataState();
+  State<addNewHealthStatusData> createState() => _addNewHealthStatusDataState();
 }
 
-class _addNewHealthDataState extends State<addNewHealthStatusData> {
+class _addNewHealthStatusDataState extends State<addNewHealthStatusData> {
 
   final _formKey = GlobalKey<FormState>();
 
@@ -77,7 +77,7 @@ class _addNewHealthDataState extends State<addNewHealthStatusData> {
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(left: 20.0),
                   child: Text(
-                    'Current heart Rate',
+                    'Current Heart Rate',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 15.0,

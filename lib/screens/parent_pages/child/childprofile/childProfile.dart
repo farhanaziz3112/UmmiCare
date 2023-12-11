@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -146,7 +147,7 @@ class _childProfileState extends State<childProfile> {
                               'Birthday',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text(convertTimeToDate(child.childBirthday)),
+                            Text(convertTimeToDateString(child.childBirthday)),
                             const SizedBox(height: 5,),
                             const Text(
                               'Current Age',
@@ -529,6 +530,24 @@ class _childProfileState extends State<childProfile> {
                                                         childId: widget
                                                             .child
                                                             .childId)));
+                                        final healthDocument = FirebaseFirestore.instance
+                                                          .collection('Health')
+                                                          .doc();
+                                        childDatabase(
+                                          childId: widget.child.childId
+                                        ).updateChildData(
+                                          child.childId, 
+                                          child.parentId, 
+                                          child.childCreatedDate, 
+                                          child.childName, 
+                                          child.childFirstname, 
+                                          child.childLastname, 
+                                          child.childBirthday, 
+                                          child.childCurrentAge, 
+                                          child.childAgeCategory, 
+                                          child.childProfileImg, 
+                                          child.educationId, 
+                                          healthDocument.id);
                                       },
                                       child: const Text(
                                         'Register Health Module',
@@ -543,8 +562,8 @@ class _childProfileState extends State<childProfile> {
                           ),
                         ),
                       )
-                    : StreamBuilder<HealthModel>(
-                        stream:HealthDatabaseService(childId: widget.child.childId).healthData,
+                    : StreamBuilder<List<HealthModel>>(
+                        stream:HealthDatabaseService(childId: child.childId).allHealthData,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -590,8 +609,8 @@ class _childProfileState extends State<childProfile> {
                               ),
                             );
                           } else {
-                            if (snapshot.hasData) {
-                              final healthData = snapshot.data;
+                            if (child.healthId.isNotEmpty) {
+                              List<HealthModel>? healthData = snapshot.data;
                               return Container(
                                 width: double.infinity,
                                 alignment: Alignment.centerLeft,
@@ -640,7 +659,7 @@ class _childProfileState extends State<childProfile> {
                                                           childId:
                                                               child.childId,
                                                           healthId:
-                                                              healthData!.healthId,
+                                                              healthData![0].healthId,
                                                         ),
                                                       ));
                                                 },
@@ -653,9 +672,9 @@ class _childProfileState extends State<childProfile> {
                                         height: 5.0,
                                       ),
                                       Text('Current Height:'
-                                          '${healthData?.currentHeight}'),
+                                          '${healthData?[0].currentHeight}'),
                                       Text('Current Weight:'
-                                          '${healthData?.currentWeight}')
+                                          '${healthData?[0].currentWeight}')
                                     ],
                                   ),
                                 ),
@@ -713,7 +732,7 @@ class _childProfileState extends State<childProfile> {
                             );
                           } else {
                             if (snapshot.hasData) {
-                              final healthData = snapshot.data;
+                              HealthModel? healthData = snapshot.data;
                               return Container(
                                 width: double.infinity,
                                 alignment: Alignment.centerLeft,

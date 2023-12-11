@@ -125,10 +125,10 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                             healthIdHolder,
                             widget.childId,
                             healthStatusIdHolder,
-                            vaccinationAppointmentId,
                             _currentHeight,
-                            _currentWeight,);   
+                            _currentWeight,);
                     }
+                    
                     Navigator.pop(context);
                 }
                 )

@@ -4,7 +4,9 @@ import 'package:ummicare/models/academicCalendarModel.dart';
 import 'package:ummicare/models/schoolModel.dart';
 import 'package:ummicare/models/studentModel.dart';
 import 'package:ummicare/models/teacherModel.dart';
+import 'package:ummicare/screens/parent_pages/child/education/attendance/attendanceMain.dart';
 import 'package:ummicare/screens/parent_pages/child/education/educationInfoSelection.dart';
+import 'package:ummicare/screens/parent_pages/child/education/examination/examinationMain.dart';
 import 'package:ummicare/screens/parent_pages/child/education/fee/feeMain.dart';
 import 'package:ummicare/screens/parent_pages/child/education/registerNewEducationPages.dart/addSchool.dart';
 import 'package:ummicare/services/academicCalendarDatabase.dart';
@@ -240,7 +242,84 @@ class _educationMainState extends State<educationMain> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Text(student.activationStatus),
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                            flex: 1,
+                                            child: student.activationStatus ==
+                                                    'active'
+                                                ? Container(
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.green[800],
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                              Radius.circular(
+                                                                  5)),
+                                                    ),
+                                                    padding:
+                                                        const EdgeInsets.all(3),
+                                                    child: const Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        Icon(
+                                                          Icons.check,
+                                                          color: Colors.white,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 3,
+                                                        ),
+                                                        Text(
+                                                          'Active',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 15),
+                                                        )
+                                                      ],
+                                                    ))
+                                                : Container(
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.yellow[800],
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                              Radius.circular(
+                                                                  5)),
+                                                    ),
+                                                    padding:
+                                                        const EdgeInsets.all(3),
+                                                    child: const Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        Icon(
+                                                          Icons.cancel,
+                                                          color: Colors.white,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 3,
+                                                        ),
+                                                        Text(
+                                                          'Pending',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 15),
+                                                        )
+                                                      ],
+                                                    ))),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Container(),
+                                        ),
+                                      ],
+                                    ),
                                     const SizedBox(
                                       height: 5.0,
                                     ),
@@ -269,12 +348,84 @@ class _educationMainState extends State<educationMain> {
                                         'Announcement',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            fontSize: 20.0, color: Colors.black),
+                                            fontSize: 20.0,
+                                            color: Colors.black),
                                       ),
                                     ],
                                   ),
                                   const SizedBox(
-                                    height: 20,
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    height: 150,
+                                    child: ListView(
+                                      scrollDirection: Axis.horizontal,
+                                      children: <Widget>[
+                                        Container(
+                                          width: 130,
+                                          margin: const EdgeInsets.all(5.0),
+                                          decoration: const BoxDecoration(
+                                              color: Color(0xff71CBCA),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          child: const Center(
+                                              child: Text(
+                                            'Item 1',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                          )),
+                                        ),
+                                        Container(
+                                          width: 130,
+                                          margin: const EdgeInsets.all(5.0),
+                                          decoration: const BoxDecoration(
+                                              color: Color(0xff8290F0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          child: const Center(
+                                              child: Text(
+                                            'Item 2',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                          )),
+                                        ),
+                                        Container(
+                                          width: 130,
+                                          margin: const EdgeInsets.all(5.0),
+                                          decoration: const BoxDecoration(
+                                              color: Color(0xffF29180),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          child: const Center(
+                                              child: Text(
+                                            'Item 3',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                          )),
+                                        ),
+                                        Container(
+                                          width: 130,
+                                          margin: const EdgeInsets.all(5.0),
+                                          decoration: const BoxDecoration(
+                                              color: Color(0xff71CBCA),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          child: const Center(
+                                              child: Text(
+                                            'Item 4',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                          )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 30,
                                   ),
                                   const Row(
                                     children: [
@@ -289,12 +440,84 @@ class _educationMainState extends State<educationMain> {
                                         'Upcoming Events',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            fontSize: 20.0, color: Colors.black),
+                                            fontSize: 20.0,
+                                            color: Colors.black),
                                       ),
                                     ],
                                   ),
                                   const SizedBox(
-                                    height: 20,
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    height: 150,
+                                    child: ListView(
+                                      scrollDirection: Axis.horizontal,
+                                      children: <Widget>[
+                                        Container(
+                                          width: 130,
+                                          margin: const EdgeInsets.all(5.0),
+                                          decoration: const BoxDecoration(
+                                              color: Color(0xff71CBCA),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          child: const Center(
+                                              child: Text(
+                                            'Item 1',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                          )),
+                                        ),
+                                        Container(
+                                          width: 130,
+                                          margin: const EdgeInsets.all(5.0),
+                                          decoration: const BoxDecoration(
+                                              color: Color(0xff8290F0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          child: const Center(
+                                              child: Text(
+                                            'Item 2',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                          )),
+                                        ),
+                                        Container(
+                                          width: 130,
+                                          margin: const EdgeInsets.all(5.0),
+                                          decoration: const BoxDecoration(
+                                              color: Color(0xffF29180),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          child: const Center(
+                                              child: Text(
+                                            'Item 3',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                          )),
+                                        ),
+                                        Container(
+                                          width: 130,
+                                          margin: const EdgeInsets.all(5.0),
+                                          decoration: const BoxDecoration(
+                                              color: Color(0xff71CBCA),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          child: const Center(
+                                              child: Text(
+                                            'Item 4',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                          )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 50,
                                   ),
                                   InkWell(
                                     onTap: () {
@@ -302,9 +525,10 @@ class _educationMainState extends State<educationMain> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => feeMain(
-                                                academicCalendarId:
-                                                    student.academicCalendarId,
-                                                    studentId: student.studentId,),
+                                              academicCalendarId:
+                                                  student.academicCalendarId,
+                                              studentId: student.studentId,
+                                            ),
                                           ));
                                     },
                                     child: Container(
@@ -348,7 +572,18 @@ class _educationMainState extends State<educationMain> {
                                     height: 10.0,
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                attendanceMain(
+                                              academicCalendarId:
+                                                  student.academicCalendarId,
+                                              studentId: student.studentId,
+                                            ),
+                                          ));
+                                    },
                                     child: Container(
                                       width: double.maxFinite,
                                       padding: const EdgeInsets.all(10),
@@ -390,7 +625,17 @@ class _educationMainState extends State<educationMain> {
                                     height: 10.0,
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  examinationMain(
+                                                      academicCalendarId: student
+                                                          .academicCalendarId,
+                                                      studentId:
+                                                          student.studentId)));
+                                    },
                                     child: Container(
                                       width: double.maxFinite,
                                       padding: const EdgeInsets.all(10),

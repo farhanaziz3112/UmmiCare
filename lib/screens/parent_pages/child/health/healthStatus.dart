@@ -19,8 +19,8 @@ class healthStatus extends StatefulWidget {
 class _healthStatusState extends State<healthStatus> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<HealthStatusModel>(
-      stream: HealthDatabaseService(childId: widget.childId).healthStatusData,
+    return StreamBuilder<List<HealthStatusModel>>(
+      stream: HealthDatabaseService(childId: widget.childId).allHealthStatusData,
       builder: (context, snapshot){
         final healthData = snapshot;
         return Scaffold(
@@ -64,7 +64,7 @@ class _healthStatusState extends State<healthStatus> {
                                   children: <Widget>[
                                     Icon(
                                       Icons.height,
-                                      size: 30.0,
+                                      size: 20.0,
                                       color: Colors.white,
                                     ),
                                     Text(
@@ -78,7 +78,7 @@ class _healthStatusState extends State<healthStatus> {
                                   height: 5.0,
                                 ),
                                 Text(
-                                    'Current Temperature:' '${healthData.data?.currentTemperature}'
+                                    '${healthData.data?[0].currentTemperature}'
                                 ),
                               ],
                             ),
@@ -100,7 +100,7 @@ class _healthStatusState extends State<healthStatus> {
                                   children: <Widget>[
                                     Icon(
                                       Icons.monitor_weight,
-                                      size: 30.0,
+                                      size: 20.0,
                                       color: Colors.white,
                                     ),
                                     Text(
@@ -114,7 +114,7 @@ class _healthStatusState extends State<healthStatus> {
                                   height: 5.0,
                                 ),
                                 Text(
-                                    'Heart Rate:' '${healthData.data?.currentHeartRate}'
+                                    '${healthData.data?[0].currentHeartRate}'
                                 ,)
                               ],
                             ),
@@ -165,7 +165,7 @@ class _healthStatusState extends State<healthStatus> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 healthCondition(
-                                                    childId: widget.childId, healthConditionId: healthData.data!.healthConditionId,),
+                                                    childId: widget.childId, healthConditionId: healthData.data![0].healthConditionId,),
                                           ));
                                     },
                                   ),
@@ -222,7 +222,7 @@ class _healthStatusState extends State<healthStatus> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 physicalCondition(
-                                                    childId: widget.childId, physicalConditionId: healthData.data!.physicalConditionId,),
+                                                    childId: widget.childId, physicalConditionId: healthData.data![0].physicalConditionId,),
                                           ));
                                     },
                                   ),
@@ -263,27 +263,6 @@ class _healthStatusState extends State<healthStatus> {
                                 ' Chronic Condition',
                                 style: TextStyle(
                                     fontSize: 20.0, color: Colors.white),
-                              ),
-                              Flexible(
-                                child: Container(
-                                  alignment: Alignment.centerRight,
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.edit,
-                                      size: 25.0,
-                                      color: Colors.white,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                healthStatus(
-                                                    childId: widget.childId, healthId: widget.healthId,healthStatusId: widget.healthStatusId,),
-                                          ));
-                                    },
-                                  ),
-                                ),
                               ),
                             ],
                           ),

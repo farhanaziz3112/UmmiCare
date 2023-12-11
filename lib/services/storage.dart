@@ -2,11 +2,13 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ummicare/models/advisorModel.dart';
+import 'package:ummicare/models/buddymodel.dart';
 import 'package:ummicare/models/childModel.dart';
 import 'package:ummicare/models/feeModel.dart';
 import 'package:ummicare/models/parentModel.dart';
 import 'package:ummicare/models/staffUserModel.dart';
 import 'package:ummicare/services/advisorDatabase.dart';
+import 'package:ummicare/services/buddyDatabase.dart';
 import 'package:ummicare/services/childDatabase.dart';
 import 'package:ummicare/services/feeDatabase.dart';
 import 'dart:io';
@@ -46,6 +48,44 @@ class StorageService {
   //profile pic child folder reference
   late Reference studentFeePaymentFolderReference =
       referenceRoot.child('student').child('payment');
+
+  //profile pic child folder reference
+  late Reference studentLeaveFolderReference =
+      referenceRoot.child('student').child('leave');
+
+  late Reference buddyFolderReference = referenceRoot.child('buddy');
+
+  //upload image to buddy folder
+  Future<String> uploadBuddyProfilePic(BuddyModel buddy, XFile file) async {
+    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    Reference imageToUpload = buddyFolderReference.child(uniqueFileName);
+
+    String imageUrl = '';
+
+    try {
+      await imageToUpload.putFile(File(file.path));
+      imageUrl = await imageToUpload.getDownloadURL();
+      print('Image URL: ${imageUrl}');
+      updateBuddyProfileImageUrl(buddy, imageUrl);
+    } catch (e) {
+      print(e);
+    }
+
+    return imageUrl;
+  }
+
+  //update buddy image url
+  void updateBuddyProfileImageUrl(BuddyModel buddy, String imageUrl) {
+    print('Updating user: ${buddy.buddyId}');
+    BuddyDatabaseService(userId: buddy.userId).updateBuddyData(
+        buddy.buddyId,
+        buddy.username,
+        buddy.private,
+        imageUrl,
+        buddy.userId);
+  }
+
 
   //upload document for staff application
   Future<String> uploadDocumentForStaffApplication(
@@ -302,7 +342,8 @@ class StorageService {
       feePaymentModel feePayment, XFile file) async {
     String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
 
-    Reference imageToUpload = studentFeePaymentFolderReference.child(uniqueFileName);
+    Reference imageToUpload =
+        studentFeePaymentFolderReference.child(uniqueFileName);
 
     String imageUrl = '';
 
@@ -330,5 +371,25 @@ class StorageService {
         feePayment.feePaymentStatus,
         feePayment.feePaymentDate,
         imageUrl);
+  }
+
+  //upload image to child folder
+  Future<String> uploadLeaveProofImg(XFile file) async {
+    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    Reference imageToUpload =
+        studentLeaveFolderReference.child(uniqueFileName);
+
+    String imageUrl = '';
+
+    try {
+      await imageToUpload.putFile(File(file.path));
+      imageUrl = await imageToUpload.getDownloadURL();
+      print('Image URL: ${imageUrl}');
+    } catch (e) {
+      print(e);
+    }
+
+    return imageUrl;
   }
 }

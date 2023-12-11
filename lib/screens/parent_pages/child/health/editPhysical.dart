@@ -104,7 +104,7 @@ class _EditPhysicalState extends State<EditPhysical> {
                             healthData.childId,
                             healthData.healthStatusId,
                             _currentHeight,
-                            _currentWeight,);
+                            _currentWeight);
                   }
                   Navigator.pop(context);
                 }

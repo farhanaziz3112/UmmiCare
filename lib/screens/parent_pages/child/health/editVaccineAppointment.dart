@@ -4,17 +4,18 @@ import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
 import 'package:intl/intl.dart';
 
-class addNewVaccineAppointment extends StatefulWidget {
-  const addNewVaccineAppointment({super.key, required this.selectedDay, required this.time, required this.healthId});
+class editVaccineAppointment extends StatefulWidget {
+  const editVaccineAppointment({super.key, required this.selectedDay, required this.time, required this.healthId, required this.vaccinationAppointmentId});
   final DateTime? selectedDay;
   final TimeOfDay time;
   final String healthId;
+  final String vaccinationAppointmentId;
 
   @override
-  State<addNewVaccineAppointment> createState() => _addNewVaccineAppointmentState();
+  State<editVaccineAppointment> createState() => _editVaccineAppointmentState();
 }
 
-class _addNewVaccineAppointmentState extends State<addNewVaccineAppointment> {
+class _editVaccineAppointmentState extends State<editVaccineAppointment> {
 
   final _formKey = GlobalKey<FormState>();
 
@@ -124,14 +125,11 @@ class _addNewVaccineAppointmentState extends State<addNewVaccineAppointment> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    String vaccinationAppointmentId =
-                        DateTime.now().millisecondsSinceEpoch.toString() +
-                            widget.healthId;
                     String formattedMinute = _selectedTime.minute.toString().padLeft(2, '0');
                     String formattedTime = '${_selectedTime.hourOfPeriod}:$formattedMinute ${_selectedTime.period.index == 0 ? 'AM' : 'PM'}';
                     await HealthDatabaseService(childId: widget.healthId)
-                        .createVaccinationAppointmentData(
-                            vaccinationAppointmentId,
+                        .updateVaccinationAppointmentData(
+                            widget.vaccinationAppointmentId,
                             _vaccineType,
                             _formattedDate,
                             formattedTime,

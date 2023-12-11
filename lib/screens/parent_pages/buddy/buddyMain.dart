@@ -10,69 +10,70 @@ class BuddyMain extends StatefulWidget {
   const BuddyMain({super.key});
 
   @override
-  State<BuddyMain> createState() => _buddyMainState();
+  State<BuddyMain> createState() => _BuddyMainState();
 }
 
-class _buddyMainState extends State<BuddyMain> {
-
+class _BuddyMainState extends State<BuddyMain> {
   bool flag = true;
 
   @override
   Widget build(BuildContext context) {
     parentModel? user = Provider.of<parentModel?>(context);
 
-    return StreamProvider<List<childModel>>.value(
+    return StreamProvider<List<parentModel>>.value(
       initialData: [],
-      value: parentDatabase(parentId: user!.parentId).allChildData,
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 40.0),
-        child: SingleChildScrollView(
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      value: parentDatabase(parentId: user!.parentId).allParentData,
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 40.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text(
                   "Buddy Page!",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 30,
+                      fontSize: 50,
                       fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(
-                  height: 8.0,
+                  height: 15.0,
+                ),
+                const Text(
+                  "You currently does not have Buddy Page. Please register by clicking the button below.",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(
-                  height: 40.0,
+                  height: 20.0,
                 ),
-                Row(
-                  children: <Widget>[
-                    const Text(
-                      'Register',
-                      style: TextStyle(color: Colors.black, fontSize: 20.0),
-                    ),
-                    
-                    TextButton(
-                      onPressed: () {
-                        if(flag){
-                          Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                registerBuddy(
-                                    currentuserId: user.parentId,),
-                          ));
-                          flag = false;
-                          const Text('Register');
-                        }else{
-                          const Text('Registered');
-                        }
-                      },
-                      child: const Text('Register'),
-                    ),
-                  ],
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff8290F0),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                  ),
+                  child: const Text(
+                    'Register',
+                    style: TextStyle(color: Colors.white, fontSize: 15.0),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => registerBuddy(
+                          parentId: user.parentId,
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                
-                
-              ]),
+              ],
+            ),
+          ),
         ),
       ),
     );

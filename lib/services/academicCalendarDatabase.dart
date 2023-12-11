@@ -9,7 +9,6 @@ class academicCalendarDatabase {
   final CollectionReference subjectCollection =
       FirebaseFirestore.instance.collection('Subject');
 
-  //get specific teacher document stream
   Stream<academicCalendarModel> academicCalendarData(
       String academicCalendarId) {
     return academicCalendarCollection
@@ -168,6 +167,17 @@ class academicCalendarDatabase {
   //       .snapshots()
   //       .map(_createAcademicCalendarModelList);
   // }
+
+
+  Stream<subjectModel> subjectData(
+      String subjectId, String academicCalendarId) {
+    return academicCalendarCollection
+        .doc(academicCalendarId)
+        .collection('Subjects')
+        .doc(subjectId)
+        .snapshots()
+        .map(_createSubjectModelObject);
+  }
 
   //get all userdetails stream
   Stream<List<subjectModel>> allSubjectData(String academicCalendarId) {

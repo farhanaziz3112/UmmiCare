@@ -20,8 +20,6 @@ class healthMain extends StatefulWidget {
 
 class _healthMainState extends State<healthMain> {
 
-  bool flag = true;
-
   void _editPhysical() {
     showModalBottomSheet(
         context: context,
@@ -35,8 +33,8 @@ class _healthMainState extends State<healthMain> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<HealthModel>(
-      stream: HealthDatabaseService(childId: widget.childId).healthData,
+    return StreamBuilder<List<HealthModel>>(
+      stream: HealthDatabaseService(childId: widget.childId).allHealthData,
       builder: (context, snapshot) {
         final healthData = snapshot.data;
         return Scaffold(
@@ -124,7 +122,7 @@ class _healthMainState extends State<healthMain> {
                                   height: 5.0,
                                 ),
                                 Text(
-                                    '${healthData?.currentHeight}'
+                                    '${healthData?[0].currentHeight}'
                                 ),
                               ],
                             ),
@@ -160,7 +158,7 @@ class _healthMainState extends State<healthMain> {
                                   height: 5.0,
                                 ),
                                 Text(
-                                    '${healthData?.currentWeight}'
+                                    '${healthData?[0].currentWeight}'
                                 ,)
                               ],
                             ),
@@ -206,22 +204,21 @@ class _healthMainState extends State<healthMain> {
                                       color: Colors.white,
                                     ),
                                     onPressed: () {
-                                      if(flag){
+                                      if(healthData?[0].healthStatusId == null){
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 addNewHealthStatusData(
-                                                    healthStatusId: healthData!.vaccinationAppointmentId),
+                                                    healthStatusId: healthData![0].healthStatusId),
                                           ));
-                                        flag = false;
                                       }else{
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 healthStatus(
-                                                    childId: widget.childId, healthId: widget.healthId,healthStatusId: healthData!.healthStatusId),
+                                                    childId: widget.childId, healthId: widget.healthId,healthStatusId: healthData![0].healthStatusId),
                                           ));
                                       }
                                       
@@ -283,7 +280,7 @@ class _healthMainState extends State<healthMain> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 healthAppointment(
-                                                    childId: widget.childId, healthId: widget.healthId, vaccincationAppointmentId: healthData!.vaccinationAppointmentId),
+                                                    childId: widget.childId, healthId: widget.healthId),
                                           ));
                                     },
                                   ),

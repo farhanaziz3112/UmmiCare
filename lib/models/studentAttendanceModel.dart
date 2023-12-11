@@ -24,3 +24,21 @@ class studentAttendanceModel {
     required this.description
   });
 }
+
+class studentLeaveModel {
+  final String studentLeaveId;
+  final String studentId;
+  final String reason;
+  final String leaveDate;
+  final String leaveProofImg;
+  final String status;
+
+  studentLeaveModel({
+    required this.studentLeaveId,
+    required this.studentId,
+    required this.reason,
+    required this.leaveDate,
+    required this.leaveProofImg,
+    required this.status
+  });
+}

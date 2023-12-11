@@ -26,7 +26,7 @@ class _parentMainState extends State<parentMain> {
     } else {
       return StreamProvider<List<childModel>>.value(
         initialData: [],
-        value: parentDatabase(parentId: parent!.parentId).allChildData,
+        value: parentDatabase(parentId: parent.parentId).allChildData,
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 40.0),
           child: SingleChildScrollView(

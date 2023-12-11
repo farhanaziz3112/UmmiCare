@@ -17,7 +17,10 @@ class BuddyDatabaseService {
 
   //get specific buddy document stream
   Stream<BuddyModel> get buddyData {
-    return buddyCollection.doc(userId).snapshots().map(_createBuddyModelObject);
+    return buddyCollection
+        .doc(userId)
+        .snapshots()
+        .map(_createBuddyModelObject);
   }
 
   //get all buddies stream
@@ -53,7 +56,7 @@ class BuddyDatabaseService {
   }
 
   //update buddy data
-  Future<void> updateChildData(
+  Future<void> updateBuddyData(
       String buddyId,
       String username,
       String private,
@@ -68,7 +71,7 @@ class BuddyDatabaseService {
   }
 
   //create child data
-  Future<void> createChildData(
+  Future<void> createBuddyData(
       String buddyId,
       String username,
       String private,
