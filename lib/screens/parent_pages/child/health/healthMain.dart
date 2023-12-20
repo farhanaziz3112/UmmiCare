@@ -1,5 +1,6 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:ummicare/models/healthmodel.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthAppointment.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthStatus.dart';
@@ -19,6 +20,7 @@ class healthMain extends StatefulWidget {
 }
 
 class _healthMainState extends State<healthMain> {
+  late List<double> bmiData;
 
   void _editPhysical() {
     showModalBottomSheet(
@@ -37,6 +39,9 @@ class _healthMainState extends State<healthMain> {
       stream: HealthDatabaseService(childId: widget.childId).allHealthData,
       builder: (context, snapshot) {
         final healthData = snapshot.data;
+        for(int i=0; i<healthData!.length-1; i++){
+          bmiData.add(healthData[i].bmi);
+        }
         return Scaffold(
           appBar: AppBar(
             elevation: 0.0,
@@ -64,6 +69,32 @@ class _healthMainState extends State<healthMain> {
                 alignment: Alignment.center,
               child: Column(
                 children: <Widget>[
+                  LineChart(
+                    LineChartData(
+                      gridData: FlGridData(show: false),
+                      titlesData: FlTitlesData(show: false),
+                      borderData: FlBorderData(
+                        show: true,
+                        border: Border.all(color: const Color(0xff37434d), width: 1),
+                      ),
+                      minX: 0,
+                      maxX: bmiData.length.toDouble() - 1,
+                      minY: 18.0,
+                      maxY: 30.0,
+                      lineBarsData: [
+                        LineChartBarData(
+                          spots: bmiData.asMap().entries.map((entry) {
+                            return FlSpot(entry.key.toDouble(), entry.value);
+                          }).toList(),
+                          isCurved: true,
+                          color: Colors.blue,
+                          barWidth: 4,
+                          isStrokeCapRound: true,
+                          belowBarData: BarAreaData(show: false),
+                        ),
+                      ],
+                    )
+                  ),
                   Container(
                     width: double.infinity,
                     alignment: Alignment.centerLeft,
@@ -122,7 +153,7 @@ class _healthMainState extends State<healthMain> {
                                   height: 5.0,
                                 ),
                                 Text(
-                                    '${healthData?[0].currentHeight}'
+                                    '${healthData?[healthData.length - 1].currentHeight}'
                                 ),
                               ],
                             ),
@@ -158,7 +189,7 @@ class _healthMainState extends State<healthMain> {
                                   height: 5.0,
                                 ),
                                 Text(
-                                    '${healthData?[0].currentWeight}'
+                                    '${healthData?[healthData.length - 1].currentWeight}'
                                 ,)
                               ],
                             ),

@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
-
 class HealthModel {
   final String healthId;
   late final String childId;
   late final String healthStatusId;
-  late final String currentHeight;
-  late final String currentWeight;
+  late final double currentHeight;
+  late final double currentWeight;
+  late final double bmi;
 
   HealthModel({
     required this.healthId,
@@ -13,6 +12,7 @@ class HealthModel {
     required this.healthStatusId,
     required this.currentHeight,
     required this.currentWeight,
+    required this.bmi,
   });
 }
 

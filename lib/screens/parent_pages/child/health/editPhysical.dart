@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
@@ -17,8 +19,8 @@ class _EditPhysicalState extends State<EditPhysical> {
 
   final _formKey = GlobalKey<FormState>();
 
-  String _currentHeight = '';
-  String _currentWeight = '';
+  late double _currentHeight;
+  late double _currentWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +53,20 @@ class _EditPhysicalState extends State<EditPhysical> {
                   height: 30.0,
                 ),
                 TextFormField(
-                  initialValue: _currentHeight,
+                  initialValue: _currentHeight.toString(),
                   decoration: textInputDecoration,
-                  validator: (value) =>
-                      value == '' ? 'Please enter current Height' : null,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter current height';
+                    }
+                    if (double.tryParse(value) == null) {
+                      return 'Please enter a valid number';
+                    }
+                    return null;
+                  },
                   onChanged: (value) =>
-                      setState(() => _currentHeight = value),
+                      setState(() => _currentHeight = double.parse(value)),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                 ),
                 SizedBox(
                   height: 30.0,
@@ -78,12 +88,20 @@ class _EditPhysicalState extends State<EditPhysical> {
                   height: 30.0,
                 ),
                 TextFormField(
-                  initialValue: _currentWeight,
+                  initialValue: _currentWeight.toString(),
                   decoration: textInputDecoration,
-                  validator: (value) =>
-                      value == '' ? 'Please enter current weight' : null,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter current height';
+                    }
+                    if (double.tryParse(value) == null) {
+                      return 'Please enter a valid number';
+                    }
+                    return null;
+                  },
                   onChanged: (value) =>
-                      setState(() => _currentWeight = value),
+                      setState(() => _currentWeight = double.parse(value)),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                 ),
                 SizedBox(
                   height: 30.0,
@@ -98,13 +116,15 @@ class _EditPhysicalState extends State<EditPhysical> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()){
+                    double bmi = _currentWeight / pow(_currentHeight, 2);
                     await HealthDatabaseService(childId: healthData!.childId)
                       .updateHealthData(
                             healthData.healthId,
                             healthData.childId,
                             healthData.healthStatusId,
                             _currentHeight,
-                            _currentWeight);
+                            _currentWeight,
+                            bmi);
                   }
                   Navigator.pop(context);
                 }

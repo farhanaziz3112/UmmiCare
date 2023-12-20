@@ -47,6 +47,7 @@ class HealthDatabaseService {
       healthStatusId: snapshot['healthStatusId'],
       currentHeight: snapshot['currentHeight'],
       currentWeight: snapshot['currentWeight'],
+      bmi: snapshot['bmi'],
     );
   }
 
@@ -59,6 +60,7 @@ class HealthDatabaseService {
         healthStatusId: doc.get('healthStatusId') ?? '',
         currentHeight: doc.get('currentHeight') ?? '',
         currentWeight: doc.get('currentWeight') ?? '',
+        bmi: doc.get('bmi') ?? '',
       );
     }).toList();
   }
@@ -66,28 +68,30 @@ class HealthDatabaseService {
 
   //create Health data
   Future<void> createHealthData(
-      String healthId, String childId, String healthStatusId, String currentHeight, String currentWeight) async {
+      String healthId, String childId, String healthStatusId, double currentHeight, double currentWeight, double bmi) async {
     return await healthCollection.doc(healthId).set({
       'childId': childId,
       'healthStatusId': healthStatusId,
       'currentHeight': currentHeight,
       'currentWeight': currentWeight,
+      'bmi' : bmi,
     });
   }
 
   Future<void> updateHealthData(
-    String healthId, String childId, String healthStatusId, String currentHeight, String currentWeight) async {
+    String healthId, String childId, String healthStatusId, double currentHeight, double currentWeight, double bmi) async {
     return await healthCollection.doc(healthId).update({
       'childId': childId,
       'healthStatusId': healthStatusId,
       'currentHeight': currentHeight,
       'currentWeight': currentWeight,
+      'bmi' : bmi,
     }).then((value) => print('Data updated successfully!'))
     .catchError((error) => print('Failed to update data: $error'));
   }
 
   Future<void> updateHeight(
-    String healthId, String currentHeight) async {
+    String healthId, double currentHeight) async {
     return await healthCollection.doc(healthId).update({
       'currentHeight': currentHeight,
     }).then((value) => print('Data updated successfully!'))
@@ -95,7 +99,7 @@ class HealthDatabaseService {
   }
 
   Future<void> updateWeight(
-    String healthId, String currentWeight) async {
+    String healthId, double currentWeight) async {
     return await healthCollection.doc(healthId).update({
       'currentWeight': currentWeight,
     }).then((value) => print('Data updated successfully!'))

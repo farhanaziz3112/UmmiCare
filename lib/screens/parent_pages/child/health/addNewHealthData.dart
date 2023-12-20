@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:ummicare/services/healthDatabase.dart';
@@ -15,8 +17,8 @@ class _addNewHealthDataState extends State<addNewHealthData> {
 
   final _formKey = GlobalKey<FormState>();
 
-  String _currentHeight = '';
-  String _currentWeight = '';
+  late double _currentHeight;
+  late double _currentWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -63,12 +65,20 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                   height: 30.0,
                 ),
                 TextFormField(
-                  initialValue: _currentHeight,
+                  initialValue: _currentHeight.toString(),
                   decoration: textInputDecoration,
-                  validator: (value) =>
-                      value == '' ? 'Please enter current height' : null,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter current height';
+                    }
+                    if (double.tryParse(value) == null) {
+                      return 'Please enter a valid number';
+                    }
+                    return null;
+                  },
                   onChanged: (value) =>
-                      setState(() => _currentHeight = value),
+                      setState(() => _currentHeight = double.parse(value)),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                 ),
                 SizedBox(
                   height: 30.0,
@@ -90,12 +100,20 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                   height: 30.0,
                 ),
                 TextFormField(
-                  initialValue: _currentWeight,
+                  initialValue: _currentWeight.toString(),
                   decoration: textInputDecoration,
-                  validator: (value) =>
-                      value == '' ? 'Please enter current weight' : null,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter current height';
+                    }
+                    if (double.tryParse(value) == null) {
+                      return 'Please enter a valid number';
+                    }
+                    return null;
+                  },
                   onChanged: (value) =>
-                      setState(() => _currentWeight = value),
+                      setState(() => _currentWeight = double.parse(value)),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                 ),
                 SizedBox(
                   height: 30.0,
@@ -117,16 +135,15 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                     String healthStatusIdHolder =
                         DateTime.now().millisecondsSinceEpoch.toString() + "1" +
                             widget.childId;
-                    String vaccinationAppointmentId =
-                        DateTime.now().millisecondsSinceEpoch.toString() + "2" +
-                            widget.childId;
+                    double bmi = _currentWeight / pow(_currentHeight, 2);
                     await HealthDatabaseService(childId: widget.childId)
                         .createHealthData(
                             healthIdHolder,
                             widget.childId,
                             healthStatusIdHolder,
                             _currentHeight,
-                            _currentWeight,);
+                            _currentWeight,
+                            bmi);
                     }
                     
                     Navigator.pop(context);
