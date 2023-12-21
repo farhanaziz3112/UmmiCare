@@ -41,6 +41,9 @@ class HealthDatabaseService {
 
   //create a Health model object
   HealthModel _createHealthModelObject(DocumentSnapshot snapshot) {
+    Timestamp createdAt = snapshot['createdAt'];
+    DateTime creationTime = createdAt.toDate();
+
     return HealthModel(
       healthId: snapshot.id,
       childId: snapshot['childId'],
@@ -48,6 +51,7 @@ class HealthDatabaseService {
       currentHeight: snapshot['currentHeight'],
       currentWeight: snapshot['currentWeight'],
       bmi: snapshot['bmi'],
+      createdAt: creationTime
     );
   }
 
@@ -61,6 +65,7 @@ class HealthDatabaseService {
         currentHeight: doc.get('currentHeight') ?? '',
         currentWeight: doc.get('currentWeight') ?? '',
         bmi: doc.get('bmi') ?? '',
+        createdAt: doc.get('createdAt') ?? ''
       );
     }).toList();
   }
@@ -69,23 +74,27 @@ class HealthDatabaseService {
   //create Health data
   Future<void> createHealthData(
       String healthId, String childId, String healthStatusId, double currentHeight, double currentWeight, double bmi) async {
+        DateTime now = DateTime.now();
     return await healthCollection.doc(healthId).set({
       'childId': childId,
       'healthStatusId': healthStatusId,
       'currentHeight': currentHeight,
       'currentWeight': currentWeight,
       'bmi' : bmi,
+      'createdAt' : now,
     });
   }
 
   Future<void> updateHealthData(
     String healthId, String childId, String healthStatusId, double currentHeight, double currentWeight, double bmi) async {
+      DateTime now = DateTime.now();
     return await healthCollection.doc(healthId).update({
       'childId': childId,
       'healthStatusId': healthStatusId,
       'currentHeight': currentHeight,
       'currentWeight': currentWeight,
       'bmi' : bmi,
+      'createdAt' : now,
     }).then((value) => print('Data updated successfully!'))
     .catchError((error) => print('Failed to update data: $error'));
   }

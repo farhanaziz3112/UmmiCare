@@ -5,6 +5,7 @@ class HealthModel {
   late final double currentHeight;
   late final double currentWeight;
   late final double bmi;
+  late final DateTime createdAt;
 
   HealthModel({
     required this.healthId,
@@ -13,6 +14,7 @@ class HealthModel {
     required this.currentHeight,
     required this.currentWeight,
     required this.bmi,
+    required this.createdAt
   });
 }
 

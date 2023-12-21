@@ -1,6 +1,6 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:ummicare/models/healthmodel.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthAppointment.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthStatus.dart';
@@ -69,31 +69,16 @@ class _healthMainState extends State<healthMain> {
                 alignment: Alignment.center,
               child: Column(
                 children: <Widget>[
-                  LineChart(
-                    LineChartData(
-                      gridData: FlGridData(show: false),
-                      titlesData: FlTitlesData(show: false),
-                      borderData: FlBorderData(
-                        show: true,
-                        border: Border.all(color: const Color(0xff37434d), width: 1),
-                      ),
-                      minX: 0,
-                      maxX: bmiData.length.toDouble() - 1,
-                      minY: 18.0,
-                      maxY: 30.0,
-                      lineBarsData: [
-                        LineChartBarData(
-                          spots: bmiData.asMap().entries.map((entry) {
-                            return FlSpot(entry.key.toDouble(), entry.value);
-                          }).toList(),
-                          isCurved: true,
-                          color: Colors.blue,
-                          barWidth: 4,
-                          isStrokeCapRound: true,
-                          belowBarData: BarAreaData(show: false),
-                        ),
-                      ],
-                    )
+                  SfCartesianChart(
+                    primaryXAxis: CategoryAxis(),
+                    series: <ChartSeries>[
+                      LineSeries<Map<String, dynamic>, String>(
+                        dataSource: bmiData,
+                        xValueMapper: (Map<String, dynamic> data, _) => data['date']!,
+                        yValueMapper: (Map<String, dynamic> data, _) => data['bmiValue']!,
+                        dataLabelSettings: DataLabelSettings(isVisible: true),
+                      )
+                    ],
                   ),
                   Container(
                     width: double.infinity,
@@ -153,7 +138,7 @@ class _healthMainState extends State<healthMain> {
                                   height: 5.0,
                                 ),
                                 Text(
-                                    '${healthData?[healthData.length - 1].currentHeight}'
+                                    '${healthData[healthData.length - 1].currentHeight}'
                                 ),
                               ],
                             ),
@@ -189,7 +174,7 @@ class _healthMainState extends State<healthMain> {
                                   height: 5.0,
                                 ),
                                 Text(
-                                    '${healthData?[healthData.length - 1].currentWeight}'
+                                    '${healthData[healthData.length - 1].currentWeight}'
                                 ,)
                               ],
                             ),
@@ -235,13 +220,13 @@ class _healthMainState extends State<healthMain> {
                                       color: Colors.white,
                                     ),
                                     onPressed: () {
-                                      if(healthData?[0].healthStatusId == null){
+                                      if(healthData[healthData.length - 1].healthStatusId == null){
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 addNewHealthStatusData(
-                                                    healthStatusId: healthData![0].healthStatusId),
+                                                    healthStatusId: healthData[0].healthStatusId),
                                           ));
                                       }else{
                                         Navigator.push(
@@ -249,7 +234,7 @@ class _healthMainState extends State<healthMain> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 healthStatus(
-                                                    childId: widget.childId, healthId: widget.healthId,healthStatusId: healthData![0].healthStatusId),
+                                                    childId: widget.childId, healthId: widget.healthId,healthStatusId: healthData[0].healthStatusId),
                                           ));
                                       }
                                       
