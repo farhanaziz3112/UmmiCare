@@ -1,10 +1,9 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:ummicare/models/healthmodel.dart';
+import 'package:ummicare/models/healthstatusmodel.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthCodition.dart';
 import 'package:ummicare/screens/parent_pages/child/health/physicalCondition.dart';
-
-import 'package:ummicare/services/healthDatabase.dart';
+import 'package:ummicare/services/healthStatusDatabase.dart';
 
 class healthStatus extends StatefulWidget {
   const healthStatus({super.key, required this.childId, required this.healthId,required this.healthStatusId});
@@ -20,7 +19,7 @@ class _healthStatusState extends State<healthStatus> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<HealthStatusModel>>(
-      stream: HealthDatabaseService(childId: widget.childId).allHealthStatusData,
+      stream: HealthStatusDatabaseService(healthStatusId: widget.healthStatusId).allHealthStatusData,
       builder: (context, snapshot){
         final healthData = snapshot;
         return Scaffold(
@@ -165,7 +164,7 @@ class _healthStatusState extends State<healthStatus> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 healthCondition(
-                                                    childId: widget.childId, healthConditionId: healthData.data![0].healthConditionId,),
+                                                    healthStatusId: widget.healthStatusId, healthConditionId: healthData.data![0].healthConditionId,),
                                           ));
                                     },
                                   ),
@@ -222,7 +221,7 @@ class _healthStatusState extends State<healthStatus> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 physicalCondition(
-                                                    childId: widget.childId, physicalConditionId: healthData.data![0].physicalConditionId,),
+                                                    healthStatusId: widget.healthStatusId, physicalConditionId: healthData.data![0].physicalConditionId,),
                                           ));
                                     },
                                   ),

@@ -3,10 +3,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:ummicare/models/healthmodel.dart';
+import 'package:ummicare/models/vaccinationAppointmentModel.dart';
 import 'package:ummicare/screens/parent_pages/child/health/addNewVaccineAppointment.dart';
 import 'package:ummicare/screens/parent_pages/child/health/editVaccineAppointment.dart';
-import 'package:ummicare/services/healthDatabase.dart';
+import 'package:ummicare/services/vaccinationAppointmentDatabase.dart';
 
 class healthAppointment extends StatefulWidget {
   const healthAppointment({super.key, required this.childId, required this.healthId});
@@ -81,7 +81,7 @@ class _healthCalendarState extends State<healthAppointment> {
           SizedBox(height: 20),
           if (_selectedDay != null)
             StreamBuilder<List<VaccinationAppointmentModel>>(
-              stream: HealthDatabaseService(childId: widget.childId).allVaccincationAppointmentData,
+              stream: VaccinationAppointmentDatabaseService(healthId:  widget.healthId).allVaccincationAppointmentData,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();

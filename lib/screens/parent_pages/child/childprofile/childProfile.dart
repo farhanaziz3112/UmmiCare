@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ummicare/models/academicCalendarModel.dart';
 import 'package:ummicare/models/childModel.dart';
-import 'package:ummicare/models/healthmodel.dart';
+import 'package:ummicare/models/healthModel.dart';
 import 'package:ummicare/models/schoolModel.dart';
 import 'package:ummicare/models/studentModel.dart';
 import 'package:ummicare/models/teacherModel.dart';
@@ -565,6 +565,7 @@ class _childProfileState extends State<childProfile> {
                     : StreamBuilder<List<HealthModel>>(
                         stream:HealthDatabaseService(childId: child.childId).allHealthData,
                         builder: (context, snapshot) {
+                          final healthData = snapshot.data;
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Container(
@@ -610,7 +611,6 @@ class _childProfileState extends State<childProfile> {
                             );
                           } else {
                             if (child.healthId.isNotEmpty) {
-                              List<HealthModel>? healthData = snapshot.data;
                               return Container(
                                 width: double.infinity,
                                 alignment: Alignment.centerLeft,
@@ -671,10 +671,7 @@ class _childProfileState extends State<childProfile> {
                                       const SizedBox(
                                         height: 5.0,
                                       ),
-                                      Text('Current Height:'
-                                          '${healthData?[0].currentHeight}'),
-                                      Text('Current Weight:'
-                                          '${healthData?[0].currentWeight}')
+                                      Text('Current Height: ${healthData?[0].healthId ?? 'N/A'}'),
                                     ],
                                   ),
                                 ),

@@ -1,7 +1,7 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:ummicare/models/healthmodel.dart';
+import 'package:ummicare/models/healthModel.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthAppointment.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthStatus.dart';
 import 'package:ummicare/screens/parent_pages/child/health/editPhysical.dart';
@@ -21,6 +21,7 @@ class healthMain extends StatefulWidget {
 
 class _healthMainState extends State<healthMain> {
   late List<double> bmiData;
+  late List<int> dateLabels;
 
   void _editPhysical() {
     showModalBottomSheet(
@@ -40,8 +41,12 @@ class _healthMainState extends State<healthMain> {
       builder: (context, snapshot) {
         final healthData = snapshot.data;
         for(int i=0; i<healthData!.length-1; i++){
-          bmiData.add(healthData[i].bmi);
+          bmiData.add(bmiData as double);
         }
+        List<Map<String, dynamic>> _bmiData = List.generate(
+          healthData.length,
+          (index) => {'date': dateLabels[index], 'bmiValue': bmiData[index]},
+        );
         return Scaffold(
           appBar: AppBar(
             elevation: 0.0,
@@ -73,7 +78,7 @@ class _healthMainState extends State<healthMain> {
                     primaryXAxis: CategoryAxis(),
                     series: <ChartSeries>[
                       LineSeries<Map<String, dynamic>, String>(
-                        dataSource: bmiData,
+                        dataSource: _bmiData,
                         xValueMapper: (Map<String, dynamic> data, _) => data['date']!,
                         yValueMapper: (Map<String, dynamic> data, _) => data['bmiValue']!,
                         dataLabelSettings: DataLabelSettings(isVisible: true),
@@ -98,89 +103,6 @@ class _healthMainState extends State<healthMain> {
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          width: 150,
-                          alignment: Alignment.centerLeft,
-                          decoration: const BoxDecoration(
-                              color: Color(0xffF29180),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0))),
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(5, 20, 0, 20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                const Row(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.height,
-                                      size: 30.0,
-                                      color: Colors.white,
-                                    ),
-                                    Text(
-                                      ' Height',
-                                      style: TextStyle(
-                                          fontSize: 20.0, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5.0,
-                                ),
-                                Text(
-                                    '${healthData[healthData.length - 1].currentHeight}'
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 150,
-                          alignment: Alignment.centerLeft,
-                          decoration: const BoxDecoration(
-                              color: Color(0xff8290F0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0))),
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(5, 20, 0, 20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                const Row(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.monitor_weight,
-                                      size: 30.0,
-                                      color: Colors.white,
-                                    ),
-                                    Text(
-                                      ' Weight',
-                                      style: TextStyle(
-                                          fontSize: 20.0, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5.0,
-                                ),
-                                Text(
-                                    '${healthData[healthData.length - 1].currentWeight}'
-                                ,)
-                              ],
-                            ),
-                          ),
-                        ),
-                      ]
                     ),
                   ),
                   const SizedBox(

@@ -1,6 +1,6 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:ummicare/services/healthDatabase.dart';
+import 'package:ummicare/services/vaccinationAppointmentDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
 import 'package:intl/intl.dart';
 
@@ -129,7 +129,7 @@ class _addNewVaccineAppointmentState extends State<addNewVaccineAppointment> {
                             widget.healthId;
                     String formattedMinute = _selectedTime.minute.toString().padLeft(2, '0');
                     String formattedTime = '${_selectedTime.hourOfPeriod}:$formattedMinute ${_selectedTime.period.index == 0 ? 'AM' : 'PM'}';
-                    await HealthDatabaseService(childId: widget.healthId)
+                    await VaccinationAppointmentDatabaseService(healthId: widget.healthId)
                         .createVaccinationAppointmentData(
                             vaccinationAppointmentId,
                             _vaccineType,

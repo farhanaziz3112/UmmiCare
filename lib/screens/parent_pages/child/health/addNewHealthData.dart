@@ -17,8 +17,8 @@ class _addNewHealthDataState extends State<addNewHealthData> {
 
   final _formKey = GlobalKey<FormState>();
 
-  late double _currentHeight;
-  late double _currentWeight;
+  double _currentHeight = 0;
+  double _currentWeight = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -135,15 +135,16 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                     String healthStatusIdHolder =
                         DateTime.now().millisecondsSinceEpoch.toString() + "1" +
                             widget.childId;
+                    String bmiIdHolder =
+                        DateTime.now().millisecondsSinceEpoch.toString() + "2" +
+                            widget.childId;
                     double bmi = _currentWeight / pow(_currentHeight, 2);
                     await HealthDatabaseService(childId: widget.childId)
                         .createHealthData(
                             healthIdHolder,
                             widget.childId,
                             healthStatusIdHolder,
-                            _currentHeight,
-                            _currentWeight,
-                            bmi);
+                            bmiIdHolder);
                     }
                     
                     Navigator.pop(context);

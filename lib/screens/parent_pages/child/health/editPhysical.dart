@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
-import 'package:ummicare/models/healthmodel.dart';
+import 'package:ummicare/models/healthModel.dart';
 import 'package:ummicare/shared/loading.dart';
 
 class EditPhysical extends StatefulWidget {
@@ -118,10 +118,8 @@ class _EditPhysicalState extends State<EditPhysical> {
                   if (_formKey.currentState!.validate()){
                     double bmi = _currentWeight / pow(_currentHeight, 2);
                     await HealthDatabaseService(childId: healthData!.childId)
-                      .updateHealthData(
-                            healthData.healthId,
-                            healthData.childId,
-                            healthData.healthStatusId,
+                      .createBmiData(
+                            healthData.bmiId,
                             _currentHeight,
                             _currentWeight,
                             bmi);

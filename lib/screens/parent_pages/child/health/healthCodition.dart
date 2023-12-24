@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ummicare/services/healthStatusDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
-import 'package:ummicare/services/healthDatabase.dart';
 
 class healthCondition extends StatefulWidget {
-  const healthCondition({super.key, required this.childId,required this.healthConditionId});
-  final String childId;
+  const healthCondition({super.key, required this.healthStatusId,required this.healthConditionId});
+  final String healthStatusId;
   final String healthConditionId;
 
   @override
@@ -138,7 +138,7 @@ class _healthCondition extends State<healthCondition> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    await HealthDatabaseService(childId: widget.childId)
+                    await HealthStatusDatabaseService(healthStatusId: widget.healthStatusId)
                         .createHealthConditionData(
                             widget.healthConditionId,
                             _currentSymptom,
