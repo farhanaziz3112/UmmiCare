@@ -20,8 +20,8 @@ class healthMain extends StatefulWidget {
 }
 
 class _healthMainState extends State<healthMain> {
-  late List<double> bmiData;
-  late List<int> dateLabels;
+  List<double> bmiData = [];
+  List<int> dateLabels = [];
 
   void _editPhysical() {
     showModalBottomSheet(
@@ -36,17 +36,10 @@ class _healthMainState extends State<healthMain> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<healthModel>>(
-      stream: healthDatabaseService().allHealthData,
+    return StreamBuilder<healthModel>(
+      stream: healthDatabaseService().healthData(widget.healthId),
       builder: (context, snapshot) {
         final healthData = snapshot.data;
-        for(int i=0; i<healthData!.length-1; i++){
-          bmiData.add(bmiData as double);
-        }
-        List<Map<String, dynamic>> _bmiData = List.generate(
-          healthData.length,
-          (index) => {'date': dateLabels[index], 'bmiValue': bmiData[index]},
-        );
         return Scaffold(
           appBar: AppBar(
             elevation: 0.0,
@@ -74,37 +67,29 @@ class _healthMainState extends State<healthMain> {
                 alignment: Alignment.center,
               child: Column(
                 children: <Widget>[
-                  SfCartesianChart(
-                    primaryXAxis: CategoryAxis(),
-                    series: <ChartSeries>[
-                      LineSeries<Map<String, dynamic>, String>(
-                        dataSource: _bmiData,
-                        xValueMapper: (Map<String, dynamic> data, _) => data['date']!,
-                        yValueMapper: (Map<String, dynamic> data, _) => data['bmiValue']!,
-                        dataLabelSettings: DataLabelSettings(isVisible: true),
-                      )
-                    ],
-                  ),
-                  Container(
-                    width: double.infinity,
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0))),
-                    child: Container(
-                      padding: const EdgeInsets.all(20.0),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text("graph"),
-                          SizedBox(
-                            height: 5.0,
-                          ),
+                  StreamBuilder<List<BmiModel>>(
+                    stream: healthDatabaseService().allBmiDataWithSameHealthId(widget.healthId), 
+                    builder: (context, snapshot){
+                      final bmi = snapshot.data;
+                      for(int i=0; i<bmi!.length-1; i++){
+                        bmiData.add(bmi[i].bmiData);
+                      }
+                      List<Map<String, dynamic>> bmiGraph = List.generate(
+                        bmi.length-1,
+                        (index) => {'date': dateLabels[index], 'bmiValue': bmiData[index]},
+                      );
+                      return SfCartesianChart(
+                        primaryXAxis: CategoryAxis(),
+                        series: <ChartSeries>[
+                          LineSeries<Map<String, dynamic>, String>(
+                            dataSource: bmiGraph,
+                            xValueMapper: (Map<String, dynamic> data, _) => data['date']!,
+                            yValueMapper: (Map<String, dynamic> data, _) => data['bmiValue']!,
+                            dataLabelSettings: const DataLabelSettings(isVisible: true),
+                          )
                         ],
-                      ),
-                    ),
-                  ),
+                      );
+                    }),
                   const SizedBox(
                     height: 10.0,
                   ),
@@ -142,13 +127,13 @@ class _healthMainState extends State<healthMain> {
                                       color: Colors.white,
                                     ),
                                     onPressed: () {
-                                      if(healthData[healthData.length - 1].healthStatusId == null){
+                                      if(healthData?.healthStatusId == null){
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 addNewHealthStatusData(
-                                                    healthStatusId: healthData[0].healthStatusId),
+                                                    healthStatusId: healthData!.healthStatusId),
                                           ));
                                       }else{
                                         Navigator.push(
@@ -156,7 +141,7 @@ class _healthMainState extends State<healthMain> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 healthStatus(
-                                                    childId: widget.childId, healthId: widget.healthId,healthStatusId: healthData[0].healthStatusId),
+                                                    childId: widget.childId, healthId: widget.healthId,healthStatusId: healthData!.healthStatusId),
                                           ));
                                       }
                                       

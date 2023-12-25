@@ -1,13 +1,15 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:ummicare/models/childmodel.dart';
 import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
 
 class addNewHealthData extends StatefulWidget {
-  const addNewHealthData({super.key, required this.childId});
-  final String childId;
+  const addNewHealthData({super.key, required this.healthId});
+  final String healthId;
 
   @override
   State<addNewHealthData> createState() => _addNewHealthDataState();
@@ -128,29 +130,19 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    //------------Health-------------
-                    String healthIdHolder =
-                        DateTime.now().millisecondsSinceEpoch.toString();
-                    String healthStatusIdHolder =
-                        DateTime.now().millisecondsSinceEpoch.toString() + "1" ;
-                    String bmiIdHolder =
-                        DateTime.now().millisecondsSinceEpoch.toString() + "2" ;
                     double bmi = _currentWeight / pow(_currentHeight, 2);
-                    await healthDatabaseService()
-                        .createHealthData(
-                            healthIdHolder,
-                            widget.childId,
-                            healthStatusIdHolder);
+                    final bmihDocument = FirebaseFirestore.instance
+                                                          .collection('Bmi')
+                                                          .doc();
                     await healthDatabaseService()
                         .createBmiData(
-                          bmiIdHolder,
-                          healthIdHolder,
+                          bmihDocument.id,
+                          widget.healthId,
                           _currentHeight,
                           _currentWeight,
                           bmi);
-                    }
-                    
-                    
+                    await healthDatabaseService().addBmi(widget.healthId, bmihDocument.id);
+                  }
                     Navigator.pop(context);
                 }
                 )

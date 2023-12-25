@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
@@ -117,15 +118,17 @@ class _EditPhysicalState extends State<EditPhysical> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()){
                     double bmi = _currentWeight / pow(_currentHeight, 2);
-                    String bmiIdHolder =
-                        DateTime.now().millisecondsSinceEpoch.toString() + "2";
+                    final bmihDocument = FirebaseFirestore.instance
+                                                          .collection('Bmi')
+                                                          .doc();
                     await healthDatabaseService()
-                      .createBmiData(
-                            bmiIdHolder,
-                            healthData!.healthId,
-                            _currentHeight,
-                            _currentWeight,
-                            bmi);
+                        .createBmiData(
+                          bmihDocument.id,
+                          widget.healthId,
+                          _currentHeight,
+                          _currentWeight,
+                          bmi);
+                    await healthDatabaseService().updateBmi(widget.healthId, bmihDocument.id, bmi);
                   }
                   Navigator.pop(context);
                 }

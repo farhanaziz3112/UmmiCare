@@ -522,14 +522,6 @@ class _childProfileState extends State<childProfile> {
                                           backgroundColor:
                                               Colors.white),
                                       onPressed: () async {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    addNewHealthData(
-                                                        childId: widget
-                                                            .child
-                                                            .childId)));
                                         final healthDocument = FirebaseFirestore.instance
                                                           .collection('Health')
                                                           .doc();
@@ -548,6 +540,18 @@ class _childProfileState extends State<childProfile> {
                                           child.childProfileImg, 
                                           child.educationId, 
                                           healthDocument.id);
+                                        
+                                        healthDatabaseService().createHealthData(
+                                          healthDocument.id, 
+                                          child.childId, 
+                                          "");
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    addNewHealthData(
+                                                        healthId: healthDocument.id)));
+                                        
                                       },
                                       child: const Text(
                                         'Register Health Module',
@@ -660,7 +664,7 @@ class _childProfileState extends State<childProfile> {
                                                           childId:
                                                               child.childId,
                                                           healthId:
-                                                              snapshot.data!.healthId,
+                                                              healthData!.healthId,
                                                         ),
                                                       ));
                                                 },
@@ -672,7 +676,7 @@ class _childProfileState extends State<childProfile> {
                                       const SizedBox(
                                         height: 5.0,
                                       ),
-                                      Text(snapshot.data!.healthId),
+                                      Text(healthData!.healthId),
                                     ],
                                   ),
                                 ),

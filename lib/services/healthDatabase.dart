@@ -47,7 +47,7 @@ class healthDatabaseService {
 
   //create Health data
   Future<void> createHealthData(
-      String healthId, 
+      String healthId,
       String childId, 
       String healthStatusId, 
     ) async {
@@ -56,6 +56,27 @@ class healthDatabaseService {
       'healthStatusId': healthStatusId,
     });
   }
+
+  Future<void> addBmi(
+      String healthId, String bmiId) async {
+    return await healthCollection
+        .doc(healthId)
+        .collection('Bmi')
+        .doc(bmiId)
+        .set({
+      'bmiId': bmiId,
+    });
+  }
+
+  Future<void> updateBmi(
+    String healthId,
+    String bmiId,
+    double bmiData,) async {
+      return await healthCollection.doc(healthId).collection('Bmi').doc(bmiId).set({
+        'bmiId': bmiId,
+        'bmiData' : bmiId,
+      });
+    }
 
   //--------------------------------------Bmi------------------------------------
 
@@ -71,8 +92,9 @@ class healthDatabaseService {
         .map(_createBmiModelObject);
   }
 
-  Stream<List<BmiModel>> get allBmiData {
+  Stream<List<BmiModel>> allBmiDataWithSameHealthId (String healthId){
     return bmiCollection
+        .where('healthId' ,isEqualTo: healthId)
         .snapshots()
         .map(_createBmiModelList);
   }
