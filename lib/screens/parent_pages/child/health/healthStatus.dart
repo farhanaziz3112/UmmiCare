@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ummicare/models/healthstatusmodel.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthCodition.dart';
 import 'package:ummicare/screens/parent_pages/child/health/physicalCondition.dart';
-import 'package:ummicare/services/healthStatusDatabase.dart';
+import 'package:ummicare/services/healthDatabase.dart';
 
 class healthStatus extends StatefulWidget {
   const healthStatus({super.key, required this.childId, required this.healthId,required this.healthStatusId});
@@ -19,7 +19,7 @@ class _healthStatusState extends State<healthStatus> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<HealthStatusModel>>(
-      stream: HealthStatusDatabaseService(healthStatusId: widget.healthStatusId).allHealthStatusData,
+      stream: HealthDatabaseService(childId: widget.healthStatusId).allHealthStatusData,
       builder: (context, snapshot){
         final healthData = snapshot;
         return Scaffold(
@@ -38,7 +38,7 @@ class _healthStatusState extends State<healthStatus> {
           ),
           body: SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
+              padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
                 alignment: Alignment.center,
               child: Column(
                 children: <Widget>[
@@ -50,16 +50,16 @@ class _healthStatusState extends State<healthStatus> {
                         Container(
                           width: 150,
                           alignment: Alignment.centerLeft,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: Color(0xffF29180),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10.0))),
                           child: Container(
-                            padding: EdgeInsets.fromLTRB(5, 20, 0, 20),
+                            padding: const EdgeInsets.fromLTRB(5, 20, 0, 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Row(
+                                const Row(
                                   children: <Widget>[
                                     Icon(
                                       Icons.height,
@@ -73,7 +73,7 @@ class _healthStatusState extends State<healthStatus> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5.0,
                                 ),
                                 Text(
@@ -86,16 +86,16 @@ class _healthStatusState extends State<healthStatus> {
                         Container(
                           width: 150,
                           alignment: Alignment.centerLeft,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: Color(0xff8290F0),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10.0))),
                           child: Container(
-                            padding: EdgeInsets.fromLTRB(5, 20, 0, 20),
+                            padding: const EdgeInsets.fromLTRB(5, 20, 0, 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Row(
+                                const Row(
                                   children: <Widget>[
                                     Icon(
                                       Icons.monitor_weight,
@@ -109,7 +109,7 @@ class _healthStatusState extends State<healthStatus> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5.0,
                                 ),
                                 Text(
@@ -122,29 +122,29 @@ class _healthStatusState extends State<healthStatus> {
                       ]
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10.0,
                   ),
                   Container(
                     width: double.infinity,
                     alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Color(0xff8290F0),
                         borderRadius:
                             BorderRadius.all(Radius.circular(10.0))),
                     child: Container(
-                      padding: EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Icon(
+                              const Icon(
                                 Icons.health_and_safety,
                                 size: 30.0,
                                 color: Colors.white,
                               ),
-                              Text(
+                              const Text(
                                 ' Health Condition',
                                 style: TextStyle(
                                     fontSize: 20.0, color: Colors.white),
@@ -153,7 +153,7 @@ class _healthStatusState extends State<healthStatus> {
                                 child: Container(
                                   alignment: Alignment.centerRight,
                                   child: IconButton(
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.edit,
                                       size: 25.0,
                                       color: Colors.white,
@@ -172,36 +172,36 @@ class _healthStatusState extends State<healthStatus> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5.0,
                           ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10.0,
                   ),
                   Container(
                     width: double.infinity,
                     alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Color(0xffF29180),
                         borderRadius:
                             BorderRadius.all(Radius.circular(10.0))),
                     child: Container(
-                      padding: EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Icon(
+                              const Icon(
                                 Icons.vaccines,
                                 size: 30.0,
                                 color: Colors.white,
                               ),
-                              Text(
+                              const Text(
                                 ' Physical Condition',
                                 style: TextStyle(
                                     fontSize: 20.0, color: Colors.white),
@@ -210,7 +210,7 @@ class _healthStatusState extends State<healthStatus> {
                                 child: Container(
                                   alignment: Alignment.centerRight,
                                   child: IconButton(
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.edit,
                                       size: 25.0,
                                       color: Colors.white,
@@ -229,26 +229,26 @@ class _healthStatusState extends State<healthStatus> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5.0,
                           ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10.0,
                   ),
                   Container(
                     width: double.infinity,
                     alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Color(0xff71CBCA),
                         borderRadius:
                             BorderRadius.all(Radius.circular(10.0))),
                     child: Container(
-                      padding: EdgeInsets.all(20.0),
-                      child: Column(
+                      padding: const EdgeInsets.all(20.0),
+                      child: const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Row(

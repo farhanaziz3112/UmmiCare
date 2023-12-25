@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ummicare/services/healthStatusDatabase.dart';
+import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
 
 class healthCondition extends StatefulWidget {
@@ -138,7 +138,7 @@ class _healthCondition extends State<healthCondition> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    await HealthStatusDatabaseService(healthStatusId: widget.healthStatusId)
+                    await HealthDatabaseService(childId: widget.healthStatusId)
                         .createHealthConditionData(
                             widget.healthConditionId,
                             _currentSymptom,

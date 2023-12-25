@@ -1,6 +1,6 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:ummicare/services/healthStatusDatabase.dart';
+import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
 
 class addNewHealthStatusData extends StatefulWidget {
@@ -120,7 +120,7 @@ class _addNewHealthStatusDataState extends State<addNewHealthStatusData> {
                     String chronicConditionIdHolder =
                         DateTime.now().millisecondsSinceEpoch.toString() + "2" +
                             widget.healthStatusId;
-                    await HealthStatusDatabaseService(healthStatusId: widget.healthStatusId)
+                    await HealthDatabaseService(childId: widget.healthStatusId)
                         .createHealthStatusData(
                             widget.healthStatusId,
                             _currentTemperature,

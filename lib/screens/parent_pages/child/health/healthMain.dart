@@ -37,7 +37,7 @@ class _healthMainState extends State<healthMain> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<HealthModel>>(
-      stream: HealthDatabaseService(childId: widget.childId).allHealthData,
+      stream: HealthDatabaseService(childId: widget.healthId).allHealthData,
       builder: (context, snapshot) {
         final healthData = snapshot.data;
         for(int i=0; i<healthData!.length-1; i++){
