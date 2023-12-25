@@ -562,10 +562,10 @@ class _childProfileState extends State<childProfile> {
                           ),
                         ),
                       )
-                    : StreamBuilder<List<HealthModel>>(
-                        stream:HealthDatabaseService(childId: child.childId).allHealthData,
+                    : StreamBuilder<healthModel>(
+                        stream: healthDatabaseService()
+                            .healthData(child.healthId),
                         builder: (context, snapshot) {
-                          final healthData = snapshot.data;
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Container(
@@ -610,7 +610,8 @@ class _childProfileState extends State<childProfile> {
                               ),
                             );
                           } else {
-                            if (child.healthId.isNotEmpty) {
+                            if (snapshot.hasData) {
+                              healthModel? healthData = snapshot.data;
                               return Container(
                                 width: double.infinity,
                                 alignment: Alignment.centerLeft,
@@ -659,7 +660,7 @@ class _childProfileState extends State<childProfile> {
                                                           childId:
                                                               child.childId,
                                                           healthId:
-                                                              healthData![0].healthId,
+                                                              snapshot.data!.healthId,
                                                         ),
                                                       ));
                                                 },
@@ -671,7 +672,7 @@ class _childProfileState extends State<childProfile> {
                                       const SizedBox(
                                         height: 5.0,
                                       ),
-                                      Text('Current Height: ${healthData?[0].healthId ?? 'N/A'}'),
+                                      Text(snapshot.data!.healthId),
                                     ],
                                   ),
                                 ),

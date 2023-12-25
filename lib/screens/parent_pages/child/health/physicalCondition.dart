@@ -110,7 +110,7 @@ class _physicalCondition extends State<physicalCondition> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    await HealthDatabaseService(childId: widget.healthStatusId)
+                    await healthDatabaseService()
                         .createPhysicalConditionData(
                             widget.physicalConditionId,
                             _currentInjury,

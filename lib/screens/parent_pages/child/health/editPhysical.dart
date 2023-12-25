@@ -24,8 +24,8 @@ class _EditPhysicalState extends State<EditPhysical> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<HealthModel>(
-      stream: HealthDatabaseService(childId: widget.childId).healthData,
+    return StreamBuilder<healthModel>(
+      stream: healthDatabaseService().healthData(widget.healthId),
       builder: (context, snapshot) {
         if(snapshot.hasData){
           final healthData = snapshot.data;
@@ -117,9 +117,12 @@ class _EditPhysicalState extends State<EditPhysical> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()){
                     double bmi = _currentWeight / pow(_currentHeight, 2);
-                    await HealthDatabaseService(childId: healthData!.childId)
+                    String bmiIdHolder =
+                        DateTime.now().millisecondsSinceEpoch.toString() + "2";
+                    await healthDatabaseService()
                       .createBmiData(
-                            healthData.bmiId,
+                            bmiIdHolder,
+                            healthData!.healthId,
                             _currentHeight,
                             _currentWeight,
                             bmi);

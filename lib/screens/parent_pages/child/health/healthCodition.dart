@@ -138,7 +138,7 @@ class _healthCondition extends State<healthCondition> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    await HealthDatabaseService(childId: widget.healthStatusId)
+                    await healthDatabaseService()
                         .createHealthConditionData(
                             widget.healthConditionId,
                             _currentSymptom,

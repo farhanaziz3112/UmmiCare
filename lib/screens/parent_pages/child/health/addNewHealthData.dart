@@ -130,22 +130,26 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                   if (_formKey.currentState!.validate()) {
                     //------------Health-------------
                     String healthIdHolder =
-                        DateTime.now().millisecondsSinceEpoch.toString() +
-                            widget.childId;
+                        DateTime.now().millisecondsSinceEpoch.toString();
                     String healthStatusIdHolder =
-                        DateTime.now().millisecondsSinceEpoch.toString() + "1" +
-                            widget.childId;
+                        DateTime.now().millisecondsSinceEpoch.toString() + "1" ;
                     String bmiIdHolder =
-                        DateTime.now().millisecondsSinceEpoch.toString() + "2" +
-                            widget.childId;
+                        DateTime.now().millisecondsSinceEpoch.toString() + "2" ;
                     double bmi = _currentWeight / pow(_currentHeight, 2);
-                    await HealthDatabaseService(childId: widget.childId)
+                    await healthDatabaseService()
                         .createHealthData(
                             healthIdHolder,
                             widget.childId,
-                            healthStatusIdHolder,
-                            bmiIdHolder);
+                            healthStatusIdHolder);
+                    await healthDatabaseService()
+                        .createBmiData(
+                          bmiIdHolder,
+                          healthIdHolder,
+                          _currentHeight,
+                          _currentWeight,
+                          bmi);
                     }
+                    
                     
                     Navigator.pop(context);
                 }

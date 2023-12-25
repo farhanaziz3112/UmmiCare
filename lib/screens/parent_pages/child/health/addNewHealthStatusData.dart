@@ -120,7 +120,7 @@ class _addNewHealthStatusDataState extends State<addNewHealthStatusData> {
                     String chronicConditionIdHolder =
                         DateTime.now().millisecondsSinceEpoch.toString() + "2" +
                             widget.healthStatusId;
-                    await HealthDatabaseService(childId: widget.healthStatusId)
+                    await healthDatabaseService()
                         .createHealthStatusData(
                             widget.healthStatusId,
                             _currentTemperature,

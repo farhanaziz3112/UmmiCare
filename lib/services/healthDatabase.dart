@@ -2,57 +2,44 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ummicare/models/healthModel.dart';
 import 'package:ummicare/models/healthstatusmodel.dart';
 
-class HealthDatabaseService {
-  final String childId;
-  final String? healthId;
-  final String? healthStatusId;
-  final String? bmiId;
-  final String? healthConditionId;
-  final String? physicalConditionId;
-  final String? chronicConditionId;
-
-  HealthDatabaseService(
-      {required this.childId, this.healthId, this.healthStatusId, this.bmiId, this.healthConditionId, this.physicalConditionId, this.chronicConditionId});
-
+class healthDatabaseService {
 //------------------------------Health----------------------------------
 
   //collection reference
-  static final CollectionReference healthCollection =
+  final CollectionReference healthCollection =
       FirebaseFirestore.instance.collection('Health');
 
 
   //get Health stream
-  Stream<HealthModel> get healthData {
+  Stream<healthModel> healthData (String healthId) {
     return healthCollection
         .doc(healthId)
         .snapshots()
         .map(_createHealthModelObject);
   }
 
-  Stream <List<HealthModel>> get allHealthData{
+  Stream <List<healthModel>> get allHealthData{
     return healthCollection
           .snapshots()
           .map(_createHealthModelList);
   }
 
   //create a Health model object
-  HealthModel _createHealthModelObject(DocumentSnapshot snapshot) {
-    return HealthModel(
+  healthModel _createHealthModelObject(DocumentSnapshot snapshot) {
+    return healthModel(
       healthId: snapshot.id,
       childId: snapshot['childId'],
       healthStatusId: snapshot['healthStatusId'],
-      bmiId: snapshot['bmiId'],
     );
   }
 
   //create a list of Health model object
-  List<HealthModel> _createHealthModelList(QuerySnapshot snapshot) {
-    return snapshot.docs.map<HealthModel>((doc) {
-      return HealthModel(
+  List<healthModel> _createHealthModelList(QuerySnapshot snapshot) {
+    return snapshot.docs.map<healthModel>((doc) {
+      return healthModel(
         healthId: doc.id,
-        childId: doc.get('childId') ?? '',
-        healthStatusId: doc.get('healthStatusId') ?? '',
-        bmiId: doc.get('bmiId') ?? '',
+        childId: doc.get('childId'),
+        healthStatusId: doc.get('healthStatusId'),
       );
     }).toList();
   }
@@ -60,30 +47,32 @@ class HealthDatabaseService {
 
   //create Health data
   Future<void> createHealthData(
-      String healthId, String childId, String healthStatusId, String bmiId) async {
+      String healthId, 
+      String childId, 
+      String healthStatusId, 
+    ) async {
     return await healthCollection.doc(healthId).set({
       'childId': childId,
       'healthStatusId': healthStatusId,
-      'bmiId' : bmiId,
     });
   }
 
   //--------------------------------------Bmi------------------------------------
 
   //collection reference
-  final CollectionReference BmiCollection =
+  final CollectionReference bmiCollection =
       FirebaseFirestore.instance.collection('Bmi');
 
   //get specific health status document stream
-  Stream<BmiModel> get BmiData {
-    return BmiCollection
+  Stream<BmiModel> bmiData (bmiId) {
+    return bmiCollection
         .doc(bmiId)
         .snapshots()
         .map(_createBmiModelObject);
   }
 
   Stream<List<BmiModel>> get allBmiData {
-    return BmiCollection
+    return bmiCollection
         .snapshots()
         .map(_createBmiModelList);
   }
@@ -95,6 +84,7 @@ class HealthDatabaseService {
 
     return BmiModel(
       bmiId: snapshot.id,
+      healthId: snapshot['healthId'],
       currentHeight: snapshot['currentHeight'],
       currentWeight: snapshot['currentWeight'],
       bmiData : snapshot['bmiData'],
@@ -106,6 +96,7 @@ class HealthDatabaseService {
     return snapshot.docs.map<BmiModel>((doc) {
       return BmiModel(
         bmiId: doc.id,
+        healthId: doc.get('healthId'),
         currentHeight: doc.get('currentHeight') ?? '',
         currentWeight: doc.get('currentWeight') ?? '',
         bmiData: doc.get('bmiData') ?? '',
@@ -116,13 +107,15 @@ class HealthDatabaseService {
 
   //create health status data
   Future<void> createBmiData(
-    String BmiId,
+    String bmiId,
+    String healthId,
     double currentHeight,
     double currentWeight,
     double bmiData
     ) async {
     DateTime now = DateTime.now();
-    return await BmiCollection.doc(BmiId).set({
+    return await bmiCollection.doc(bmiId).set({
+      'healthId' : healthId,
       'currentHeight': currentHeight,
       'currentWeight': currentWeight,
       'bmiData': bmiData,
@@ -137,7 +130,7 @@ class HealthDatabaseService {
       FirebaseFirestore.instance.collection('Health Status');
 
   //get specific health status document stream
-  Stream<HealthStatusModel> get healthStatusData {
+  Stream<HealthStatusModel> healthStatusData (healthStatusId) {
     return healthStatusCollection
         .doc(healthStatusId)
         .snapshots()
@@ -198,7 +191,7 @@ class HealthDatabaseService {
       FirebaseFirestore.instance.collection('Health Condition');
 
   //get specific health Condition document stream
-  Stream<HealthConditionModel> get healthConditionData {
+  Stream<HealthConditionModel> healthConditionData (healthConditionId) {
     return healthConditionCollection
         .doc(healthConditionId)
         .snapshots()
@@ -234,7 +227,7 @@ class HealthDatabaseService {
       FirebaseFirestore.instance.collection('Physical Condition');
 
   //get specific physical Condition document stream
-  Stream<PhysicalConditionModel> get physicalConditionData {
+  Stream<PhysicalConditionModel> physicalConditionData (physicalConditionId) {
     return physicalConditionCollection
         .doc(physicalConditionId)
         .snapshots()
@@ -267,7 +260,7 @@ class HealthDatabaseService {
       FirebaseFirestore.instance.collection('Chronic Condition');
 
   //get specific chronic Condition document stream
-  Stream<ChronicConditionModel> get chronicConditionData {
+  Stream<ChronicConditionModel> chronicConditionData (chronicConditionId) {
     return chronicConditionCollection
         .doc(chronicConditionId)
         .snapshots()
