@@ -123,11 +123,9 @@ class _addNewHealthStatusDataState extends State<addNewHealthStatusData> {
                     await healthDatabaseService()
                         .createHealthStatusData(
                             widget.healthStatusId,
-                            _currentTemperature,
-                            _currentHeartRate,
-                            healthConditionIdHolder,
-                            physicalConditionIdHolder,
-                            chronicConditionIdHolder,);   
+                            "",
+                            "",
+                            "",);   
                     }
 
                     Navigator.pop(context);

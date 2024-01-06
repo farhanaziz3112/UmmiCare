@@ -27,3 +27,13 @@ class BmiModel {
     required this.createdAt
   });
 }
+
+class BmiHealthModel{
+  final bmiId;
+  late final double bmiData;
+
+  BmiHealthModel({
+    required this.bmiId,
+    required this.bmiData
+  });
+}

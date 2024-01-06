@@ -567,8 +567,7 @@ class _childProfileState extends State<childProfile> {
                         ),
                       )
                     : StreamBuilder<healthModel>(
-                        stream: healthDatabaseService()
-                            .healthData(child.healthId),
+                        stream: healthDatabaseService().healthData(child.healthId),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
