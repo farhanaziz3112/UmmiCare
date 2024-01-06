@@ -19,7 +19,7 @@ class _healthStatusState extends State<healthStatus> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<HealthStatusModel>>(
-      stream: healthDatabaseService().allHealthStatusData,
+      stream: HealthDatabaseService().allHealthStatusData,
       builder: (context, snapshot){
         final healthData = snapshot;
         return Scaffold(

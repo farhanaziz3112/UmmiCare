@@ -1,9 +1,9 @@
-class healthModel {
+class HealthModel {
   final String healthId;
   late final String childId;
   late final String healthStatusId;
 
-  healthModel({
+  HealthModel({
     required this.healthId,
     required this.childId,
     required this.healthStatusId,

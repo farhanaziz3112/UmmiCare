@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:ummicare/models/childmodel.dart';
 import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
 
@@ -134,14 +133,14 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                     final bmihDocument = FirebaseFirestore.instance
                                                           .collection('Bmi')
                                                           .doc();
-                    await healthDatabaseService()
+                    await HealthDatabaseService()
                         .createBmiData(
                           bmihDocument.id,
                           widget.healthId,
                           _currentHeight,
                           _currentWeight,
                           bmi);
-                    await healthDatabaseService().addBmi(widget.healthId, bmihDocument.id);
+                    await HealthDatabaseService().addBmi(widget.healthId, bmihDocument.id);
                   }
                     Navigator.pop(context);
                 }

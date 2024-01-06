@@ -25,8 +25,8 @@ class _EditPhysicalState extends State<EditPhysical> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<healthModel>(
-      stream: healthDatabaseService().healthData(widget.healthId),
+    return StreamBuilder<HealthModel>(
+      stream: HealthDatabaseService().healthData(widget.healthId),
       builder: (context, snapshot) {
         if(snapshot.hasData){
           final healthData = snapshot.data;
@@ -121,14 +121,14 @@ class _EditPhysicalState extends State<EditPhysical> {
                     final bmihDocument = FirebaseFirestore.instance
                                                           .collection('Bmi')
                                                           .doc();
-                    await healthDatabaseService()
+                    await HealthDatabaseService()
                         .createBmiData(
                           bmihDocument.id,
                           widget.healthId,
                           _currentHeight,
                           _currentWeight,
                           bmi);
-                    await healthDatabaseService().updateBmi(widget.healthId, bmihDocument.id, bmi);
+                    await HealthDatabaseService().updateBmi(widget.healthId, bmihDocument.id, bmi);
                   }
                   Navigator.pop(context);
                 }

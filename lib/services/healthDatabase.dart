@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ummicare/models/healthmodel.dart';
-import 'package:ummicare/models/healthStatusModel.dart';
+import 'package:ummicare/models/healthModel.dart';
+import 'package:ummicare/models/healthstatusmodel.dart';
 
-class healthDatabaseService {
+class HealthDatabaseService {
 //------------------------------Health----------------------------------
 
   //collection reference
@@ -11,22 +11,22 @@ class healthDatabaseService {
 
 
   //get Health stream
-  Stream<healthModel> healthData (String healthId) {
+  Stream<HealthModel> healthData (String healthId) {
     return healthCollection
         .doc(healthId)
         .snapshots()
         .map(_createHealthModelObject);
   }
 
-  Stream <List<healthModel>> get allHealthData{
+  Stream <List<HealthModel>> get allHealthData{
     return healthCollection
           .snapshots()
           .map(_createHealthModelList);
   }
 
   //create a Health model object
-  healthModel _createHealthModelObject(DocumentSnapshot snapshot) {
-    return healthModel(
+  HealthModel _createHealthModelObject(DocumentSnapshot snapshot) {
+    return HealthModel(
       healthId: snapshot.id,
       childId: snapshot['childId'],
       healthStatusId: snapshot['healthStatusId'],
@@ -34,9 +34,9 @@ class healthDatabaseService {
   }
 
   //create a list of Health model object
-  List<healthModel> _createHealthModelList(QuerySnapshot snapshot) {
-    return snapshot.docs.map<healthModel>((doc) {
-      return healthModel(
+  List<HealthModel> _createHealthModelList(QuerySnapshot snapshot) {
+    return snapshot.docs.map<HealthModel>((doc) {
+      return HealthModel(
         healthId: doc.id,
         childId: doc.get('childId'),
         healthStatusId: doc.get('healthStatusId'),

@@ -110,17 +110,7 @@ class _addNewHealthStatusDataState extends State<addNewHealthStatusData> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    //------------Health-------------
-                    String healthConditionIdHolder =
-                        DateTime.now().millisecondsSinceEpoch.toString() +
-                            widget.healthStatusId;
-                    String physicalConditionIdHolder =
-                        DateTime.now().millisecondsSinceEpoch.toString() + "1" +
-                            widget.healthStatusId;
-                    String chronicConditionIdHolder =
-                        DateTime.now().millisecondsSinceEpoch.toString() + "2" +
-                            widget.healthStatusId;
-                    await healthDatabaseService()
+                    await HealthDatabaseService()
                         .createHealthStatusData(
                             widget.healthStatusId,
                             "",
