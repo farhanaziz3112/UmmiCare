@@ -2,15 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ummicare/models/medicalStaffModel.dart';
 
 class medicalStaffDatabase {
-
-  final String medicalStaffId;
-  medicalStaffDatabase({required this.medicalStaffId});
-
   final CollectionReference medicalStaffCollection =
       FirebaseFirestore.instance.collection('Medical Staff');
 
   //get specific medicalStaff document stream
-  Stream<medicalStaffModel> get medicalStaffData {
+  Stream<medicalStaffModel> medicalStaffData (String medicalStaffId) {
     return medicalStaffCollection.doc(medicalStaffId).snapshots().map(_createMedicalStaffModelObject);
   }
 

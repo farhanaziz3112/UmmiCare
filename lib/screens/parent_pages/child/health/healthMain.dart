@@ -21,7 +21,6 @@ class healthMain extends StatefulWidget {
 
 class _healthMainState extends State<healthMain> {
   List<double> bmiData = [];
-  List<int> dateLabels = [];
 
   void _editPhysical() {
     showModalBottomSheet(
@@ -76,7 +75,7 @@ class _healthMainState extends State<healthMain> {
                       }
                       List<Map<String, dynamic>> bmiGraph = List.generate(
                         bmi.length-1,
-                        (index) => {'date': dateLabels[index], 'bmiValue': bmiData[index]},
+                        (index) => {'Label': (index).toString(), 'bmiValue': bmiData[index]},
                       );
                       return SfCartesianChart(
                         primaryXAxis: CategoryAxis(),
