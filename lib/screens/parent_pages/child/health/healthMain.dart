@@ -5,7 +5,6 @@ import 'package:ummicare/models/healthModel.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthAppointment.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthStatus.dart';
 import 'package:ummicare/screens/parent_pages/child/health/editPhysical.dart';
-import 'package:ummicare/screens/parent_pages/child/health/addNewHealthStatusData.dart';
 
 import 'package:ummicare/services/healthDatabase.dart';
 
@@ -126,23 +125,13 @@ class _healthMainState extends State<healthMain> {
                                       color: Colors.white,
                                     ),
                                     onPressed: () {
-                                      if(healthData?.healthStatusId == null){
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                addNewHealthStatusData(
-                                                    healthStatusId: healthData!.healthStatusId),
-                                          ));
-                                      }else{
-                                        Navigator.push(
+                                      Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 healthStatus(
                                                     childId: widget.childId, healthId: widget.healthId,healthStatusId: healthData!.healthStatusId),
                                           ));
-                                      }
                                       
                                     },
                                   ),

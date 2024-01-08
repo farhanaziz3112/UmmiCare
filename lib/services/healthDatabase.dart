@@ -225,12 +225,12 @@ class HealthDatabaseService {
 
   //create health status data
   Future<void> createHealthStatusData(
+    String healthStatusId,
     String healthConditionId,
     String physicalConditionId,
     String chronicConditionId,
     String patientId) async {
-    final doc = healthStatusCollection.doc();
-    return await healthStatusCollection.doc(doc.id).set({
+    return await healthStatusCollection.doc(healthStatusId).set({
       'healthConditionId': healthConditionId,
       'physicalConditionId': physicalConditionId,
       'chronicConditionId' : chronicConditionId,

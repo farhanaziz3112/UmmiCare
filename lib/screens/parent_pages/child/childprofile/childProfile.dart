@@ -522,35 +522,12 @@ class _childProfileState extends State<childProfile> {
                                           backgroundColor:
                                               Colors.white),
                                       onPressed: () async {
-                                        final healthDocument = FirebaseFirestore.instance
-                                                          .collection('Health')
-                                                          .doc();
-                                        childDatabase(
-                                          childId: widget.child.childId
-                                        ).updateChildData(
-                                          child.childId, 
-                                          child.parentId, 
-                                          child.childCreatedDate, 
-                                          child.childName, 
-                                          child.childFirstname, 
-                                          child.childLastname, 
-                                          child.childBirthday, 
-                                          child.childCurrentAge, 
-                                          child.childAgeCategory, 
-                                          child.childProfileImg, 
-                                          child.educationId, 
-                                          healthDocument.id);
-                                        
-                                        HealthDatabaseService().createHealthData(
-                                          healthDocument.id, 
-                                          child.childId, 
-                                          "");
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     addNewHealthData(
-                                                        healthId: healthDocument.id)));
+                                                        child: child)));
                                         
                                       },
                                       child: const Text(

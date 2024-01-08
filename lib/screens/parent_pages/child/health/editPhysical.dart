@@ -20,8 +20,8 @@ class _EditPhysicalState extends State<EditPhysical> {
 
   final _formKey = GlobalKey<FormState>();
 
-  late double _currentHeight;
-  late double _currentWeight;
+  double _currentHeight = 0;
+  double _currentWeight = 0;
 
   @override
   Widget build(BuildContext context) {

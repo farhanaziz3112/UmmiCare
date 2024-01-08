@@ -3,14 +3,17 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:ummicare/models/childModel.dart';
 import 'package:ummicare/models/medicalStaffModel.dart';
+import 'package:ummicare/services/childDatabase.dart';
 import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/services/medicalStaffDatabase.dart';
+import 'package:ummicare/services/patientDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
 
 class addNewHealthData extends StatefulWidget {
-  const addNewHealthData({super.key, required this.healthId});
-  final String healthId;
+  const addNewHealthData({super.key, required this.child});
+  final childModel child;
 
   @override
   State<addNewHealthData> createState() => _addNewHealthDataState();
@@ -22,7 +25,8 @@ class _addNewHealthDataState extends State<addNewHealthData> {
 
   double _currentHeight = 0;
   double _currentWeight = 0;
-  String _clinic = 'Please register a clinic';
+  String _clinic = '';
+  String _clinicId = '';
   List<String> clinicList = [];
 
   @override
@@ -48,21 +52,32 @@ class _addNewHealthDataState extends State<addNewHealthData> {
           child: Form(
             key: _formKey,
             child: Column(
-              children: <Widget>[
+              children: <Widget>[Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: Text(
+                    'Select a clinic',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[500],
+                    ),
+                  ),
+                ),
                 SizedBox(
-                  height: 30.0,
+                  height: 10.0,
                 ),
                 StreamBuilder<List<ClinicModel>>(
                   stream: medicalStaffDatabase().allClinicData,
                   builder: (context, snapshot) {
-                    if(snapshot.hasError){
-                      return Text('Error: ${snapshot.error}');
-                    }
                     if(snapshot.hasData){
                       List<ClinicModel>? clinic = snapshot.data;
+                      clinicList.clear();
                       for(int i =0; i<clinic!.length; i++){
                         clinicList.add(clinic[i].clinicName);
                       }
+                      _clinic = clinicList[0];
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: DropdownButtonFormField<String>(
@@ -73,15 +88,25 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                             });
                           },
                           items: clinicList
-                              .map<DropdownMenuItem<String>>((clinicList) {
+                              .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
-                              value: clinicList,
-                              child: Text(clinicList),
+                              value: value,
+                              child: Text(value),
                             );
                           }).toList(),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please select an option';
+                            }
+                            for (int i = 0; i < clinic.length; i++) {
+                              if (clinic[i]
+                                  .clinicName
+                                  .toLowerCase()
+                                  .contains(_clinic.toLowerCase())) {
+                                setState(() {
+                                  _clinicId = clinic[i].clinicId;
+                                });
+                              }
                             }
                             return null;
                           },
@@ -92,30 +117,9 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                     }
                   },
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: DropdownButtonFormField<String>(
-                //     value: _clinic,
-                //     onChanged: (String? newValue) {
-                //       setState(() {
-                //         _clinic = newValue!;
-                //       });
-                //     },
-                //     items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
-                //         .map<DropdownMenuItem<String>>((String value) {
-                //       return DropdownMenuItem<String>(
-                //         value: value,
-                //         child: Text(value),
-                //       );
-                //     }).toList(),
-                //     validator: (value) {
-                //       if (value == null || value.isEmpty) {
-                //         return 'Please select an option';
-                //       }
-                //       return null;
-                //     },
-                //   ),
-                // ),
+                SizedBox(
+                  height: 30.0,
+                ),
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(left: 20.0),
@@ -196,18 +200,69 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
+                    final healthDocument = FirebaseFirestore.instance
+                                      .collection('Health')
+                                      .doc();
                     double bmi = _currentWeight / pow(_currentHeight, 2);
                     final bmihDocument = FirebaseFirestore.instance
                                                           .collection('Bmi')
                                                           .doc();
+                    final healthStatusDocument = FirebaseFirestore.instance
+                                                                  .collection('Health Status')
+                                                                  .doc();
+                    final patientDocument = FirebaseFirestore.instance
+                                                                  .collection('Patient')
+                                                                  .doc();
+                    await childDatabase(
+                      childId: widget.child.childId
+                    ).updateChildData(
+                      widget.child.childId, 
+                      widget.child.parentId, 
+                      widget.child.childCreatedDate, 
+                      widget.child.childName, 
+                      widget.child.childFirstname, 
+                      widget.child.childLastname, 
+                      widget.child.childBirthday, 
+                      widget.child.childCurrentAge, 
+                      widget.child.childAgeCategory, 
+                      widget.child.childProfileImg, 
+                      widget.child.educationId, 
+                      healthDocument.id);
+                    
+                    await HealthDatabaseService().createHealthData(
+                      healthDocument.id, 
+                      widget.child.childId, 
+                      healthStatusDocument.id);
+
                     await HealthDatabaseService()
                         .createBmiData(
                           bmihDocument.id,
-                          widget.healthId,
+                          healthDocument.id,
                           _currentHeight,
                           _currentWeight,
                           bmi);
-                    await HealthDatabaseService().addBmi(widget.healthId, bmihDocument.id);
+
+                    await HealthDatabaseService().addBmi(healthDocument.id, bmihDocument.id);
+
+                    await HealthDatabaseService().createHealthStatusData(
+                      healthStatusDocument.id,
+                      '',
+                      '',
+                      '',
+                      patientDocument.id,
+                    );
+                    
+                    await PatientDatabaseService().createPatientData(
+                      patientDocument.id,
+                      healthDocument.id,
+                      widget.child.childId,
+                      _clinicId,
+                      healthStatusDocument.id,
+                      '',
+                      widget.child.childProfileImg,
+                      widget.child.childName,
+                      widget.child.childCurrentAge,
+                    );
                   }
                     Navigator.pop(context);
                 }

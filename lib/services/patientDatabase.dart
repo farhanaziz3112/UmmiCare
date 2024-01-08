@@ -53,7 +53,7 @@ class PatientDatabaseService {
     }).toList();
   }
 
-  Future<void> updateStudentData(
+  Future<void> updatePatientData(
       String patientId,
       String healthId,
       String childId,
@@ -64,7 +64,6 @@ class PatientDatabaseService {
       String patientName,
       int patientCurrentAge) async {
     return await patientCollection.doc(patientId).set({
-      'patientId': patientId,
       'childId': childId,
       'healthId': healthId,
       'clinicId': clinicId,
@@ -76,18 +75,17 @@ class PatientDatabaseService {
     });
   }
 
-  Future<void> createStudentData(
-      String childId,
+  Future<void> createPatientData(
+      String patientId,
       String healthId,
+      String childId,
       String clinicId,
       String healthStatusId,
       String vaccinationAppointmentId,
       String patientProfileImage,
       String patientName,
       int patientCurrentAge) async {
-    final document = patientCollection.doc();
-    return await patientCollection.doc(document.id).set({
-      'patientId': document.id,
+    return await patientCollection.doc(patientId).set({
       'healthId': healthId,
       'childId': childId,
       'clinicId': clinicId,
