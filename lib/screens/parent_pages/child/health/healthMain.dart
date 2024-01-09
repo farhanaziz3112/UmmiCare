@@ -1,7 +1,7 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:ummicare/models/healthModel.dart';
+import 'package:ummicare/screens/charts/childBmi.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthAppointment.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthStatus.dart';
 import 'package:ummicare/screens/parent_pages/child/health/editPhysical.dart';
@@ -51,13 +51,6 @@ class _healthMainState extends State<healthMain> {
             ),
             centerTitle: true,
             backgroundColor: const Color(0xffe1eef5),
-            actions: <Widget>[
-              TextButton.icon(
-                icon: const Icon(Icons.person),
-                label: const Text('EditHealth'),
-                onPressed: () => _editPhysical(),
-              )
-            ],
           ),
           body: SingleChildScrollView(
             child: Container(
@@ -65,29 +58,37 @@ class _healthMainState extends State<healthMain> {
                 alignment: Alignment.center,
               child: Column(
                 children: <Widget>[
-                  StreamBuilder<List<BmiModel>>(
-                    stream: HealthDatabaseService().allBmiDataWithSameHealthId(widget.healthId), 
-                    builder: (context, snapshot){
-                      final bmi = snapshot.data;
-                      for(int i=0; i<bmi!.length-1; i++){
-                        bmiData.add(bmi[i].bmiData);
-                      }
-                      List<Map<String, dynamic>> bmiGraph = List.generate(
-                        bmi.length-1,
-                        (index) => {'Label': (index).toString(), 'bmiValue': bmiData[index]},
-                      );
-                      return SfCartesianChart(
-                        primaryXAxis: CategoryAxis(),
-                        series: <ChartSeries>[
-                          LineSeries<Map<String, dynamic>, String>(
-                            dataSource: bmiGraph,
-                            xValueMapper: (Map<String, dynamic> data, _) => data['date']!,
-                            yValueMapper: (Map<String, dynamic> data, _) => data['bmiValue']!,
-                            dataLabelSettings: const DataLabelSettings(isVisible: true),
-                          )
+                  GestureDetector(
+                    onTap: () {
+                      _editPhysical();
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(
+                              0, 3,
+                            ), // changes position of shadow
+                          ),
                         ],
-                      );
-                    }),
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 200,
+                            child: childBmi(healthId: widget.healthId),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   const SizedBox(
                     height: 10.0,
                   ),
@@ -120,7 +121,7 @@ class _healthMainState extends State<healthMain> {
                                   alignment: Alignment.centerRight,
                                   child: IconButton(
                                     icon: const Icon(
-                                      Icons.edit,
+                                      Icons.arrow_forward,
                                       size: 25.0,
                                       color: Colors.white,
                                     ),
@@ -181,7 +182,7 @@ class _healthMainState extends State<healthMain> {
                                   alignment: Alignment.centerRight,
                                   child: IconButton(
                                     icon: const Icon(
-                                      Icons.edit,
+                                      Icons.arrow_forward,
                                       size: 25.0,
                                       color: Colors.white,
                                     ),
