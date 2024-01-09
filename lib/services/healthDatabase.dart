@@ -30,6 +30,7 @@ class HealthDatabaseService {
       healthId: snapshot.id,
       childId: snapshot['childId'],
       healthStatusId: snapshot['healthStatusId'],
+      patientId: snapshot['patientId'],
     );
   }
 
@@ -40,6 +41,7 @@ class HealthDatabaseService {
         healthId: doc.id,
         childId: doc.get('childId'),
         healthStatusId: doc.get('healthStatusId'),
+        patientId: doc.get('patientId')
       );
     }).toList();
   }
@@ -49,22 +51,24 @@ class HealthDatabaseService {
   Future<void> createHealthData(
     String healthId,
       String childId, 
-      String healthStatusId, 
+      String healthStatusId,
+      String patientId,
     ) async {
     return await healthCollection.doc(healthId).set({
       'childId': childId,
       'healthStatusId': healthStatusId,
+      'patientId': patientId,
     });
   }
 
   Future<void> addBmi(
-      String healthId, String bmiId) async {
+      String healthId, 
+      String bmiId, 
+      double bmiData) async {
     return await healthCollection
-        .doc(healthId)
-        .collection('Bmi')
-        .doc(bmiId)
-        .set({
+        .doc(healthId).collection('Bmi').doc(bmiId).set({
       'bmiId': bmiId,
+      'bmiData' : bmiData,
     });
   }
 
@@ -74,7 +78,7 @@ class HealthDatabaseService {
     double bmiData,) async {
       return await healthCollection.doc(healthId).collection('Bmi').doc(bmiId).set({
         'bmiId': bmiId,
-        'bmiData' : bmiId,
+        'bmiData' : bmiData,
       });
     }
 

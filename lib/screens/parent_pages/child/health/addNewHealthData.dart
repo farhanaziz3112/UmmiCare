@@ -33,7 +33,7 @@ class _addNewHealthDataState extends State<addNewHealthData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Add New Health Data",
           style: TextStyle(
             color: Colors.black,
@@ -41,14 +41,14 @@ class _addNewHealthDataState extends State<addNewHealthData> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true,
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
           child: Form(
             key: _formKey,
             child: Column(
@@ -65,7 +65,7 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 StreamBuilder<List<ClinicModel>>(
@@ -117,12 +117,12 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30.0,
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
                     'Current Height(m)',
                     textAlign: TextAlign.left,
@@ -133,7 +133,7 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30.0,
                 ),
                 TextFormField(
@@ -150,14 +150,14 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                   },
                   onChanged: (value) =>
                       setState(() => _currentHeight = double.parse(value)),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30.0,
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
                     'Current Weight(kg)',
                     textAlign: TextAlign.left,
@@ -168,7 +168,7 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30.0,
                 ),
                 TextFormField(
@@ -185,16 +185,16 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                   },
                   onChanged: (value) =>
                       setState(() => _currentWeight = double.parse(value)),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30.0,
                 ),
                 ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                 ),
-                child: Text(
+                child: const Text(
                   'Submit',
                   style: TextStyle(color: Colors.black),
                 ),
@@ -232,7 +232,8 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                     await HealthDatabaseService().createHealthData(
                       healthDocument.id, 
                       widget.child.childId, 
-                      healthStatusDocument.id);
+                      healthStatusDocument.id,
+                      patientDocument.id);
 
                     await HealthDatabaseService()
                         .createBmiData(
@@ -242,7 +243,7 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                           _currentWeight,
                           bmi);
 
-                    await HealthDatabaseService().addBmi(healthDocument.id, bmihDocument.id);
+                    await HealthDatabaseService().addBmi(healthDocument.id, bmihDocument.id, bmi);
 
                     await HealthDatabaseService().createHealthStatusData(
                       healthStatusDocument.id,
