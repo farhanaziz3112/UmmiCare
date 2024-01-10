@@ -800,7 +800,7 @@ class _attendanceMainState extends State<attendanceMain> {
                                             scrollable: true,
                                             title: const Padding(
                                               padding: EdgeInsets.all(10.0),
-                                              child: Text('Leave Record'),
+                                              child: Text('Attendance Record'),
                                             ),
                                             content: SizedBox(
                                               height: 400,

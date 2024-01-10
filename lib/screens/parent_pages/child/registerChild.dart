@@ -309,7 +309,8 @@ class _registerChildState extends State<registerChild> {
                                             .toString())),
                                         childProfileImg,
                                         '',
-                                        '');
+                                        '',
+                                        'normal');
                                 await parentDatabase(parentId: parent.parentId)
                                     .updateParentData(
                                         parent.parentId,

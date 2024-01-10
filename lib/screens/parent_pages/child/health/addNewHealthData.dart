@@ -227,7 +227,8 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                       widget.child.childAgeCategory, 
                       widget.child.childProfileImg, 
                       widget.child.educationId, 
-                      healthDocument.id);
+                      healthDocument.id,
+                      widget.child.overallStatus);
                     
                     await HealthDatabaseService().createHealthData(
                       healthDocument.id, 

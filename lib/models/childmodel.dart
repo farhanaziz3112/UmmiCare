@@ -11,6 +11,7 @@ class childModel {
   late final String childProfileImg;
   late final String educationId;
   late final String healthId;
+  late final String overallStatus;
 
   childModel(
       {required this.childId,
@@ -24,5 +25,6 @@ class childModel {
       required this.childAgeCategory,
       required this.childProfileImg,
       required this.educationId,
-      required this.healthId});
+      required this.healthId,
+      required this.overallStatus});
 }

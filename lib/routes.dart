@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ummicare/screens/parent_pages/child/childprofile/childProfile.dart';
 import 'package:ummicare/screens/parent_pages/child/childprofile/childStory.dart';
 import 'package:ummicare/screens/parent_pages/child/childprofile/addNewChildStory.dart';
-import 'package:ummicare/screens/parent_pages/child/advisory/advisoryMain.dart';
-import 'package:ummicare/screens/parent_pages/child/advisory/advisorProfile.dart';
 import 'package:ummicare/screens/parent_pages/child/education/academicCalendar.dart';
 import 'package:ummicare/screens/parent_pages/child/education/addNewExamResult.dart';
 import 'package:ummicare/screens/parent_pages/child/education/addNewSchoolFee.dart';
@@ -23,8 +21,6 @@ Map<String, WidgetBuilder> routes = {
   '/parent/child/childprofile/childstory': (context) => childStory(),
   '/parent/child/childprofile/addnewchildstory': (context) => addNewChildStory(),
   //'/parent/child/registerchild': (context) => registerChild(),
-  '/parent/child/advisory': (context) => advisoryMain(),
-  '/parent/child/advisory/advisorprofile': (context) => advisorProfile(),
   '/parent/child/childprofile/education': (context) => educationMain(studentId: '',childId: ''),
   '/parent/child/childprofile/education/academiccalendar': (context) => academicCalendar(),
   '/parent/child/childprofile/education/addnewexamresult': (context) => addNewExamResult(),

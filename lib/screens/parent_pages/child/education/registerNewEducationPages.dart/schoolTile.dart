@@ -290,7 +290,8 @@ class _schoolTileState extends State<schoolTile> {
                                                               .childAgeCategory,
                                                           child.childProfileImg,
                                                           studentDocument.id,
-                                                          child.healthId);
+                                                          child.healthId,
+                                                          child.overallStatus);
 
                                                   Navigator.push(
                                                       context,

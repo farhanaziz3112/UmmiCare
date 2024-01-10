@@ -211,7 +211,8 @@ class _editChildProfileState extends State<editChildProfile> {
                                       child.childAgeCategory,
                                       child.childProfileImg,
                                       child.educationId,
-                                      child.healthId);
+                                      child.healthId,
+                                      child.overallStatus);
                               Navigator.pop(context);
                             }
                           },

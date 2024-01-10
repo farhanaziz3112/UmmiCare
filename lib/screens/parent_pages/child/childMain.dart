@@ -2,10 +2,12 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ummicare/models/advisorModel.dart';
+import 'package:ummicare/models/buddyModel.dart';
 import 'package:ummicare/models/parentModel.dart';
 import 'package:ummicare/screens/parent_pages/child/advisory/chat.dart';
 import 'package:ummicare/screens/parent_pages/child/childlist/childlist.dart';
 import 'package:ummicare/screens/parent_pages/child/registerChild.dart';
+import 'package:ummicare/services/buddyDatabase.dart';
 import 'package:ummicare/services/advisorDatabase.dart';
 import 'package:ummicare/services/chatDatabase.dart';
 import 'package:ummicare/services/parentDatabase.dart';
@@ -108,82 +110,89 @@ class _childMainState extends State<childMain> {
                               stream:
                                   advisorDatabase(advisorId: '').allAdvisorData,
                               builder: (context, snapshot) {
-                                List<advisorModel>? advisorList = snapshot.data;
-                                var temp =
-                                    int.parse(advisorList![0].noOfParents);
-                                advisorModel assignedAdvisor = advisorList[0];
-                                for (var i = 0; i < advisorList.length; i++) {
-                                  if (int.parse(advisorList[i].noOfParents) <
-                                      temp) {
-                                    temp =
-                                        int.parse(advisorList[i].noOfParents);
-                                    assignedAdvisor = advisorList[i];
+                                if (snapshot.hasData) {
+                                  List<advisorModel>? advisorList =
+                                      snapshot.data;
+                                  var temp =
+                                      int.parse(advisorList![0].noOfParents);
+                                  advisorModel assignedAdvisor = advisorList[0];
+                                  for (var i = 0; i < advisorList.length; i++) {
+                                    if (int.parse(advisorList[i].noOfParents) <
+                                        temp) {
+                                      temp =
+                                          int.parse(advisorList[i].noOfParents);
+                                      assignedAdvisor = advisorList[i];
+                                    }
                                   }
+                                  return ElevatedButton(
+                                    onPressed: () {
+                                      String assignedDate = DateTime.now()
+                                          .millisecondsSinceEpoch
+                                          .toString();
+                                      advisorDatabase(
+                                              advisorId:
+                                                  assignedAdvisor.advisorId)
+                                          .addParent({
+                                        'parentId': parent.parentId,
+                                        'assignedDate': assignedDate
+                                      }, assignedAdvisor, parentId);
+                                      parentDatabase(parentId: parentId)
+                                          .updateParentData(
+                                              parentId,
+                                              parent.parentCreatedDate,
+                                              parent.parentFullName,
+                                              parent.parentFirstName,
+                                              parent.parentLastName,
+                                              parent.parentEmail,
+                                              parent.parentPhoneNumber,
+                                              parent.parentProfileImg,
+                                              assignedAdvisor.advisorId,
+                                              parent.noOfChild);
+                                      chatDatabase(
+                                              chatId:
+                                                  "${assignedAdvisor.advisorId}${parent.parentId}")
+                                          .updateChatData(
+                                              assignedAdvisor.advisorId,
+                                              parent.parentId);
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                                title: const Text(
+                                                    'New Advisor Activation!'),
+                                                content: const Text(
+                                                  'An advisor has been assigned to your account! Feel free to contact the advisor throught our chatting page.',
+                                                  textAlign: TextAlign.justify,
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: (() {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    }),
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      child: const Text('OK'),
+                                                    ),
+                                                  )
+                                                ],
+                                              ));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xff8290F0),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                    ),
+                                    child: const Text(
+                                      'Activate Advisor',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  );
+                                } else {
+                                  return Container();
                                 }
-                                return ElevatedButton(
-                                  onPressed: () {
-                                    String assignedDate = DateTime.now()
-                                        .millisecondsSinceEpoch
-                                        .toString();
-                                    advisorDatabase(
-                                            advisorId:
-                                                assignedAdvisor.advisorId)
-                                        .addParent({
-                                      'parentId': parent.parentId,
-                                      'assignedDate': assignedDate
-                                    }, assignedAdvisor, parentId);
-                                    parentDatabase(parentId: parentId)
-                                        .updateParentData(
-                                            parentId,
-                                            parent.parentCreatedDate,
-                                            parent.parentFullName,
-                                            parent.parentFirstName,
-                                            parent.parentLastName,
-                                            parent.parentEmail,
-                                            parent.parentPhoneNumber,
-                                            parent.parentProfileImg,
-                                            assignedAdvisor.advisorId,
-                                            parent.noOfChild);
-                                    chatDatabase(
-                                            chatId:
-                                                "${assignedAdvisor.advisorId}${parent.parentId}")
-                                        .updateChatData(
-                                            assignedAdvisor.advisorId,
-                                            parent.parentId);
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                              title: const Text(
-                                                  'New Advisor Activation!'),
-                                              content: const Text(
-                                                'An advisor has been assigned to your account! Feel free to contact the advisor throught our chatting page.',
-                                                textAlign: TextAlign.justify,
-                                              ),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  onPressed: (() {
-                                                    Navigator.of(context).pop();
-                                                  }),
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            10),
-                                                    child: const Text('OK'),
-                                                  ),
-                                                )
-                                              ],
-                                            ));
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xff8290F0),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5)),
-                                  ),
-                                  child: const Text(
-                                    'Activate Advisor',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                );
                               },
                             ),
                           ],
@@ -198,36 +207,97 @@ class _childMainState extends State<childMain> {
                             advisorModel? advisor = snapshot.data;
                             return Column(
                               children: <Widget>[
-                                Card(
-                                  margin: const EdgeInsets.fromLTRB(
-                                      0.0, 10.0, 0.0, 0.0),
-                                  color: const Color(0xffF29180),
-                                  child: ListTile(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 20.0, vertical: 5.0),
-                                    leading: CircleAvatar(
-                                      radius: 40.0,
-                                      backgroundColor: Colors.grey[300],
-                                      backgroundImage: NetworkImage(
-                                          advisor!.advisorProfileImg),
-                                    ),
-                                    title: Text(advisor.advisorFullName),
-                                    subtitle: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          advisor.advisorEmail,
-                                          style: const TextStyle(
-                                              color: Colors.white),
+                                Container(
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 15),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: const Offset(
+                                            0, 3), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      CircleAvatar(
+                                        radius: 30.0,
+                                        backgroundColor: Colors.grey[300],
+                                        backgroundImage: NetworkImage(
+                                            advisor!.advisorProfileImg),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0),
+                                        child: Container(
+                                          height: 1.0,
+                                          width: double.infinity,
+                                          color: Colors.grey[300],
                                         ),
-                                        Text(
-                                          advisor.advisorPhoneNumber,
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                        )
-                                      ],
-                                    ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            advisor.advisorFullName,
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w700
+                                            ),)),
+                                      const SizedBox(height: 10),
+                                      Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              const Icon(
+                                                Icons.email
+                                              ),
+                                              const SizedBox(width: 10,),
+                                              Text(
+                                                advisor.advisorEmail,
+                                                style: const TextStyle(
+                                                    color: Colors.black),
+                                              ),
+                                            ],
+                                          )),
+                                      const SizedBox(height: 5),
+                                      Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              const Icon(
+                                                Icons.phone
+                                              ),
+                                              const SizedBox(width: 10,),
+                                              Text(
+                                                advisor.advisorPhoneNumber,
+                                                style: const TextStyle(
+                                                    color: Colors.black),
+                                              ),
+                                            ],
+                                          )),
+                                    ],
                                   ),
                                 ),
                                 const SizedBox(height: 10),
@@ -276,7 +346,7 @@ class _childMainState extends State<childMain> {
                                                     Text(
                                                       'Chat anytime, anywhere with your advisor!',
                                                       style: TextStyle(
-                                                          fontSize: 10.0,
+                                                          fontSize: 13.0,
                                                           color: Colors.white),
                                                     )
                                                   ],
@@ -287,53 +357,6 @@ class _childMainState extends State<childMain> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 10.0,
-                                    ),
-                                    Expanded(
-                                      child: InkWell(
-                                        onTap: () {},
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                              color: Color(0xff8290F0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          child: Column(
-                                            children: <Widget>[
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        15.0, 5.0, 15.0, 15.0),
-                                                child: const Column(
-                                                  children: <Widget>[
-                                                    Icon(
-                                                      Icons.settings,
-                                                      size: 50.0,
-                                                      color: Colors.white,
-                                                    ),
-                                                    Text(
-                                                      'Settings',
-                                                      style: TextStyle(
-                                                          fontSize: 17.0,
-                                                          color: Colors.white),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 10.0,
-                                                    ),
-                                                    Text(
-                                                      'System settings for advisor and parent',
-                                                      style: TextStyle(
-                                                          fontSize: 10.0,
-                                                          color: Colors.white),
-                                                    )
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    )
                                   ],
                                 ),
                               ],

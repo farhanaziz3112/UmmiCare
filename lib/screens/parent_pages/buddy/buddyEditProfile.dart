@@ -1,20 +1,20 @@
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter/material.dart';
-import 'package:ummicare/models/parentModel.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:ummicare/models/buddyModel.dart';
 import 'package:ummicare/services/buddyDatabase.dart';
-import 'package:ummicare/services/parentDatabase.dart';
+import 'package:ummicare/services/storage.dart';
+import 'package:ummicare/shared/constant.dart';
 
-import '../../../shared/constant.dart';
-
-class registerBuddy extends StatefulWidget {
-  const registerBuddy({super.key, required this.parentId});
-  final String parentId;
+class buddyEditProfile extends StatefulWidget {
+  const buddyEditProfile({super.key, required this.buddyProfileId});
+  final String buddyProfileId;
 
   @override
-  State<registerBuddy> createState() => _registerBuddyState();
+  State<buddyEditProfile> createState() => _buddyEditProfileState();
 }
 
-class _registerBuddyState extends State<registerBuddy> {
+class _buddyEditProfileState extends State<buddyEditProfile> {
   final _formKey = GlobalKey<FormState>();
 
   //form values holder
@@ -23,18 +23,18 @@ class _registerBuddyState extends State<registerBuddy> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<parentModel>(
-        stream: parentDatabase(parentId: widget.parentId).parentData,
+    return StreamBuilder<buddyProfileModel>(
+        stream: buddyDatabase().buddyProfileData(widget.buddyProfileId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            parentModel? parent = snapshot.data;
+            buddyProfileModel? profile = snapshot.data;
             return Scaffold(
               appBar: AppBar(
-                title: const Text(
-                  "Register Buddy",
-                  style: TextStyle(
+                title: Text(
+                  "Edit ${profile!.buddyProfileUsername}\'s Profile",
+                  style: const TextStyle(
                     color: Colors.black,
-                    fontSize: 25,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -52,7 +52,49 @@ class _registerBuddyState extends State<registerBuddy> {
                     key: _formKey,
                     child: Column(
                       children: <Widget>[
-                        const Text('Set your Username and Privacy Status:'),
+                        const Text(
+                            'Set your Username, Profile Picture and Privacy Status:'),
+                        const SizedBox(
+                          height: 30.0,
+                        ),
+                        Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(profile.buddyProfileImageURL),
+                              radius: 50.0,
+                              backgroundColor: Colors.grey,
+                            ),
+                            Positioned(
+                              bottom: -60,
+                              right: -15,
+                              top: 0,
+                              child: RawMaterialButton(
+                                onPressed: () async {
+                                  ImagePicker imagePicker = ImagePicker();
+                                  XFile? file = await imagePicker.pickImage(
+                                      source: ImageSource.camera);
+                                  print('${file!.path}');
+
+                                  StorageService _storageService =
+                                      StorageService();
+                                  _storageService.uploadBuddyProfilePic(
+                                      profile, file);
+                                },
+                                constraints:
+                                    BoxConstraints.tight(const Size(30, 30)),
+                                elevation: 2.0,
+                                fillColor:
+                                    const Color.fromARGB(255, 216, 216, 216),
+                                child:
+                                    const Icon(Icons.edit, color: Colors.black),
+                                padding: const EdgeInsets.all(0.0),
+                                shape: const CircleBorder(),
+                              ),
+                            )
+                          ],
+                        ),
                         const SizedBox(
                           height: 20.0,
                         ),
@@ -73,7 +115,7 @@ class _registerBuddyState extends State<registerBuddy> {
                           height: 5.0,
                         ),
                         TextFormField(
-                          initialValue: username,
+                          initialValue: profile.buddyProfileUsername,
                           decoration: textInputDecoration.copyWith(
                               hintText: 'Username'),
                           validator: (value) =>
@@ -82,7 +124,7 @@ class _registerBuddyState extends State<registerBuddy> {
                               setState(() => username = value),
                         ),
                         const SizedBox(
-                          height: 15.0,
+                          height: 20.0,
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
@@ -133,7 +175,7 @@ class _registerBuddyState extends State<registerBuddy> {
                           ],
                         ),
                         const SizedBox(
-                          height: 25.0,
+                          height: 20.0,
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -142,16 +184,18 @@ class _registerBuddyState extends State<registerBuddy> {
                                 borderRadius: BorderRadius.circular(5)),
                           ),
                           child: const Text(
-                            'Create Buddy profile',
+                            'Edit Buddy profile',
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              await buddyDatabase().createBuddyProfileData(
-                                  parent!.parentId,
-                                  username,
+                              await buddyDatabase().updateBuddyProfileData(
+                                  profile.buddyProfileId,
+                                  username == ""
+                                      ? profile.buddyProfileUsername
+                                      : username,
                                   isPrivate ? 'private' : 'public',
-                                  parent.parentProfileImg);
+                                  profile.buddyProfileImageURL);
                               Navigator.pop(context);
                             }
                           },
