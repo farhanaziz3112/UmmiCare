@@ -78,7 +78,7 @@ class _healthStatusState extends State<healthStatus> {
                                         alignment: Alignment.centerRight,
                                         child: IconButton(
                                           icon: const Icon(
-                                            Icons.arrow_back,
+                                            Icons.arrow_forward,
                                             size: 25.0,
                                             color: Colors.white,
                                           ),
@@ -205,7 +205,7 @@ class _healthStatusState extends State<healthStatus> {
                                 Row(
                                   children: <Widget>[
                                     const Icon(
-                                      Icons.health_and_safety,
+                                      Icons.personal_injury,
                                       size: 30.0,
                                       color: Colors.white,
                                     ),
@@ -219,7 +219,7 @@ class _healthStatusState extends State<healthStatus> {
                                         alignment: Alignment.centerRight,
                                         child: IconButton(
                                           icon: const Icon(
-                                            Icons.arrow_back,
+                                            Icons.arrow_forward,
                                             size: 25.0,
                                             color: Colors.white,
                                           ),
@@ -287,7 +287,7 @@ class _healthStatusState extends State<healthStatus> {
                                 Row(
                                   children: <Widget>[
                                     Icon(
-                                      Icons.vaccines,
+                                      Icons.personal_injury,
                                       size: 30.0,
                                       color: Colors.white,
                                     ),
@@ -331,7 +331,7 @@ class _healthStatusState extends State<healthStatus> {
                                 Row(
                                   children: <Widget>[
                                     const Icon(
-                                      Icons.health_and_safety,
+                                      Icons.emergency,
                                       size: 30.0,
                                       color: Colors.white,
                                     ),
@@ -345,7 +345,7 @@ class _healthStatusState extends State<healthStatus> {
                                         alignment: Alignment.centerRight,
                                         child: IconButton(
                                           icon: const Icon(
-                                            Icons.arrow_back,
+                                            Icons.arrow_forward,
                                             size: 25.0,
                                             color: Colors.white,
                                           ),
@@ -413,7 +413,7 @@ class _healthStatusState extends State<healthStatus> {
                                 Row(
                                   children: <Widget>[
                                     const Icon(
-                                      Icons.vaccines,
+                                      Icons.emergency,
                                       size: 30.0,
                                       color: Colors.white,
                                     ),
