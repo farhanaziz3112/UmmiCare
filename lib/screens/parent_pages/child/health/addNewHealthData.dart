@@ -248,9 +248,9 @@ class _addNewHealthDataState extends State<addNewHealthData> {
 
                     await HealthDatabaseService().createHealthStatusData(
                       healthStatusDocument.id,
-                      '',
-                      '',
-                      '',
+                      ' ',
+                      ' ',
+                      ' ',
                       patientDocument.id,
                     );
                     
@@ -260,7 +260,7 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                       widget.child.childId,
                       _clinicId,
                       healthStatusDocument.id,
-                      '',
+                      ' ',
                       widget.child.childProfileImg,
                       widget.child.childName,
                       widget.child.childCurrentAge,

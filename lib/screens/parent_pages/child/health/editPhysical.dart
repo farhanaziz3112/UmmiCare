@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:ummicare/models/healthmodel.dart';
 import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
-import 'package:ummicare/models/healthModel.dart';
 import 'package:ummicare/shared/loading.dart';
 
 class EditPhysical extends StatefulWidget {

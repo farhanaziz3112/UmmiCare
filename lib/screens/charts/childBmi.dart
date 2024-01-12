@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:ummicare/models/healthModel.dart';
+import 'package:ummicare/models/healthmodel.dart';
 import 'package:ummicare/services/healthDatabase.dart';
 
 class childBmi extends StatefulWidget {

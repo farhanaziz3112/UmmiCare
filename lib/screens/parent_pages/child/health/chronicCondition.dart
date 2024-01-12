@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:ummicare/models/healthstatusmodel.dart';
 import 'package:ummicare/services/healthDatabase.dart';
 
-class healthCondition extends StatefulWidget {
-  const healthCondition({super.key, required this.healthConditionId});
-  final String healthConditionId;
+class chronicCondition extends StatefulWidget {
+  const chronicCondition({super.key, required this.chronicConditionId});
+  final String chronicConditionId;
 
   @override
-  State<healthCondition> createState() => _healthConditionState();
+  State<chronicCondition> createState() => _chronicConditionState();
 }
 
-class _healthConditionState extends State<healthCondition> {
+class _chronicConditionState extends State<chronicCondition> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<HealthConditionModel>(
-      stream: HealthDatabaseService().healthConditionData(widget.healthConditionId),
+    return StreamBuilder<ChronicConditionModel>(
+      stream: HealthDatabaseService().chronicConditionData(widget.chronicConditionId),
       builder: (context, snapshot) {
-        final condition = snapshot.data;
+        final chronic = snapshot.data;
         return Scaffold(
           appBar: AppBar(
             elevation: 0.0,
             title: const Text(
-              "Health Condition",
+              "Chronic Condition",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 25,

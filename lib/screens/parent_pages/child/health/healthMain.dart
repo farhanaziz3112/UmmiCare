@@ -1,10 +1,10 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:ummicare/models/healthModel.dart';
+import 'package:ummicare/models/healthmodel.dart';
 import 'package:ummicare/screens/charts/childBmi.dart';
+import 'package:ummicare/screens/parent_pages/child/health/editPhysical.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthAppointment.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthStatus.dart';
-import 'package:ummicare/screens/parent_pages/child/health/editPhysical.dart';
 
 import 'package:ummicare/services/healthDatabase.dart';
 
@@ -92,11 +92,11 @@ class _healthMainState extends State<healthMain> {
                   const SizedBox(
                     height: 10.0,
                   ),
-                   Container(
+                  Container(
                     width: double.infinity,
                     alignment: Alignment.centerLeft,
                     decoration: const BoxDecoration(
-                        color: Color(0xff71CBCA),
+                        color: Color(0xff8290F0),
                         borderRadius:
                             BorderRadius.all(Radius.circular(10.0))),
                     child: Container(
@@ -131,9 +131,8 @@ class _healthMainState extends State<healthMain> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 healthStatus(
-                                                    childId: widget.childId, healthId: widget.healthId,healthStatusId: healthData!.healthStatusId),
+                                                    healthId: widget.healthId, healthStatusId: healthData!.healthStatusId),
                                           ));
-                                      
                                     },
                                   ),
                                 ),
@@ -146,9 +145,6 @@ class _healthMainState extends State<healthMain> {
                         ],
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10.0,
                   ),
                   const SizedBox(
                     height: 10.0,

@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ummicare/models/academicCalendarModel.dart';
 import 'package:ummicare/models/childModel.dart';
-import 'package:ummicare/models/healthModel.dart';
+import 'package:ummicare/models/healthmodel.dart';
 import 'package:ummicare/models/medicalStaffModel.dart';
 import 'package:ummicare/models/patientModel.dart';
 import 'package:ummicare/models/schoolModel.dart';
@@ -670,7 +669,7 @@ class _childProfileState extends State<childProfile> {
                                                     healthData!.patientId),
                                             builder: (context, snapshot) {
                                               if (snapshot.hasData) {
-                                                StreamBuilder<ClinicModel>(
+                                                return StreamBuilder<ClinicModel>(
                                                   stream: medicalStaffDatabase()
                                                       .clinicData(snapshot
                                                           .data!.clinicId),
@@ -693,14 +692,13 @@ class _childProfileState extends State<childProfile> {
                                                         ],
                                                       );
                                                     } else {
-                                                      return Text("nn");
+                                                      return Container();
                                                     }
                                                   },
                                                 );
                                               } else {
-                                                return Text("ss");
+                                                return Container();
                                               }
-                                              return Text("pp");
                                             },
                                           ),
                                           const SizedBox(
@@ -716,7 +714,7 @@ class _childProfileState extends State<childProfile> {
                                                     snapshot.data;
                                                 String bmiStatus = 'ss';
                                                 double lastBmiData =
-                                                    bmi![0].bmiData;
+                                                    bmi![bmi.length-1].bmiData;
                                                 if (lastBmiData < 16) {
                                                   bmiStatus = "Severe Thinness";
                                                 } else if (lastBmiData < 17) {
@@ -751,7 +749,7 @@ class _childProfileState extends State<childProfile> {
                                                   ],
                                                 );
                                               } else {
-                                                return Text("ss");
+                                                return Container();
                                               }
                                             },
                                           )
