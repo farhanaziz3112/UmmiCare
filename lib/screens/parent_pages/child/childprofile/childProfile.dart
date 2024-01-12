@@ -135,15 +135,13 @@ class _childProfileState extends State<childProfile> {
                               'First Name',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text(
-                              child.childFirstname
+                            Text(child.childFirstname),
+                            const SizedBox(
+                              height: 5,
                             ),
-                            const SizedBox(height: 5,),
                             const Text(
                               'Last Name',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold
-                              ),
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             Text(child.childLastname),
                             const SizedBox(height: 5),
@@ -152,13 +150,17 @@ class _childProfileState extends State<childProfile> {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             Text(convertTimeToDateString(child.childBirthday)),
-                            const SizedBox(height: 5,),
+                            const SizedBox(
+                              height: 5,
+                            ),
                             const Text(
                               'Current Age',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             Text(getAge(child.childBirthday).toString()),
-                            const SizedBox(height: 5,),
+                            const SizedBox(
+                              height: 5,
+                            ),
                             const Text(
                               'Age Category',
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -479,278 +481,289 @@ class _childProfileState extends State<childProfile> {
                       height: 15.0,
                     ),
                     child.healthId == ''
-                      ? Container(
-                        width: double.infinity,
-                        alignment: Alignment.centerLeft,
-                        decoration: const BoxDecoration(
-                            color: Color(0xff8290F0),
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(10.0))),
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(
-                              20.0, 10.0, 10.0, 20.0),
-                          child: Column(
-                            crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                            children: <Widget>[
-                              const Row(
+                        ? Container(
+                            width: double.infinity,
+                            alignment: Alignment.centerLeft,
+                            decoration: const BoxDecoration(
+                                color: Color(0xff8290F0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0))),
+                            child: Container(
+                              padding: const EdgeInsets.fromLTRB(
+                                  20.0, 10.0, 10.0, 20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Icon(
-                                    Icons.health_and_safety,
-                                    size: 30.0,
-                                    color: Colors.white,
-                                  ),
-                                  Text(
-                                    'Health',
-                                    style: TextStyle(
-                                        fontSize: 20.0,
-                                        color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 5.0,
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "*Your child currently does not have Health Module. Please register by clicking the button below.",
-                                      style: TextStyle(
-                                          color: Colors.grey[800],
-                                          fontSize: 13.0),
-                                    ),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              Colors.white),
-                                      onPressed: () async {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    addNewHealthData(
-                                                        child: child)));
-                                        
-                                      },
-                                      child: const Text(
-                                        'Register Health Module',
-                                        style: TextStyle(
-                                            color: Colors.black),
+                                  const Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.health_and_safety,
+                                        size: 30.0,
+                                        color: Colors.white,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      )
-                    : StreamBuilder<HealthModel>(
-                        stream: HealthDatabaseService().healthData(child.healthId),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Container(
-                              width: double.infinity,
-                              alignment: Alignment.centerLeft,
-                              decoration: const BoxDecoration(
-                                  color: Color(0xff8290F0),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0))),
-                              child: Container(
-                                padding: const EdgeInsets.fromLTRB(
-                                    20.0, 10.0, 10.0, 20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    const Row(
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.health_and_safety,
-                                          size: 30.0,
-                                          color: Colors.white,
-                                        ),
+                                      Text(
+                                        'Health',
+                                        style: TextStyle(
+                                            fontSize: 20.0,
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Column(
+                                      children: [
                                         Text(
-                                          'Health',
+                                          "*Your child currently does not have Health Module. Please register by clicking the button below.",
                                           style: TextStyle(
-                                              fontSize: 20.0,
-                                              color: Colors.white),
+                                              color: Colors.grey[800],
+                                              fontSize: 13.0),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                          ),
+                                          onPressed: () async {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        addNewHealthData(
+                                                            child: child)));
+                                          },
+                                          child: const Text(
+                                            'Register Health Module',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 5.0,
-                                    ),
-                                    Container(
-                                        alignment: Alignment.center,
-                                        child: const SpinKitPulse(
-                                          color: Colors.black,
-                                          size: 20.0,
-                                        ))
-                                  ],
-                                ),
+                                  )
+                                ],
                               ),
-                            );
-                          } else {
-                            if (snapshot.hasData) {
-                              HealthModel? healthData = snapshot.data;
-                              return Container(
-                                width: double.infinity,
-                                alignment: Alignment.centerLeft,
-                                decoration: const BoxDecoration(
-                                    color: Color(0xff8290F0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                child: Container(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      20.0, 10.0, 10.0, 20.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Row(
+                            ),
+                          )
+                        : StreamBuilder<HealthModel>(
+                            stream: HealthDatabaseService()
+                                .healthData(child.healthId),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Container(
+                                  width: double.infinity,
+                                  alignment: Alignment.centerLeft,
+                                  decoration: const BoxDecoration(
+                                      color: Color(0xff8290F0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  child: Container(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20.0, 10.0, 10.0, 20.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        const Row(
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.health_and_safety,
+                                              size: 30.0,
+                                              color: Colors.white,
+                                            ),
+                                            Text(
+                                              'Health',
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5.0,
+                                        ),
+                                        Container(
+                                            alignment: Alignment.center,
+                                            child: const SpinKitPulse(
+                                              color: Colors.black,
+                                              size: 20.0,
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                if (snapshot.hasData) {
+                                  HealthModel? healthData = snapshot.data;
+                                  return Container(
+                                    width: double.infinity,
+                                    alignment: Alignment.centerLeft,
+                                    decoration: const BoxDecoration(
+                                        color: Color(0xff8290F0),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0))),
+                                    child: Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          20.0, 10.0, 10.0, 20.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          const Icon(
-                                            Icons.health_and_safety,
-                                            size: 30.0,
-                                            color: Colors.white,
-                                          ),
-                                          const Text(
-                                            'Health',
-                                            style: TextStyle(
-                                                fontSize: 20.0,
-                                                color: Colors.white),
-                                          ),
-                                          Flexible(
-                                            child: Container(
-                                              alignment: Alignment.centerRight,
-                                              child: IconButton(
-                                                icon: Transform.scale(
-                                                  scaleX: -1,
-                                                  child: const Icon(
-                                                    Icons.arrow_back,
-                                                    size: 25.0,
-                                                    color: Colors.white,
+                                          Row(
+                                            children: <Widget>[
+                                              const Icon(
+                                                Icons.health_and_safety,
+                                                size: 30.0,
+                                                color: Colors.white,
+                                              ),
+                                              const Text(
+                                                'Health',
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    color: Colors.white),
+                                              ),
+                                              Flexible(
+                                                child: Container(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: IconButton(
+                                                    icon: Transform.scale(
+                                                      scaleX: -1,
+                                                      child: const Icon(
+                                                        Icons.arrow_back,
+                                                        size: 25.0,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    healthMain(
+                                                              childId:
+                                                                  child.childId,
+                                                              healthId:
+                                                                  healthData!
+                                                                      .healthId,
+                                                            ),
+                                                          ));
+                                                    },
                                                   ),
                                                 ),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            healthMain(
-                                                          childId:
-                                                              child.childId,
-                                                          healthId:
-                                                              healthData!.healthId,
-                                                        ),
-                                                      ));
-                                                },
                                               ),
-                                            ),
+                                            ],
                                           ),
+                                          const SizedBox(
+                                            height: 5.0,
+                                          ),
+                                          StreamBuilder<patientModel>(
+                                            stream: PatientDatabaseService()
+                                                .patientData(
+                                                    healthData!.patientId),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                StreamBuilder<ClinicModel>(
+                                                  stream: medicalStaffDatabase()
+                                                      .clinicData(snapshot
+                                                          .data!.clinicId),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.hasData) {
+                                                      return Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          const Text(
+                                                            'Clinic',
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          Text(snapshot.data!
+                                                              .clinicName),
+                                                        ],
+                                                      );
+                                                    } else {
+                                                      return Text("nn");
+                                                    }
+                                                  },
+                                                );
+                                              } else {
+                                                return Text("ss");
+                                              }
+                                              return Text("pp");
+                                            },
+                                          ),
+                                          const SizedBox(
+                                            height: 5.0,
+                                          ),
+                                          StreamBuilder<List<BmiHealthModel>>(
+                                            stream: HealthDatabaseService()
+                                                .allBmiHealthData(
+                                                    healthData.healthId),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                List<BmiHealthModel>? bmi =
+                                                    snapshot.data;
+                                                String bmiStatus = 'ss';
+                                                double lastBmiData =
+                                                    bmi![0].bmiData;
+                                                if (lastBmiData < 16) {
+                                                  bmiStatus = "Severe Thinness";
+                                                } else if (lastBmiData < 17) {
+                                                  bmiStatus =
+                                                      "Moderate Thinness";
+                                                } else if (lastBmiData < 18.5) {
+                                                  bmiStatus = "Mild Thinness";
+                                                } else if (lastBmiData < 25) {
+                                                  bmiStatus = "Normal";
+                                                } else if (lastBmiData < 30) {
+                                                  bmiStatus = "Overweight";
+                                                } else if (lastBmiData < 35) {
+                                                  bmiStatus = "Obese Class I";
+                                                } else if (lastBmiData < 40) {
+                                                  bmiStatus = "Obese Class II";
+                                                } else if (lastBmiData >= 40) {
+                                                  bmiStatus = "Obese Class III";
+                                                } else {
+                                                  bmiStatus = "No Status";
+                                                }
+                                                return Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      'Current BMI Status',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(bmiStatus),
+                                                  ],
+                                                );
+                                              } else {
+                                                return Text("ss");
+                                              }
+                                            },
+                                          )
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 5.0,
-                                      ),
-                                      StreamBuilder<patientModel>(
-                                        stream: PatientDatabaseService().patientData(healthData!.patientId),
-                                        builder: (context, snapshot) {
-                                          if(snapshot.hasData){
-                                            StreamBuilder<ClinicModel>(
-                                              stream: medicalStaffDatabase().clinicData(snapshot.data!.clinicId),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  return Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const Text(
-                                                        'Clinic',
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                      Text(snapshot
-                                                          .data!
-                                                          .clinicName),
-                                                    ],
-                                                  );
-                                                } else {
-                                                  return Text("nn");
-                                                }
-                                              },
-                                            );
-                                          } else{
-                                            return Text("ss");
-                                          }
-                                          return Text("pp");
-                                        },
-                                      ),
-                                      const SizedBox(
-                                        height: 5.0,
-                                      ),
-                                      StreamBuilder<List<BmiHealthModel>>(
-                                        stream: HealthDatabaseService().allBmiHealthData(healthData.healthId),
-                                        builder:(context, snapshot) {
-                                          if(snapshot.hasData){
-                                            List<BmiHealthModel>? bmi = snapshot.data;
-                                            String bmiStatus = 'ss';
-                                            double lastBmiData = bmi![0].bmiData;
-                                            if (lastBmiData < 16) {
-                                              bmiStatus = "Severe Thinness";
-                                            } else if (lastBmiData < 17) {
-                                              bmiStatus = "Moderate Thinness";
-                                            } else if (lastBmiData < 18.5) {
-                                              bmiStatus = "Mild Thinness";
-                                            } else if (lastBmiData < 25) {
-                                              bmiStatus = "Normal";
-                                            } else if (lastBmiData < 30) {
-                                              bmiStatus = "Overweight";
-                                            } else if (lastBmiData < 35) {
-                                              bmiStatus = "Obese Class I";
-                                            } else if (lastBmiData < 40) {
-                                              bmiStatus = "Obese Class II";
-                                            } else if (lastBmiData >= 40) {
-                                              bmiStatus = "Obese Class III";
-                                            } else {
-                                              bmiStatus = "No Status";
-                                            }
-                                            return Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
-                                              children: [
-                                                const Text(
-                                                  'Current BMI Status',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight
-                                                              .bold),
-                                                ),
-                                                Text(bmiStatus),
-                                              ],
-                                            );
-                                          } else {
-                                            return Text("ss");
-                                          }
-                                          
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }else {
-                              return const Loading();
-                            }
-                          }
-                        }),
+                                    ),
+                                  );
+                                } else {
+                                  return const Loading();
+                                }
+                              }
+                            }),
                   ],
                 ),
               ),

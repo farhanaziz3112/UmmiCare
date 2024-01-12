@@ -115,7 +115,7 @@ class _buddyAddPostState extends State<buddyAddPost> {
                                             ),
                                           ],
                                         ),
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.photo,
                                           size: 50,
                                           color: Colors.grey,
@@ -125,13 +125,13 @@ class _buddyAddPostState extends State<buddyAddPost> {
                             height: 10.0,
                           ),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 30),
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 IconButton(
                                   style: IconButton.styleFrom(
-                                      backgroundColor: Color(0xff8290F0)),
+                                      backgroundColor: const Color(0xff8290F0)),
                                   icon: const Icon(Icons.camera_alt),
                                   color: Colors.white,
                                   onPressed: () async {
@@ -151,7 +151,7 @@ class _buddyAddPostState extends State<buddyAddPost> {
                                 ),
                                 IconButton(
                                   style: IconButton.styleFrom(
-                                      backgroundColor: Color(0xff8290F0)),
+                                      backgroundColor: const Color(0xff8290F0)),
                                   icon: const Icon(Icons.photo_library),
                                   color: Colors.white,
                                   onPressed: () async {

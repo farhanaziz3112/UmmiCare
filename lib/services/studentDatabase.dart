@@ -33,13 +33,14 @@ class studentDatabase {
   //create a user model object
   studentModel _createStudentModelObject(DocumentSnapshot snapshot) {
     return studentModel(
-        studentId: snapshot.id,
-        childId: snapshot['childId'],
-        schoolId: snapshot['schoolId'],
-        academicCalendarId: snapshot['academicCalendarId'],
-        classId: snapshot['classId'],
-        feeId: snapshot['feeId'],
-        activationStatus: snapshot['activationStatus'],);
+      studentId: snapshot.id,
+      childId: snapshot['childId'],
+      schoolId: snapshot['schoolId'],
+      academicCalendarId: snapshot['academicCalendarId'],
+      classId: snapshot['classId'],
+      feeId: snapshot['feeId'],
+      activationStatus: snapshot['activationStatus'],
+    );
   }
 
   //create a list of user model object
@@ -60,7 +61,9 @@ class studentDatabase {
         classId:
             doc.data().toString().contains('classId') ? doc.get('classId') : '',
         feeId: doc.data().toString().contains('feeId') ? doc.get('feeId') : '',
-        activationStatus: doc.data().toString().contains('activationStatus') ? doc.get('activationStatus') : '',
+        activationStatus: doc.data().toString().contains('activationStatus')
+            ? doc.get('activationStatus')
+            : '',
       );
     }).toList();
   }
@@ -103,6 +106,51 @@ class studentDatabase {
     });
   }
 
+  //get all userdetails stream
+  Stream<List<studentAcademicCalendarModel>> allStudentAcademicCalendar(
+      String studentId) {
+    return studentCollection
+        .doc(studentId)
+        .collection('Student Academic Calendar')
+        .snapshots()
+        .map(_createStudentAcademicCalendarModelObject);
+  }
+
+  //create a list of user model object
+  List<studentAcademicCalendarModel> _createStudentAcademicCalendarModelObject(
+      QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return studentAcademicCalendarModel(
+        studentAcademicCalendarId:
+            doc.data().toString().contains('studentAcademicCalendarId')
+                ? doc.get('studentAcademicCalendarId')
+                : '',
+        academicCalendarId: doc.data().toString().contains('academicCalendarId')
+            ? doc.get('academicCalendarId')
+            : '',
+        schoolId: doc.data().toString().contains('schoolId')
+            ? doc.get('schoolId')
+            : '',
+        classId:
+            doc.data().toString().contains('classId') ? doc.get('classId') : '',
+        teacherId: doc.data().toString().contains('teacherId')
+            ? doc.get('teacherId')
+            : '',
+        academicCalendarStartDate:
+            doc.data().toString().contains('academicCalendarStartDate')
+                ? doc.get('academicCalendarStartDate')
+                : '',
+        academicCalendarEndDate:
+            doc.data().toString().contains('academicCalendarEndDate')
+                ? doc.get('academicCalendarEndDate')
+                : '',
+        currentStatus: doc.data().toString().contains('currentStatus')
+            ? doc.get('currentStatus')
+            : '',
+      );
+    }).toList();
+  }
+
   Future<void> updateStudentAcademicCalendarData(
       String studentId,
       String academicCalendarId,
@@ -112,8 +160,15 @@ class studentDatabase {
       String academicCalendarStartDate,
       String academicCalendarEndDate,
       String currentStatus) async {
-    final document = studentCollection.doc(studentId).collection('Student Academic Calendar').doc();
-    return await studentCollection.doc(studentId).collection('Student Academic Calendar').doc(document.id).set({
+    final document = studentCollection
+        .doc(studentId)
+        .collection('Student Academic Calendar')
+        .doc();
+    return await studentCollection
+        .doc(studentId)
+        .collection('Student Academic Calendar')
+        .doc(document.id)
+        .set({
       'studentAcademicCalendarId': document.id,
       'academicCalendarId': academicCalendarId,
       'schoolId': schoolId,

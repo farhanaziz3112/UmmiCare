@@ -78,6 +78,7 @@ class childDatabase {
     return await childCollection.doc(childId).set({
       'childId': childId,
       'parentId': parentId,
+      'childCreatedDate': childCreatedDate,
       'childName': childName,
       'childFirstname': childFirstname,
       'childLastname': childLastname,

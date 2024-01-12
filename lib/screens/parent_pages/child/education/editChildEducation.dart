@@ -25,6 +25,7 @@ class _editChildEducationState extends State<editChildEducation> {
         iconTheme: IconThemeData(color: Colors.black),
         centerTitle: true,
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        elevation: 3,
       ),
       body: const Center(
         child: Text(

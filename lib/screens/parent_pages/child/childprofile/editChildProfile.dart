@@ -46,10 +46,12 @@ class _editChildProfileState extends State<editChildProfile> {
             ),
             resizeToAvoidBottomInset: false,
             body: Padding(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
               child: SingleChildScrollView(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 30.0),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -69,20 +71,108 @@ class _editChildProfileState extends State<editChildProfile> {
                               top: 0,
                               child: RawMaterialButton(
                                 onPressed: () async {
-                                  ImagePicker imagePicker = ImagePicker();
-                                  XFile? file = await imagePicker.pickImage(
-                                      source: ImageSource.camera);
-                                  print('${file!.path}');
-            
-                                  StorageService _storageService =
-                                      StorageService();
-                                  _storageService.uploadChildProfilePic(
-                                      child, file);
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          scrollable: true,
+                                          title: const Padding(
+                                            padding: EdgeInsets.all(10.0),
+                                            child: Text('Upload Photo'),
+                                          ),
+                                          content: const Text(
+                                              'Please choose your method to upload photo:'),
+                                          actions: [
+                                            ElevatedButton.icon(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    const Color(0xff8290F0),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                              ),
+                                              onPressed: () async {
+                                                ImagePicker imagePicker =
+                                                    ImagePicker();
+                                                XFile? file =
+                                                    await imagePicker.pickImage(
+                                                        source:
+                                                            ImageSource.camera);
+                                                print('${file!.path}');
+
+                                                StorageService _storageService =
+                                                    StorageService();
+                                                _storageService
+                                                    .uploadChildProfilePic(
+                                                        child, file);
+                                                Navigator.of(context).pop();
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                        const SnackBar(
+                                                  content: Text(
+                                                      'New photo successfully submitted!'),
+                                                ));
+                                              },
+                                              icon: const Icon(
+                                                Icons.camera_alt,
+                                                color: Colors.white,
+                                              ),
+                                              label: const Text("Camera",
+                                                  style: TextStyle(
+                                                      color: Colors.white)),
+                                            ),
+                                            ElevatedButton.icon(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    const Color(0xff8290F0),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                              ),
+                                              onPressed: () async {
+                                                ImagePicker imagePicker =
+                                                    ImagePicker();
+                                                XFile? file =
+                                                    await imagePicker.pickImage(
+                                                        source: ImageSource
+                                                            .gallery);
+                                                print('${file!.path}');
+
+                                                StorageService _storageService =
+                                                    StorageService();
+                                                _storageService
+                                                    .uploadChildProfilePic(
+                                                        child, file);
+                                                Navigator.of(context).pop();
+
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                        const SnackBar(
+                                                  content: Text(
+                                                      'New photo successfully submitted!'),
+                                                ));
+                                              },
+                                              icon: const Icon(
+                                                Icons.photo_library,
+                                                color: Colors.white,
+                                              ),
+                                              label: const Text("Gallery",
+                                                  style: TextStyle(
+                                                      color: Colors.white)),
+                                            ),
+                                          ],
+                                        );
+                                      });
                                 },
-                                constraints: BoxConstraints.tight(const Size(30, 30)),
+                                constraints:
+                                    BoxConstraints.tight(const Size(30, 30)),
                                 elevation: 2.0,
-                                fillColor: const Color.fromARGB(255, 216, 216, 216),
-                                child: const Icon(Icons.edit, color: Colors.black),
+                                fillColor:
+                                    const Color.fromARGB(255, 216, 216, 216),
+                                child:
+                                    const Icon(Icons.edit, color: Colors.black),
                                 padding: const EdgeInsets.all(0.0),
                                 shape: const CircleBorder(),
                               ),
@@ -142,8 +232,9 @@ class _editChildProfileState extends State<editChildProfile> {
                               ? child.childFirstname
                               : _currentChildFirstName,
                           decoration: textInputDecoration,
-                          validator: (value) =>
-                              value == '' ? 'Please enter your first name' : null,
+                          validator: (value) => value == ''
+                              ? 'Please enter your first name'
+                              : null,
                           onChanged: (value) =>
                               setState(() => _currentChildFirstName = value),
                         ),
@@ -171,8 +262,9 @@ class _editChildProfileState extends State<editChildProfile> {
                               ? child.childLastname
                               : _currentChildLastName,
                           decoration: textInputDecoration,
-                          validator: (value) =>
-                              value == '' ? 'Please enter your first name' : null,
+                          validator: (value) => value == ''
+                              ? 'Please enter your first name'
+                              : null,
                           onChanged: (value) =>
                               setState(() => _currentChildLastName = value),
                         ),
@@ -181,10 +273,9 @@ class _editChildProfileState extends State<editChildProfile> {
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff8290F0),
-                              shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)
-                            ),
+                            backgroundColor: const Color(0xff8290F0),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
                           ),
                           child: const Text(
                             'Update Child Details',

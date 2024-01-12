@@ -97,7 +97,7 @@ class _educationMainState extends State<educationMain> {
                                               alignment: Alignment.centerRight,
                                               child: IconButton(
                                                 icon: Icon(
-                                                  Icons.edit,
+                                                  Icons.arrow_forward,
                                                   size: 25.0,
                                                   color: Colors.grey[800],
                                                 ),
@@ -107,8 +107,12 @@ class _educationMainState extends State<educationMain> {
                                                       MaterialPageRoute(
                                                         builder: (context) =>
                                                             educationInfoSelection(
-                                                                childId: widget
-                                                                    .childId),
+                                                          studentId:
+                                                              student.studentId,
+                                                          academicCalendarId:
+                                                              student
+                                                                  .academicCalendarId,
+                                                        ),
                                                       ));
                                                 },
                                               ),

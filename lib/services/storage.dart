@@ -53,6 +53,10 @@ class StorageService {
   late Reference studentLeaveFolderReference =
       referenceRoot.child('student').child('leave');
 
+      //profile pic child folder reference
+  late Reference studentClassWithdrawalRequestFolderReference =
+      referenceRoot.child('student').child('withdrawalrequest');
+
   late Reference buddyProfilePicFolderReference =
       referenceRoot.child('buddy').child('profilepic');
 
@@ -385,6 +389,25 @@ class StorageService {
       imageUrl = await imageToUpload.getDownloadURL();
       print('Image URL: ${imageUrl}');
       updateFeePaymentProofImgUrl(feePayment, imageUrl);
+    } catch (e) {
+      print(e);
+    }
+
+    return imageUrl;
+  }
+
+  //upload image to child folder
+  Future<String> uploadWithdrawalSupportingImage(XFile file) async {
+    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    Reference imageToUpload =
+        studentClassWithdrawalRequestFolderReference.child(uniqueFileName);
+
+    String imageUrl = '';
+
+    try {
+      await imageToUpload.putFile(File(file.path));
+      imageUrl = await imageToUpload.getDownloadURL();
     } catch (e) {
       print(e);
     }
