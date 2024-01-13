@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ummicare/models/parentModel.dart';
 import 'package:ummicare/screens/parent_pages/buddy/buddyMain.dart';
 import 'package:ummicare/screens/parent_pages/child/childMain.dart';
 import 'package:ummicare/screens/parent_pages/parent/parentMain.dart';
 import 'package:ummicare/screens/parent_pages/settings/parentSettingsMain.dart';
-
 
 class HomeParent extends StatefulWidget {
   const HomeParent({super.key});
@@ -24,7 +25,7 @@ class HomeParentState extends State<HomeParent> {
 
   @override
   Widget build(BuildContext context) {
-
+    parentModel? parent = Provider.of<parentModel?>(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 3.0,
@@ -84,74 +85,116 @@ class HomeParentState extends State<HomeParent> {
                 });
               },
               icon: pageIndex == 0
-                  ? const Icon(
-                      Icons.home,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      size: 37,
+                  ? const Column(
+                      children: [
+                        Icon(
+                          Icons.home,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          size: 40,
+                        ),
+                      ],
                     )
-                  : const Icon(
-                      Icons.home_outlined,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      size: 35,
+                  : const Column(
+                      children: [
+                        Icon(
+                          Icons.home_outlined,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          size: 30,
+                        ),
+                        Text(
+                          'Home',
+                          style: TextStyle(fontSize: 10),
+                        )
+                      ],
                     ),
             ),
             IconButton(
-              enableFeedback: false,
-              onPressed: () {
-                setState(() {
-                  pageIndex = 1;
-                });
-              },
-              icon: pageIndex == 1
-                  ? const Icon(
-                      Icons.face,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      size: 37,
-                    )
-                  : const Icon(
-                      Icons.face_outlined,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      size: 35,
-                    ),
-            ),
+                enableFeedback: false,
+                onPressed: () {
+                  setState(() {
+                    pageIndex = 1;
+                  });
+                },
+                icon: pageIndex == 1
+                    ? const Column(
+                        children: [
+                          Icon(
+                            Icons.face,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            size: 40,
+                          )
+                        ],
+                      )
+                    : const Column(
+                        children: [
+                          Icon(
+                            Icons.face_outlined,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            size: 30,
+                          ),
+                          Text(
+                            'Child',
+                            style: TextStyle(fontSize: 10),
+                          )
+                        ],
+                      )),
             IconButton(
-              enableFeedback: false,
-              onPressed: () {
-                setState(() {
-                  pageIndex = 2;
-                });
-              },
-              icon: pageIndex == 2
-                  ? const Icon(
-                      Icons.group,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      size: 37,
-                    )
-                  : const Icon(
-                      Icons.group_outlined,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      size: 35,
-                    ),
-            ),
+                enableFeedback: false,
+                onPressed: () {
+                  setState(() {
+                    pageIndex = 2;
+                  });
+                },
+                icon: pageIndex == 2
+                    ? const Column(
+                        children: [
+                          Icon(
+                            Icons.group,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            size: 40,
+                          ),
+                        ],
+                      )
+                    : const Column(
+                        children: [
+                          Icon(
+                            Icons.group_outlined,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            size: 30,
+                          ),
+                          Text(
+                            'Buddy',
+                            style: TextStyle(fontSize: 10),
+                          )
+                        ],
+                      )),
             IconButton(
-              enableFeedback: false,
-              onPressed: () {
-                setState(() {
-                  pageIndex = 3;
-                });
-              },
-              icon: pageIndex == 3
-                  ? const Icon(
-                      Icons.settings,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      size: 37,
-                    )
-                  : const Icon(
-                      Icons.settings_outlined,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      size: 35,
-                    ),
-            ),
+                enableFeedback: false,
+                onPressed: () {
+                  setState(() {
+                    pageIndex = 3;
+                  });
+                },
+                icon: pageIndex == 3
+                    ? const Column(
+                        children: [
+                          Icon(
+                            Icons.settings,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            size: 40,
+                          ),
+                        ],
+                      )
+                    : const Column(
+                        children: [
+                          Icon(
+                            Icons.settings_outlined,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            size: 30,
+                          ),
+                          Text('Settings', style: TextStyle(fontSize: 10))
+                        ],
+                      )),
           ],
         ));
   }

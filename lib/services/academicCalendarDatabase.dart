@@ -319,6 +319,14 @@ class academicCalendarDatabase {
   final CollectionReference classEventCollection =
       FirebaseFirestore.instance.collection('Class Event');
 
+  Stream<List<classEvent>> allClassEventWithAcademicCalendarId(
+      String academicCalendarId) {
+    return classEventCollection
+        .where('academicCalendarId', isEqualTo: academicCalendarId)
+        .snapshots()
+        .map(_createClassEventModelList);
+  }
+
   Stream<classEvent> classEventData(String classEventId) {
     return classEventCollection
         .doc(classEventId)
@@ -407,6 +415,14 @@ class academicCalendarDatabase {
 
   final CollectionReference classAnnouncementCollection =
       FirebaseFirestore.instance.collection('Class Announcement');
+
+  Stream<List<classAnnouncement>> allClassAnnouncementWithAcademicCalendarId(
+      String academicCalendarId) {
+    return classAnnouncementCollection
+        .where('academicCalendarId', isEqualTo: academicCalendarId)
+        .snapshots()
+        .map(_createClassAnnouncementModelList);
+  }
 
   Stream<classAnnouncement> classAnnouncementData(String classAnnouncementId) {
     return classAnnouncementCollection

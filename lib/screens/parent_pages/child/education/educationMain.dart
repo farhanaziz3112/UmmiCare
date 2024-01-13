@@ -13,6 +13,7 @@ import 'package:ummicare/services/academicCalendarDatabase.dart';
 import 'package:ummicare/services/schoolDatabase.dart';
 import 'package:ummicare/services/studentDatabase.dart';
 import 'package:ummicare/services/teacherDatabase.dart';
+import 'package:ummicare/shared/function.dart';
 import 'package:ummicare/shared/loading.dart';
 
 class educationMain extends StatefulWidget {
@@ -360,74 +361,123 @@ class _educationMainState extends State<educationMain> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  Container(
-                                    height: 150,
-                                    child: ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      children: <Widget>[
-                                        Container(
-                                          width: 130,
-                                          margin: const EdgeInsets.all(5.0),
-                                          decoration: const BoxDecoration(
-                                              color: Color(0xff71CBCA),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          child: const Center(
-                                              child: Text(
-                                            'Item 1',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white),
-                                          )),
-                                        ),
-                                        Container(
-                                          width: 130,
-                                          margin: const EdgeInsets.all(5.0),
-                                          decoration: const BoxDecoration(
-                                              color: Color(0xff8290F0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          child: const Center(
-                                              child: Text(
-                                            'Item 2',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white),
-                                          )),
-                                        ),
-                                        Container(
-                                          width: 130,
-                                          margin: const EdgeInsets.all(5.0),
-                                          decoration: const BoxDecoration(
-                                              color: Color(0xffF29180),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          child: const Center(
-                                              child: Text(
-                                            'Item 3',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white),
-                                          )),
-                                        ),
-                                        Container(
-                                          width: 130,
-                                          margin: const EdgeInsets.all(5.0),
-                                          decoration: const BoxDecoration(
-                                              color: Color(0xff71CBCA),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          child: const Center(
-                                              child: Text(
-                                            'Item 4',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white),
-                                          )),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  StreamBuilder<List<classAnnouncement>>(
+                                      stream: academicCalendarDatabase()
+                                          .allClassAnnouncementWithAcademicCalendarId(
+                                              student.academicCalendarId),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          List<classAnnouncement>?
+                                              announcements = snapshot.data;
+                                          return SizedBox(
+                                              height: 200,
+                                              width: double.maxFinite,
+                                              child: GridView.builder(
+                                                gridDelegate:
+                                                    const SliverGridDelegateWithMaxCrossAxisExtent(
+                                                        maxCrossAxisExtent: 250,
+                                                        childAspectRatio: 0.7,
+                                                        crossAxisSpacing: 70,
+                                                        mainAxisSpacing: 10),
+                                                itemCount:
+                                                    announcements!.length,
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemBuilder: (context, index) {
+                                                  return Container(
+                                                    alignment:
+                                                        Alignment.topLeft,
+                                                    height: double.maxFinite,
+                                                    width: double.maxFinite,
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            15),
+                                                    decoration: BoxDecoration(
+                                                      color: index % 3 == 0
+                                                          ? const Color(
+                                                              0xff71CBCA)
+                                                          : index % 3 == 1
+                                                              ? const Color(
+                                                                  0xffF29180)
+                                                              : const Color(
+                                                                  0xff8290F0),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                              Radius.circular(
+                                                                  10)),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          spreadRadius: 1,
+                                                          blurRadius: 5,
+                                                          offset: const Offset(
+                                                              0,
+                                                              3), // changes position of shadow
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                            announcements[index]
+                                                                .announcementTitle,
+                                                            style:
+                                                                const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15,
+                                                            ),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            maxLines: 1,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 10),
+                                                        Text(
+                                                          announcements[index]
+                                                              .announcementDescription,
+                                                          maxLines: 3,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 15),
+                                                        ),
+                                                        Expanded(
+                                                            child: Container()),
+                                                        Text(
+                                                          'Created at: ${convertTimeToDateString(announcements[index].createdAt)}',
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 13,
+                                                                  color: Colors
+                                                                      .white),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              ));
+                                        } else {
+                                          return Container();
+                                        }
+                                      }),
                                   const SizedBox(
                                     height: 30,
                                   ),
@@ -452,74 +502,155 @@ class _educationMainState extends State<educationMain> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  Container(
-                                    height: 150,
-                                    child: ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      children: <Widget>[
-                                        Container(
-                                          width: 130,
-                                          margin: const EdgeInsets.all(5.0),
-                                          decoration: const BoxDecoration(
-                                              color: Color(0xff71CBCA),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          child: const Center(
-                                              child: Text(
-                                            'Item 1',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white),
-                                          )),
-                                        ),
-                                        Container(
-                                          width: 130,
-                                          margin: const EdgeInsets.all(5.0),
-                                          decoration: const BoxDecoration(
-                                              color: Color(0xff8290F0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          child: const Center(
-                                              child: Text(
-                                            'Item 2',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white),
-                                          )),
-                                        ),
-                                        Container(
-                                          width: 130,
-                                          margin: const EdgeInsets.all(5.0),
-                                          decoration: const BoxDecoration(
-                                              color: Color(0xffF29180),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          child: const Center(
-                                              child: Text(
-                                            'Item 3',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white),
-                                          )),
-                                        ),
-                                        Container(
-                                          width: 130,
-                                          margin: const EdgeInsets.all(5.0),
-                                          decoration: const BoxDecoration(
-                                              color: Color(0xff71CBCA),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          child: const Center(
-                                              child: Text(
-                                            'Item 4',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white),
-                                          )),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  StreamBuilder<List<classEvent>>(
+                                      stream: academicCalendarDatabase()
+                                          .allClassEventWithAcademicCalendarId(
+                                              student.academicCalendarId),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          List<classEvent>? events =
+                                              snapshot.data;
+                                          return SizedBox(
+                                              height: 200,
+                                              width: double.maxFinite,
+                                              child: GridView.builder(
+                                                gridDelegate:
+                                                    const SliverGridDelegateWithMaxCrossAxisExtent(
+                                                        maxCrossAxisExtent: 250,
+                                                        childAspectRatio: 0.7,
+                                                        crossAxisSpacing: 70,
+                                                        mainAxisSpacing: 10),
+                                                itemCount: events!.length,
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemBuilder: (context, index) {
+                                                  return Container(
+                                                    alignment:
+                                                        Alignment.topLeft,
+                                                    height: double.maxFinite,
+                                                    width: double.maxFinite,
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            15),
+                                                    decoration: BoxDecoration(
+                                                      color: index % 3 == 0
+                                                          ? const Color(
+                                                              0xff71CBCA)
+                                                          : index % 3 == 1
+                                                              ? const Color(
+                                                                  0xffF29180)
+                                                              : const Color(
+                                                                  0xff8290F0),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                              Radius.circular(
+                                                                  10)),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          spreadRadius: 1,
+                                                          blurRadius: 5,
+                                                          offset: const Offset(
+                                                              0,
+                                                              3), // changes position of shadow
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                            events[index]
+                                                                .eventName,
+                                                            style:
+                                                                const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15,
+                                                            ),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            maxLines: 1,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 10),
+                                                        Text(
+                                                          events[index]
+                                                              .eventDescription,
+                                                          maxLines: 3,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 15),
+                                                        ),
+                                                        Expanded(
+                                                            child: Container()),
+                                                        Row(
+                                                          children: <Widget>[
+                                                            Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: <Widget>[
+                                                                const Text(
+                                                                  'Start Date',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
+                                                                Text(
+                                                                  convertTimeToDateString(events[index].eventStartDate),
+                                                                  style: const TextStyle(
+                                                                      fontSize:
+                                                                          13),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Expanded(
+                                                                child:
+                                                                    Container()),
+                                                            Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                                              children: <Widget>[
+                                                                const Text(
+                                                                  'End Date',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
+                                                                Text(
+                                                                  convertTimeToDateString(events[index].eventEndDate),
+                                                                  style: const TextStyle(
+                                                                      fontSize:
+                                                                          13),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              ));
+                                        } else {
+                                          return Container();
+                                        }
+                                      }),
                                   const SizedBox(
                                     height: 50,
                                   ),
