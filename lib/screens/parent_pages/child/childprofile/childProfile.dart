@@ -46,7 +46,7 @@ class _childProfileState extends State<childProfile> {
                 '${child!.childName}\'s Profile',
                 style: const TextStyle(
                   color: Colors.black,
-                  fontSize: 25,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -82,8 +82,18 @@ class _childProfileState extends State<childProfile> {
                     Container(
                       width: double.infinity,
                       alignment: Alignment.centerLeft,
-                      decoration: const BoxDecoration(
-                          color: Color(0xff71CBCA),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
+                            ),
+                          ],
                           borderRadius:
                               BorderRadius.all(Radius.circular(10.0))),
                       child: Container(
@@ -96,13 +106,13 @@ class _childProfileState extends State<childProfile> {
                               children: <Widget>[
                                 const Icon(
                                   Icons.account_circle,
-                                  size: 30.0,
-                                  color: Colors.white,
+                                  size: 25.0,
+                                  color: Colors.black,
                                 ),
                                 const Text(
                                   ' Personal Information',
                                   style: TextStyle(
-                                      fontSize: 20.0, color: Colors.white),
+                                      fontSize: 17.0, color: Colors.black, fontWeight: FontWeight.bold),
                                 ),
                                 Flexible(
                                   child: Container(
@@ -110,8 +120,8 @@ class _childProfileState extends State<childProfile> {
                                     child: IconButton(
                                       icon: const Icon(
                                         Icons.edit,
-                                        size: 25.0,
-                                        color: Colors.white,
+                                        size: 22.0,
+                                        color: Colors.black,
                                       ),
                                       onPressed: () {
                                         Navigator.push(
@@ -164,7 +174,91 @@ class _childProfileState extends State<childProfile> {
                               'Age Category',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text(child.childAgeCategory)
+                            Text(child.childAgeCategory),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            const Text(
+                              'Overall Status',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                    flex: 1,
+                                    child: child.overallStatus == 'great'
+                                        ? Container(
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              color: Colors.green[800],
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(5)),
+                                            ),
+                                            padding: const EdgeInsets.all(3),
+                                            child: const Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                Text(
+                                                  'Great',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15),
+                                                )
+                                              ],
+                                            ))
+                                        : child.overallStatus == 'normal'
+                                            ? Container(
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.yellow[800],
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(5)),
+                                                ),
+                                                padding:
+                                                    const EdgeInsets.all(3),
+                                                child: const Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      'Normal',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15),
+                                                    )
+                                                  ],
+                                                ))
+                                            : Container(
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.red[800],
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(5)),
+                                                ),
+                                                padding:
+                                                    const EdgeInsets.all(3),
+                                                child: const Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      'Needs Attention',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 10),
+                                                    )
+                                                  ],
+                                                ))),
+                                Expanded(
+                                  flex: 2,
+                                  child: Container(),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -669,7 +763,8 @@ class _childProfileState extends State<childProfile> {
                                                     healthData!.patientId),
                                             builder: (context, snapshot) {
                                               if (snapshot.hasData) {
-                                                return StreamBuilder<ClinicModel>(
+                                                return StreamBuilder<
+                                                    ClinicModel>(
                                                   stream: medicalStaffDatabase()
                                                       .clinicData(snapshot
                                                           .data!.clinicId),
@@ -714,7 +809,8 @@ class _childProfileState extends State<childProfile> {
                                                     snapshot.data;
                                                 String bmiStatus = 'ss';
                                                 double lastBmiData =
-                                                    bmi![bmi.length-1].bmiData;
+                                                    bmi![bmi.length - 1]
+                                                        .bmiData;
                                                 if (lastBmiData < 16) {
                                                   bmiStatus = "Severe Thinness";
                                                 } else if (lastBmiData < 17) {

@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ummicare/models/advisorModel.dart';
 import 'package:ummicare/models/chatmodel.dart';
-import 'package:ummicare/screens/parent_pages/child/advisory/viewChatImage.dart';
+import 'package:ummicare/screens/parent_pages/advisor/viewChatImage.dart';
 import 'package:ummicare/services/advisorDatabase.dart';
 import 'package:ummicare/services/chatDatabase.dart';
 import 'package:ummicare/services/storage.dart';
+import 'package:ummicare/shared/constant.dart';
 
 class chat extends StatefulWidget {
   final String advisorId;
@@ -85,7 +86,13 @@ class _chatState extends State<chat> {
               backgroundColor: const Color.fromARGB(255, 255, 255, 255),
             ),
             resizeToAvoidBottomInset: false,
-            body: Padding(
+            body: Container(
+              height: double.maxFinite,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/background/chatbg.png"),
+                    fit: BoxFit.cover),
+              ),
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Column(
@@ -144,8 +151,8 @@ class _chatState extends State<chat> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => viewChatImage(
-                                imageLink: message.content),
+                            builder: (context) =>
+                                viewChatImage(imageLink: message.content),
                           ));
                     },
                     child: Image.network(
@@ -184,8 +191,8 @@ class _chatState extends State<chat> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => viewChatImage(
-                                imageLink: message.content),
+                            builder: (context) =>
+                                viewChatImage(imageLink: message.content),
                           ));
                     },
                     child: Image.network(
@@ -218,8 +225,8 @@ class _chatState extends State<chat> {
                 controller: listScrollController,
               );
             } else {
-              return const Center(
-                child: Text('No message here yet....'),
+              return Center(
+                child: noData('No message here...'),
               );
             }
           } else {

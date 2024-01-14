@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ummicare/models/parentModel.dart';
+import 'package:ummicare/services/activityDatabase.dart';
 import 'package:ummicare/services/parentDatabase.dart';
+import 'package:ummicare/services/storage.dart';
 import 'package:ummicare/shared/function.dart';
 import '../../../shared/constant.dart';
 
@@ -61,62 +65,147 @@ class _registerChildState extends State<registerChild> {
                             'Insert your child details',
                             style: TextStyle(fontSize: 20.0),
                           ),
-                          // SizedBox(
-                          //   height: 40.0,
-                          // ),
-                          // Container(
-                          //   alignment: Alignment.centerLeft,
-                          //   padding: EdgeInsets.only(left: 20.0),
-                          //   child: Text(
-                          //     'Profile Picture',
-                          //     textAlign: TextAlign.left,
-                          //     style: TextStyle(
-                          //       fontSize: 15.0,
-                          //       fontWeight: FontWeight.bold,
-                          //       color: Colors.grey[500],
-                          //     ),
-                          //   ),
-                          // ),
-                          // Stack(
-                          //   clipBehavior: Clip.none,
-                          //   children: [
-                          //     CircleAvatar(
-                          //       backgroundImage: NetworkImage(childProfileImg),
-                          //       radius: 50.0,
-                          //       backgroundColor: Colors.grey,
-                          //     ),
-                          //     Positioned(
-                          //       bottom: -60,
-                          //       right: -15,
-                          //       top: 0,
-                          //       child: RawMaterialButton(
-                          //         onPressed: () async {
-                          //           ImagePicker imagePicker = ImagePicker();
-                          //           XFile? file = await imagePicker.pickImage(
-                          //               source: ImageSource.camera);
-                          //           print('${file!.path}');
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: NetworkImage(childProfileImg),
+                                radius: 50.0,
+                                backgroundColor: Colors.grey,
+                              ),
+                              Positioned(
+                                bottom: -60,
+                                right: -15,
+                                top: 0,
+                                child: RawMaterialButton(
+                                  onPressed: () async {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            scrollable: true,
+                                            title: const Padding(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Text('Upload Photo'),
+                                            ),
+                                            content: const Text(
+                                                'Please choose your method to upload photo:'),
+                                            actions: [
+                                              ElevatedButton.icon(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      const Color(0xff8290F0),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                                ),
+                                                onPressed: () async {
+                                                  ImagePicker imagePicker =
+                                                      ImagePicker();
+                                                  XFile? file =
+                                                      await imagePicker
+                                                          .pickImage(
+                                                              source:
+                                                                  ImageSource
+                                                                      .camera);
+                                                  print('${file!.path}');
 
-                          //           StorageService _storageService = StorageService();
-                          //           setState(() async {
-                          //             childProfileImg = await _storageService
-                          //                 .uploadChildProfilePic(widget.file);
-                          //             print(childProfileImg);
-                          //           });
-                          //         },
-                          //         constraints: BoxConstraints.tight(Size(30, 30)),
-                          //         elevation: 2.0,
-                          //         fillColor: Color.fromARGB(255, 216, 216, 216),
-                          //         child: Icon(Icons.edit, color: Colors.black),
-                          //         padding: EdgeInsets.all(0.0),
-                          //         shape: CircleBorder(),
-                          //       ),
-                          //     )
-                          //   ],
-                          // ),
-                          // CircleAvatar(
-                          //   radius: 50.0,
-                          //   backgroundImage: NetworkImage(usermodel.userProfileImg),
-                          // ),
+                                                  StorageService
+                                                      _storageService =
+                                                      StorageService();
+                                                  _storageService
+                                                      .uploadChildProfilePicFirstTime(
+                                                          file)
+                                                      .then((value) {
+                                                    setState(() {
+                                                      childProfileImg = value;
+                                                    });
+                                                  });
+                                                  Navigator.of(context).pop();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                          const SnackBar(
+                                                    content: Text(
+                                                        'New photo successfully submitted!'),
+                                                  ));
+                                                },
+                                                icon: const Icon(
+                                                  Icons.camera_alt,
+                                                  color: Colors.white,
+                                                ),
+                                                label: const Text("Camera",
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                              ),
+                                              ElevatedButton.icon(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      const Color(0xff8290F0),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                                ),
+                                                onPressed: () async {
+                                                  ImagePicker imagePicker =
+                                                      ImagePicker();
+                                                  XFile? file =
+                                                      await imagePicker
+                                                          .pickImage(
+                                                              source:
+                                                                  ImageSource
+                                                                      .gallery);
+                                                  print('${file!.path}');
+
+                                                  StorageService
+                                                      _storageService =
+                                                      StorageService();
+                                                  _storageService
+                                                      .uploadChildProfilePicFirstTime(
+                                                          file)
+                                                      .then((value) {
+                                                    setState(() {
+                                                      childProfileImg = value;
+                                                    });
+                                                  });
+                                                  Navigator.of(context).pop();
+
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                          const SnackBar(
+                                                    content: Text(
+                                                        'New photo successfully submitted!'),
+                                                  ));
+                                                },
+                                                icon: const Icon(
+                                                  Icons.photo_library,
+                                                  color: Colors.white,
+                                                ),
+                                                label: const Text("Gallery",
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  constraints:
+                                      BoxConstraints.tight(const Size(30, 30)),
+                                  elevation: 2.0,
+                                  fillColor:
+                                      const Color.fromARGB(255, 216, 216, 216),
+                                  child: const Icon(Icons.edit,
+                                      color: Colors.black),
+                                  padding: const EdgeInsets.all(0.0),
+                                  shape: const CircleBorder(),
+                                ),
+                              )
+                            ],
+                          ),
                           const SizedBox(
                             height: 30.0,
                           ),
@@ -292,25 +381,47 @@ class _registerChildState extends State<registerChild> {
                                 String createdDate = DateTime.now()
                                     .millisecondsSinceEpoch
                                     .toString();
-                                await parentDatabase(parentId: parent!.parentId)
-                                    .createChildData(
-                                        parent.parentId,
-                                        createdDate,
-                                        childName,
-                                        childFirstname,
-                                        childLastname,
-                                        childBirthday.millisecondsSinceEpoch
-                                            .toString(),
-                                        getAge(childBirthday
-                                            .millisecondsSinceEpoch
-                                            .toString()),
-                                        getAgeCategory(getAge(childBirthday
-                                            .millisecondsSinceEpoch
-                                            .toString())),
-                                        childProfileImg,
-                                        '',
-                                        '',
-                                        'normal');
+
+                                final CollectionReference childCollection =
+                                    FirebaseFirestore.instance
+                                        .collection('Child');
+
+                                final CollectionReference parentCollection =
+                                    FirebaseFirestore.instance
+                                        .collection('Parent');
+
+                                final document = childCollection.doc();
+
+                                await childCollection.doc(document.id).set({
+                                  'childId': document.id,
+                                  'parentId': parent!.parentId,
+                                  'childCreatedDate': createdDate,
+                                  'childName': childName,
+                                  'childFirstname': childFirstname,
+                                  'childLastname': childLastname,
+                                  'childBirthday': childBirthday
+                                      .millisecondsSinceEpoch
+                                      .toString(),
+                                  'childCurrentAge': getAge(childBirthday
+                                      .millisecondsSinceEpoch
+                                      .toString()),
+                                  'childAgeCategory': getAgeCategory(getAge(
+                                      childBirthday.millisecondsSinceEpoch
+                                          .toString())),
+                                  'childProfileImg': childProfileImg,
+                                  'educationId': '',
+                                  'healthId': '',
+                                  'overallStatus': 'normal'
+                                });
+
+                                await parentCollection
+                                    .doc(parent.parentId)
+                                    .collection('Child')
+                                    .doc(document.id)
+                                    .set({
+                                  'childId': document.id,
+                                });
+
                                 await parentDatabase(parentId: parent.parentId)
                                     .updateParentData(
                                         parent.parentId,
@@ -324,6 +435,15 @@ class _registerChildState extends State<registerChild> {
                                         parent.advisorId,
                                         (int.parse(parent.noOfChild) + 1)
                                             .toString());
+
+                                await activityDatabase().createactivityData(
+                                    parent.parentId,
+                                    document.id,
+                                    'Welcome to the UmmiCare family!',
+                                    '${childFirstname} has been registered into UmmiCare family!',
+                                    'child',
+                                    createdDate);
+
                                 Navigator.pop(context);
                               }
                             },

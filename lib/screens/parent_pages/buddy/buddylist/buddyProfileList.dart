@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/buddyModel.dart';
 import 'package:ummicare/screens/parent_pages/buddy/buddylist/buddyProfileTile.dart';
+import 'package:ummicare/shared/constant.dart';
 
 class buddyProfileList extends StatefulWidget {
   const buddyProfileList(
@@ -18,10 +19,8 @@ class _buddyProfileListState extends State<buddyProfileList> {
     if (widget.profileList!.isEmpty) {
       return Container(
         padding: const EdgeInsets.only(top: 50),
-        child: const Center(
-          child: Text(
-            '...',
-          ),
+        child: Center(
+          child: noData('Nothing here...')
         ),
       );
     } else {

@@ -43,7 +43,7 @@ class _SignInState extends State<SignIn> {
                     'UmmiCare',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 50.0,
+                        fontSize: 40.0,
                         fontFamily: 'Comfortaa',
                         fontWeight: FontWeight.bold),
                   ),

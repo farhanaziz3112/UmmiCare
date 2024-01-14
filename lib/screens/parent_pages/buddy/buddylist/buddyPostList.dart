@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/buddyModel.dart';
 import 'package:ummicare/screens/parent_pages/buddy/buddylist/buddyPostTile.dart';
+import 'package:ummicare/shared/constant.dart';
 
 class buddyPostlist extends StatefulWidget {
   const buddyPostlist({super.key, required this.posts});
@@ -16,10 +17,8 @@ class _buddyPostListState extends State<buddyPostlist> {
     if (widget.posts!.isEmpty) {
       return Container(
         padding: const EdgeInsets.only(top: 50),
-        child: const Center(
-          child: Text(
-            'Oops! There is no post at the moment.',
-          ),
+        child: Center(
+          child: noData('There is no post at the moment')
         ),
       );
     } else {

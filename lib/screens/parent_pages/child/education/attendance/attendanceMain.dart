@@ -59,7 +59,7 @@ class _attendanceMainState extends State<attendanceMain> {
                           "Attendance",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 25,
+                            fontSize: 17,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

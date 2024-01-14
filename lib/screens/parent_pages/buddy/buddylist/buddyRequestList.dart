@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/buddyModel.dart';
 import 'package:ummicare/screens/parent_pages/buddy/buddylist/buddyRequestTile.dart';
+import 'package:ummicare/shared/constant.dart';
 
 class buddyRequestList extends StatefulWidget {
   const buddyRequestList(
@@ -18,10 +19,8 @@ class _buddyRequestListState extends State<buddyRequestList> {
     if (widget.requestList!.isEmpty) {
       return Container(
         padding: const EdgeInsets.only(top: 50),
-        child: const Center(
-          child: Text(
-            '...',
-          ),
+        child: Center(
+          child: noData('Nothing here...')
         ),
       );
     } else {

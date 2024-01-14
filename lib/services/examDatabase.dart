@@ -25,6 +25,15 @@ class examDatabase {
         .map(_createExamModelList);
   }
 
+  Stream<List<subjectResultModel>> allSubjectResultDataWithAcademicCalendarAndStudentId(
+      String studentId, String academicCalendarId) {
+    return subjectResultCollection
+        .where('studentId', isEqualTo: studentId)
+        .where('academicCalendarId', isEqualTo: academicCalendarId)
+        .snapshots()
+        .map(_createSubjectResultModelList);
+  }
+
   //create a user model object
   examModel _createExamModelObject(DocumentSnapshot snapshot) {
     return examModel(

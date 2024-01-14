@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ummicare/services/activityDatabase.dart';
 import 'package:ummicare/services/parentDatabase.dart';
 import 'package:ummicare/models/userModel.dart';
 import 'package:ummicare/services/userDatabase.dart';
@@ -22,6 +23,19 @@ class AuthService {
         .toString());
   }
 
+  bool isFirstTimeSignIn() {
+    DateTime? firstLogin = _auth.currentUser!.metadata.creationTime;
+    print(firstLogin.toString());
+    DateTime? lastSignIn = _auth.currentUser!.metadata.lastSignInTime;
+    print(lastSignIn.toString());
+    Duration duration = firstLogin!.difference(lastSignIn!);
+    if (duration.inMinutes < 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   //auth change user stream
   Stream<userModel?> get user {
     return _auth
@@ -41,7 +55,37 @@ class AuthService {
       //for createdDate store in db
       String createdDate = DateTime.now().millisecondsSinceEpoch.toString();
       await parentDatabase(parentId: user.uid).updateParentData(
-          user.uid, createdDate, 'New User', '-', '-', user.email.toString(), '-', '-', '', '0');
+          user.uid,
+          createdDate,
+          'New User',
+          '-',
+          '-',
+          user.email.toString(),
+          '-',
+          '-',
+          '',
+          '0');
+      await activityDatabase().createactivityData(
+          user.uid,
+          '',
+          'Checkout Education Module Now!',
+          'Feel free to explore our exclusive education module!',
+          'education',
+          createdDate);
+      await activityDatabase().createactivityData(
+          user.uid,
+          '',
+          'Health Module Is Available!',
+          'Special module to monitor your child\'s health. Now available!',
+          'health',
+          createdDate);
+      await activityDatabase().createactivityData(
+          user.uid,
+          '',
+          'Register to Buddy Now!',
+          'Connect with community full of lovely and passionate parents!',
+          'buddy',
+          createdDate);
       return _userAuthObjectFromFirebase(user);
     } catch (e) {
       print(e.toString());

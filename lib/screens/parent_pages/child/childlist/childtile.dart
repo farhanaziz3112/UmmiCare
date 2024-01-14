@@ -74,38 +74,12 @@ class _childTileState extends State<childTile> {
                         )
                       ],
                     )),
-                    // Container(color: Colors.black38, height: 50, width: 1,),
-                    // const SizedBox(
-                    //   width: 10,
-                    // ),
-                    // Column(
-                    //   children: <Widget>[
-                    //     const Text(
-                    //       'Status',
-                    //       style: TextStyle(fontSize: 13),
-                    //     ),
-                    //     CircleAvatar(
-                    //       backgroundColor: Colors.green[800],
-                    //       radius: 5,
-                    //     ),
-                    //     const Text(
-                    //       'Normal',
-                    //       style: TextStyle(fontSize: 10),
-                    //     ),
-                    //   ],
-                    // )
+                    CircleAvatar(
+                      radius: 5,
+                      backgroundColor: child.overallStatus == 'great' ? Colors.green[800] : child.overallStatus == 'normal' ? Colors.yellow[600] : Colors.red[800] ,
+                    )
                   ],
                 ),
-                // child: ListTile(
-                //   contentPadding: const EdgeInsets.symmetric(
-                //       horizontal: 10.0, vertical: 5.0),
-                //   leading: CircleAvatar(
-                //     radius: 25.0,
-                //     backgroundColor: Colors.grey[300],
-                //     backgroundImage: NetworkImage(child!.childProfileImg),
-                //   ),
-                //   title: Text(child.childName),
-                // ),
               ),
             ),
           );

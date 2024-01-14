@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/academicCalendarModel.dart';
+import 'package:ummicare/models/childModel.dart';
 import 'package:ummicare/models/schoolModel.dart';
 import 'package:ummicare/models/studentModel.dart';
 import 'package:ummicare/models/teacherModel.dart';
 import 'package:ummicare/screens/parent_pages/child/education/educationMain.dart';
 import 'package:ummicare/services/academicCalendarDatabase.dart';
+import 'package:ummicare/services/activityDatabase.dart';
+import 'package:ummicare/services/childDatabase.dart';
 import 'package:ummicare/services/schoolDatabase.dart';
 import 'package:ummicare/services/studentDatabase.dart';
 import 'package:ummicare/services/teacherDatabase.dart';
@@ -206,92 +209,120 @@ class _academicCalendarTileState extends State<academicCalendarTile> {
                                               if (snapshot.hasData) {
                                                 studentModel? student =
                                                     snapshot.data;
-                                                return ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        const Color(0xff8290F0),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5)),
-                                                  ),
-                                                  onPressed: () {
-                                                    studentDatabase()
-                                                        .updateStudentData(
-                                                            student!.studentId,
-                                                            student.childId,
-                                                            student.schoolId,
-                                                            academicCalendar
-                                                                .academicCalendarId,
-                                                            academicCalendar
-                                                                .classId,
-                                                            student.feeId,
-                                                            student
-                                                                .activationStatus);
+                                                return StreamBuilder<
+                                                        childModel>(
+                                                    stream: childDatabase(
+                                                            childId: student!
+                                                                .childId)
+                                                        .childData,
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      if (snapshot.hasData) {
+                                                        childModel? child =
+                                                            snapshot.data;
+                                                        return ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            backgroundColor:
+                                                                const Color(
+                                                                    0xff8290F0),
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5)),
+                                                          ),
+                                                          onPressed: () {
+                                                            studentDatabase().updateStudentData(
+                                                                student!
+                                                                    .studentId,
+                                                                student.childId,
+                                                                student
+                                                                    .schoolId,
+                                                                academicCalendar
+                                                                    .academicCalendarId,
+                                                                academicCalendar
+                                                                    .classId,
+                                                                student.feeId,
+                                                                student
+                                                                    .activationStatus);
 
-                                                    studentDatabase()
-                                                        .updateStudentAcademicCalendarData(
-                                                            student.studentId,
-                                                            academicCalendar
-                                                                .academicCalendarId,
-                                                            academicCalendar
-                                                                .schoolId,
-                                                            academicCalendar
-                                                                .classId,
-                                                            academicCalendar
-                                                                .teacherId,
-                                                            academicCalendar
-                                                                .academicCalendarStartDate,
-                                                            academicCalendar
-                                                                .academicCalendarEndDate,
-                                                            'active');
+                                                            studentDatabase().updateStudentAcademicCalendarData(
+                                                                student
+                                                                    .studentId,
+                                                                academicCalendar
+                                                                    .academicCalendarId,
+                                                                academicCalendar
+                                                                    .schoolId,
+                                                                academicCalendar
+                                                                    .classId,
+                                                                academicCalendar
+                                                                    .teacherId,
+                                                                academicCalendar
+                                                                    .academicCalendarStartDate,
+                                                                academicCalendar
+                                                                    .academicCalendarEndDate,
+                                                                'active');
 
-                                                    academicCalendarDatabase().updateAcademicCalendarData(
-                                                        academicCalendar
-                                                            .academicCalendarId,
-                                                        academicCalendar
-                                                            .schoolId,
-                                                        academicCalendar
-                                                            .classId,
-                                                        academicCalendar
-                                                            .teacherId,
-                                                        academicCalendar
-                                                            .academicCalendarStartDate,
-                                                        academicCalendar
-                                                            .academicCalendarEndDate,
-                                                        (int.parse(academicCalendar
-                                                                    .noOfStudent) +
-                                                                1)
-                                                            .toString(),
-                                                        academicCalendar
-                                                            .registrationStatus);
+                                                            academicCalendarDatabase().updateAcademicCalendarData(
+                                                                academicCalendar
+                                                                    .academicCalendarId,
+                                                                academicCalendar
+                                                                    .schoolId,
+                                                                academicCalendar
+                                                                    .classId,
+                                                                academicCalendar
+                                                                    .teacherId,
+                                                                academicCalendar
+                                                                    .academicCalendarStartDate,
+                                                                academicCalendar
+                                                                    .academicCalendarEndDate,
+                                                                (int.parse(academicCalendar
+                                                                            .noOfStudent) +
+                                                                        1)
+                                                                    .toString(),
+                                                                academicCalendar
+                                                                    .registrationStatus);
 
-                                                    Navigator.of(context)
-                                                      ..pop()
-                                                      ..pop()
-                                                      ..pop()
-                                                      ..pop()
-                                                      ..pop()
-                                                      ..pop();
+                                                            activityDatabase().createactivityData(
+                                                                child!.parentId,
+                                                                child.childId,
+                                                                'Class Registration Completed!',
+                                                                '${child.childFirstname} has been successfully registered to new academic calendar. Congrats!',
+                                                                'education',
+                                                                DateTime.now()
+                                                                    .millisecondsSinceEpoch
+                                                                    .toString());
 
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                educationMain(
-                                                                  studentId: student
-                                                                      .studentId,
-                                                                  childId: student
-                                                                      .childId,
-                                                                )));
-                                                  },
-                                                  child: const Text("Confirm",
-                                                      style: TextStyle(
-                                                          color: Colors.white)),
-                                                );
+                                                            Navigator.of(
+                                                                context)
+                                                              ..pop()
+                                                              ..pop()
+                                                              ..pop()
+                                                              ..pop()
+                                                              ..pop()
+                                                              ..pop();
+
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            educationMain(
+                                                                              studentId: student.studentId,
+                                                                              childId: student.childId,
+                                                                            )));
+                                                          },
+                                                          child: const Text(
+                                                              "Confirm",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white)),
+                                                        );
+                                                      } else {
+                                                        return Container();
+                                                      }
+                                                    });
                                               } else {
                                                 return Container();
                                               }

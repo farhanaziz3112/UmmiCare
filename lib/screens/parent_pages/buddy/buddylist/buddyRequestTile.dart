@@ -81,7 +81,7 @@ class _buddyRequestTileState extends State<buddyRequestTile> {
                                       child: const Text(
                                         "Followed",
                                         style: TextStyle(
-                                            color: Colors.white, fontSize: 10),
+                                            color: Colors.white, fontSize: 8),
                                         textAlign: TextAlign.center,
                                       ),
                                     ),
@@ -157,7 +157,7 @@ class _buddyRequestTileState extends State<buddyRequestTile> {
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 13),
+                                                                  fontSize: 10),
                                                               textAlign:
                                                                   TextAlign
                                                                       .center,
@@ -223,7 +223,7 @@ class _buddyRequestTileState extends State<buddyRequestTile> {
                                                             style: TextStyle(
                                                                 color: Colors
                                                                     .white,
-                                                                fontSize: 13),
+                                                                fontSize: 10),
                                                             textAlign: TextAlign
                                                                 .center,
                                                           ),
@@ -262,7 +262,7 @@ class _buddyRequestTileState extends State<buddyRequestTile> {
                                                   "Follow",
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 13),
+                                                      fontSize: 10),
                                                   textAlign: TextAlign.center,
                                                 ),
                                               ),

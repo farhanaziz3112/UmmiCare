@@ -260,6 +260,24 @@ class StorageService {
     return imageUrl;
   }
 
+  //upload image to child folder
+  Future<String> uploadChildProfilePicFirstTime(XFile file) async {
+    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    Reference imageToUpload = childFolderReference.child(uniqueFileName);
+
+    String imageUrl = '';
+
+    try {
+      await imageToUpload.putFile(File(file.path));
+      imageUrl = await imageToUpload.getDownloadURL();
+    } catch (e) {
+      print(e);
+    }
+
+    return imageUrl;
+  }
+
   //upload image to buddy profile folder
   Future<String> uploadBuddyProfilePic(
       buddyProfileModel profile, XFile file) async {

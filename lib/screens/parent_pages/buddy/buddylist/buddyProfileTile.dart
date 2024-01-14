@@ -82,7 +82,7 @@ class _buddyProfileTileState extends State<buddyProfileTile> {
                                       child: const Text(
                                         "Followed",
                                         style: TextStyle(
-                                            color: Colors.white, fontSize: 10),
+                                            color: Colors.white, fontSize: 8),
                                         textAlign: TextAlign.center,
                                       ),
                                     ),
@@ -125,7 +125,7 @@ class _buddyProfileTileState extends State<buddyProfileTile> {
                                                     "Follow",
                                                     style: TextStyle(
                                                         color: Colors.white,
-                                                        fontSize: 13),
+                                                        fontSize: 10),
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ),
@@ -147,7 +147,7 @@ class _buddyProfileTileState extends State<buddyProfileTile> {
                                                   "Pending",
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 13),
+                                                      fontSize: 10),
                                                   textAlign: TextAlign.center,
                                                 ),
                                               ),
@@ -178,7 +178,7 @@ class _buddyProfileTileState extends State<buddyProfileTile> {
                                                   "Follow",
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 13),
+                                                      fontSize: 10),
                                                   textAlign: TextAlign.center,
                                                 ),
                                               ),

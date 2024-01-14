@@ -35,7 +35,7 @@ class _buddyProfileState extends State<buddyProfile> {
                   return Scaffold(
                     appBar: AppBar(
                       title: Text(
-                        '${profile.buddyProfileUsername}\'s Profile',
+                        profile.buddyProfileUsername,
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -57,16 +57,19 @@ class _buddyProfileState extends State<buddyProfile> {
                             Row(
                               children: <Widget>[
                                 Expanded(
-                                  flex: 2,
+                                  flex: 1,
                                   child: Container(
                                     alignment: Alignment.centerLeft,
                                     child: CircleAvatar(
-                                      radius: 50.0,
+                                      radius: 35.0,
                                       backgroundColor: Colors.grey[300],
                                       backgroundImage: NetworkImage(
                                           profile.buddyProfileImageURL),
                                     ),
                                   ),
+                                ),
+                                const SizedBox(
+                                  width: 5,
                                 ),
                                 Expanded(
                                     flex: 3,
@@ -80,12 +83,12 @@ class _buddyProfileState extends State<buddyProfile> {
                                           profile.buddyProfileUsername,
                                           style: const TextStyle(
                                               fontWeight: FontWeight.w700,
-                                              fontSize: 15),
+                                              fontSize: 13),
                                         ),
                                         Text(
                                           parent!.parentEmail,
                                           style: const TextStyle(
-                                              color: Colors.grey, fontSize: 13),
+                                              color: Colors.grey, fontSize: 11),
                                         ),
                                       ],
                                     )),
@@ -166,12 +169,30 @@ class _buddyProfileState extends State<buddyProfile> {
                                         const SizedBox(
                                           height: 5,
                                         ),
-                                        const Text(
-                                          '14',
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w800),
-                                        )
+                                        StreamBuilder<List<friendModel>>(
+                                            stream: buddyDatabase()
+                                                .allFriendData(
+                                                    profile.buddyProfileId),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return Text(
+                                                  snapshot.data!.length
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.w800),
+                                                );
+                                              } else {
+                                                return const Text(
+                                                  '0',
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.w800),
+                                                );
+                                              }
+                                            })
                                       ],
                                     ),
                                   ),

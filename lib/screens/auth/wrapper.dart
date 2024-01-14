@@ -23,7 +23,7 @@ class Wrapper extends StatelessWidget {
         catchError: (_,__) {
           return null;
         },
-        child: HomeParent(),
+        child: HomeParent(currentPage: 0),
       );
     }
   }

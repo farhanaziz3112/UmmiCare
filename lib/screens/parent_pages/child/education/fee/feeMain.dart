@@ -24,7 +24,7 @@ class _feeMainState extends State<feeMain> {
           "Fee Payment",
           style: TextStyle(
             color: Colors.black,
-            fontSize: 25,
+            fontSize: 17,
             fontWeight: FontWeight.bold,
           ),
         ),

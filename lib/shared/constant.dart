@@ -22,3 +22,28 @@ const textInputDecoration = InputDecoration(
   // focusedBorder: OutlineInputBorder(
   //     borderSide: BorderSide(color: Color.fromARGB(255, 88, 87, 87), width: 2.0)),
 );
+
+Widget noData(String inLineText) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Container(
+          height: 80,
+          width: 80,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/background/nodatabg.png"),
+                fit: BoxFit.cover),
+          ),
+          child: Container()),
+      const SizedBox(
+        height: 10,
+      ),
+      Text(
+        inLineText,
+        style: TextStyle(color: Colors.grey[700]),
+      ),
+    ],
+  );
+}

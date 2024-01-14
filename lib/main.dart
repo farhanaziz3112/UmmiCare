@@ -4,12 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:ummicare/models/userModel.dart';
 import 'package:ummicare/services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ummicare/services/notificationService.dart';
 
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
   runApp(MyApp());
 }
 
