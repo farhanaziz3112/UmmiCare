@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/healthstatusmodel.dart';
 import 'package:ummicare/screens/parent_pages/child/health/chronicCondition.dart';
@@ -64,12 +61,12 @@ class _healthStatusState extends State<healthStatus> {
                                 Row(
                                   children: <Widget>[
                                     const Icon(
-                                      Icons.health_and_safety,
+                                      Icons.medical_information,
                                       size: 30.0,
                                       color: Colors.white,
                                     ),
                                     const Text(
-                                      ' Health Condition',
+                                      'Health Condition',
                                       style: TextStyle(
                                           fontSize: 20.0, color: Colors.white),
                                     ),
@@ -161,7 +158,7 @@ class _healthStatusState extends State<healthStatus> {
                                 Row(
                                   children: <Widget>[
                                     Icon(
-                                      Icons.vaccines,
+                                      Icons.medical_information,
                                       size: 30.0,
                                       color: Colors.white,
                                     ),

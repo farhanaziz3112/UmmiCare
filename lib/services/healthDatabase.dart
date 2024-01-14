@@ -79,7 +79,7 @@ class HealthDatabaseService {
     double bmiData,) async {
       return await healthCollection.doc(healthId).collection('Bmi').doc(bmiId).set({
         'bmiId': bmiId,
-        'bmiData' : bmiId,
+        'bmiData' : bmiData,
       });
     }
 
