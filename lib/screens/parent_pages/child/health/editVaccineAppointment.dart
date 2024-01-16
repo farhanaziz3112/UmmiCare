@@ -129,7 +129,6 @@ class _editVaccineAppointmentState extends State<editVaccineAppointment> {
                     String formattedTime = '${_selectedTime.hourOfPeriod}:$formattedMinute ${_selectedTime.period.index == 0 ? 'AM' : 'PM'}';
                     await PatientDatabaseService()
                         .updateVaccinationAppointmentData(
-                            widget.vaccinationAppointmentId,
                             _vaccineType,
                             _formattedDate,
                             formattedTime,

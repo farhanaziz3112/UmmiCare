@@ -64,6 +64,7 @@ class PatientDatabaseService {
       String patientName,
       int patientCurrentAge) async {
     return await patientCollection.doc(patientId).set({
+      'patientId': patientId,
       'childId': childId,
       'healthId': healthId,
       'clinicId': clinicId,
@@ -77,8 +78,8 @@ class PatientDatabaseService {
 
   Future<void> createPatientData(
       String patientId,
-      String healthId,
       String childId,
+      String healthId,
       String clinicId,
       String healthStatusId,
       String vaccinationAppointmentId,
@@ -125,7 +126,6 @@ class PatientDatabaseService {
       vaccineTime: snapshot['vaccineTime'],
       healthId: snapshot['healthId'],
       clinicId: snapshot['clinicId'],
-      medicalStaffId: snapshot['medicalStaffId']
     );
   }
 
@@ -138,27 +138,24 @@ class PatientDatabaseService {
         vaccineTime: doc.get('vaccineTime') ?? '',
         healthId: doc.get('healthId') ?? '',
         clinicId: doc.get('clinicId') ?? '',
-        medicalStaffId: doc.get('medicalStaffId') ?? '',
       );
     }).toList();
   }
 
   //create Vaccincation Appointment data
   Future<void> createVaccinationAppointmentData(
-    String vaccinationAppointmentId,
     String vaccineType,
     String vaccineDate,
     String vaccineTime,
     String healthId,
-    String clinicId,
-    String medicalStaffId,) async {
-    return await vaccinationAppointmentCollection.doc(vaccinationAppointmentId).set({
+    String clinicId,) async {
+      final doc = patientCollection.doc();
+    return await vaccinationAppointmentCollection.doc(doc.id).set({
       'vaccineType': vaccineType,
       'vaccineDate': vaccineDate,
       'vaccineTime': vaccineTime,
       'healthId': healthId,
       'clinicId': clinicId,
-      'medicalStaffId': medicalStaffId,
     });
   }
 
@@ -168,15 +165,13 @@ class PatientDatabaseService {
     String vaccineDate,
     String vaccineTime,
     String healthId,
-    String clinicId,
-    String medicalStaffId,) async {
+    String clinicId,) async {
     return await vaccinationAppointmentCollection.doc(vaccinationAppointmentId).update({
       'vaccineType': vaccineType,
       'vaccineDate': vaccineDate,
       'vaccineTime': vaccineTime,
       'healthId': healthId,
       'clinicId': clinicId,
-      'doctorId': medicalStaffId,
     }).then((value) => print('Data updated successfully!'))
     .catchError((error) => print('Failed to update data: $error'));
   }

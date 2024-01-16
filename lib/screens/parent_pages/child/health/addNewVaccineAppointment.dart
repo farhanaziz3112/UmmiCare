@@ -124,19 +124,14 @@ class _addNewVaccineAppointmentState extends State<addNewVaccineAppointment> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    String vaccinationAppointmentId =
-                        DateTime.now().millisecondsSinceEpoch.toString() +
-                            widget.healthId;
                     String formattedMinute = _selectedTime.minute.toString().padLeft(2, '0');
                     String formattedTime = '${_selectedTime.hourOfPeriod}:$formattedMinute ${_selectedTime.period.index == 0 ? 'AM' : 'PM'}';
                     await PatientDatabaseService()
                         .createVaccinationAppointmentData(
-                            vaccinationAppointmentId,
                             _vaccineType,
                             _formattedDate,
                             formattedTime,
                             widget.healthId,
-                            '',
                             '',);
                     Navigator.pop(context);
                   }

@@ -1,13 +1,13 @@
 class patientModel{ 
   final String patientId;
-  late final String healthId;
-  late final String childId;
-  late final String clinicId;
-  late final String healthStatusId;
-  late final String vaccinationAppointmentId;
-  late final String patientProfileImage;
-  late final String patientName;
-  late final int patientCurrentAge;
+  final String healthId;
+  final String childId;
+  final String clinicId;
+  final String healthStatusId;
+  final String vaccinationAppointmentId;
+  final String patientProfileImage;
+  final String patientName;
+  final int patientCurrentAge;
   
   patientModel({
     required this.patientId,
@@ -31,7 +31,6 @@ class VaccinationAppointmentModel {
   late final String vaccineTime;
   late final String healthId;
   late final String clinicId;
-  late final String medicalStaffId;
 
   VaccinationAppointmentModel({
     required this.vaccinationAppointmentId,
@@ -40,6 +39,5 @@ class VaccinationAppointmentModel {
     required this.vaccineTime,
     required this.healthId,
     required this.clinicId,
-    required this.medicalStaffId,
   });
 }
