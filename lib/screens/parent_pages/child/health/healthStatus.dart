@@ -163,7 +163,7 @@ class _healthStatusState extends State<healthStatus> {
                                       color: Colors.white,
                                     ),
                                     Text(
-                                      ' Health Condition',
+                                      'Health Condition',
                                       style: TextStyle(
                                           fontSize: 20.0, color: Colors.white),
                                     ),
@@ -404,24 +404,24 @@ class _healthStatusState extends State<healthStatus> {
                                   BorderRadius.all(Radius.circular(10.0))),
                           child: Container(
                             padding: const EdgeInsets.all(20.0),
-                            child: Column(
+                            child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Row(
                                   children: <Widget>[
-                                    const Icon(
+                                    Icon(
                                       Icons.emergency,
                                       size: 30.0,
                                       color: Colors.white,
                                     ),
-                                    const Text(
-                                      ' Health Condition',
+                                    Text(
+                                      'Chronix Condition',
                                       style: TextStyle(
                                           fontSize: 20.0, color: Colors.white),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
+                                SizedBox(
                                   height: 5.0,
                                 ),
                               ],
