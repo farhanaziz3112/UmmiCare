@@ -44,7 +44,7 @@ class _BmiTileState extends State<BmiTile> {
             bmiStatus = "No Status";
           }
           return Padding(
-            padding: const EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             child: Container(
               decoration: BoxDecoration(
                 color: const Color(0xff8290F0),

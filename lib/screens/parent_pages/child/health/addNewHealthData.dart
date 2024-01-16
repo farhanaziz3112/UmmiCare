@@ -207,7 +207,7 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                             .collection('Health')
                             .doc();
                         double bmi = _currentWeight / pow(_currentHeight, 2);
-                        final bmihDocument =
+                        final bmiDocument =
                             FirebaseFirestore.instance.collection('Bmi').doc();
                         final healthStatusDocument = FirebaseFirestore.instance
                             .collection('Health Status')
@@ -238,14 +238,14 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                             patientDocument.id);
 
                         await HealthDatabaseService().createBmiData(
-                            bmihDocument.id,
+                            bmiDocument.id,
                             healthDocument.id,
                             _currentHeight,
                             _currentWeight,
                             bmi);
 
                         await HealthDatabaseService()
-                            .addBmi(healthDocument.id, bmihDocument.id, bmi);
+                            .addBmi(healthDocument.id, bmiDocument.id, bmi);
 
                         await HealthDatabaseService().createHealthStatusData(
                           healthStatusDocument.id,

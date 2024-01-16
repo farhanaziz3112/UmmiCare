@@ -2,6 +2,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/healthmodel.dart';
 import 'package:ummicare/screens/parent_pages/child/health/BMI/BmiList.dart';
+import 'package:ummicare/screens/parent_pages/child/health/addBmi.dart';
 
 import 'package:ummicare/services/healthDatabase.dart';
 
@@ -41,6 +42,7 @@ class _BmiMainState extends State<BmiMain> {
           body: SingleChildScrollView(
             child: Column(
               children: <Widget>[
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -99,6 +101,35 @@ class _BmiMainState extends State<BmiMain> {
                 ),
                 const SizedBox(height: 30),
                 BmiList(bmi: bmiData),
+                const SizedBox(height: 30),
+                Container(
+                  width: 50,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: Color(0xff71CBCA),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.add,
+                        size: 25.0,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => addBmi(
+                              healthId: widget.healthId,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
               ],
             )
           ),

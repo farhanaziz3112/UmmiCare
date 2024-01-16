@@ -126,7 +126,7 @@ class _healthCalendarState extends State<healthAppointment> {
                   );
                 } else {
                   final vaccinationAppointmentData = snapshot.data!;
-                  String sd = DateFormat('dd-MM-yyyy').format(_selectedDay!);
+                  String sd = DateFormat('yyyy-MM-dd').format(_selectedDay!);
 
                   for (int i=0; i<vaccinationAppointmentData.length; i++){
                     if (vaccinationAppointmentData[i].vaccineDate == sd) {
@@ -134,7 +134,7 @@ class _healthCalendarState extends State<healthAppointment> {
                     return Column(
                       children: <Widget>[
                         Text(
-                          'Health Appointments on ${DateFormat('dd-MM-yyyy').format(_selectedDay!)}',
+                          'Health Appointments on ${DateFormat('yyyy-MM-dd').format(_selectedDay!)}',
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                         Text(
