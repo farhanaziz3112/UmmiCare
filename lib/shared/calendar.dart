@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:ummicare/models/scheduleModel.dart';
 
-class academicCalendarScheduler extends CalendarDataSource {
+class scheduler extends CalendarDataSource {
 
-  academicCalendarScheduler(List<Meeting> source) {
+  scheduler(List<Meeting> source) {
     appointments = source;
   }
 
@@ -45,3 +45,4 @@ class academicCalendarScheduler extends CalendarDataSource {
   }
 
 }
+

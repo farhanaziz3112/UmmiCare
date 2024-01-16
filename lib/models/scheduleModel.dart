@@ -26,6 +26,30 @@ class academicCalendarScheduleModel {
 
 }
 
+class scheduleModel {
+
+  final String scheduleId;
+  final String scheduleTitle;
+  final String parentId;
+  final String childId;
+  final String from;
+  final String to;
+  final String type;
+  final String isAllDay;
+
+  scheduleModel({
+    required this.scheduleId,
+    required this.scheduleTitle,
+    required this.parentId,
+    required this.childId,
+    required this.from,
+    required this.to,
+    required this.type,
+    required this.isAllDay
+  });
+
+}
+
 class Meeting {
   Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
 

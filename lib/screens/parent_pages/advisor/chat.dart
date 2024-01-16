@@ -157,7 +157,7 @@ class _chatState extends State<chat> {
                     },
                     child: Image.network(
                       message.content,
-                      height: 400,
+                      height: 200,
                     ),
                   ),
                 ),

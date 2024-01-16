@@ -2,13 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:ummicare/models/activityModel.dart';
 import 'package:ummicare/models/childModel.dart';
 import 'package:ummicare/models/parentModel.dart';
+import 'package:ummicare/models/scheduleModel.dart';
 import 'package:ummicare/services/activityDatabase.dart';
 import 'package:ummicare/services/auth.dart';
 import 'package:ummicare/services/parentDatabase.dart';
 import 'package:ummicare/screens/parent_pages/child/childlist/childlist.dart';
+import 'package:ummicare/services/scheduleDatabase.dart';
+import 'package:ummicare/shared/calendar.dart';
+import 'package:ummicare/shared/constant.dart';
 import 'package:ummicare/shared/function.dart';
 
 class parentMain extends StatefulWidget {
@@ -66,13 +71,13 @@ class _parentMainState extends State<parentMain> {
                       child: Container(),
                     ),
                     Container(
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                              blurRadius: 3,
-                              color: Colors.black,
+                              blurRadius: 10,
+                              color: Colors.grey,
                               spreadRadius: 1)
                         ],
                       ),
@@ -156,19 +161,20 @@ class _parentMainState extends State<parentMain> {
                                                 ? const AssetImage(
                                                     "assets/background/activitybg-advisor.png")
                                                 : activities[index].type ==
-                                                    'child'
-                                                ? const AssetImage(
-                                                    "assets/background/activitybg-child.png")
-                                                : activities[index].type ==
-                                                        'education'
+                                                        'child'
                                                     ? const AssetImage(
-                                                        "assets/background/activitybg-childedu.png")
+                                                        "assets/background/activitybg-child.png")
                                                     : activities[index].type ==
-                                                            'health'
+                                                            'education'
                                                         ? const AssetImage(
-                                                            "assets/background/activitybg-childhealth.png")
-                                                        : const AssetImage(
-                                                            "assets/background/activitybg-buddy.png"),
+                                                            "assets/background/activitybg-childedu.png")
+                                                        : activities[index]
+                                                                    .type ==
+                                                                'health'
+                                                            ? const AssetImage(
+                                                                "assets/background/activitybg-childhealth.png")
+                                                            : const AssetImage(
+                                                                "assets/background/activitybg-buddy.png"),
                                             fit: BoxFit.cover),
                                         borderRadius: const BorderRadius.all(
                                             Radius.circular(10.0))),
@@ -192,11 +198,11 @@ class _parentMainState extends State<parentMain> {
                                         Container(
                                           alignment: Alignment.centerRight,
                                           child: Text(
-                                            convertTimeToDateString(activities[index].createdAt),
+                                            convertTimeToDateString(
+                                                activities[index].createdAt),
                                             style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.grey[200]
-                                            ),
+                                                fontSize: 10,
+                                                color: Colors.grey[200]),
                                           ),
                                         )
                                       ],
@@ -208,157 +214,94 @@ class _parentMainState extends State<parentMain> {
                           return Container();
                         }
                       }),
-                  // Container(
-                  //   height: 150,
-                  //   child: ListView(
-                  //     scrollDirection: Axis.horizontal,
-                  //     children: <Widget>[
-                  //       Container(
-                  //           width: 250,
-                  //           margin: const EdgeInsets.only(right: 5.0),
-                  //           padding: const EdgeInsets.symmetric(
-                  //               horizontal: 10, vertical: 10),
-                  //           decoration: const BoxDecoration(
-                  //               image: DecorationImage(
-                  //                   image: AssetImage(
-                  //                       "assets/background/activitybg-childedu.png"),
-                  //                   fit: BoxFit.cover),
-                  //               borderRadius:
-                  //                   BorderRadius.all(Radius.circular(10.0))),
-                  //           child: const Column(
-                  //             children: <Widget>[
-                  //               Text(
-                  //                 'Checkout Education Module Now!',
-                  //                 style: TextStyle(
-                  //                     fontSize: 20,
-                  //                     fontWeight: FontWeight.w700),
-                  //               ),
-                  //               SizedBox(
-                  //                 height: 10,
-                  //               ),
-                  //               Text(
-                  //                 'Feel free to explore our exclusive education module!',
-                  //                 style: TextStyle(color: Colors.white),
-                  //               )
-                  //             ],
-                  //           )),
-                  //       Container(
-                  //           width: 250,
-                  //           margin: const EdgeInsets.only(right: 5.0),
-                  //           padding: const EdgeInsets.symmetric(
-                  //               horizontal: 10, vertical: 10),
-                  //           decoration: const BoxDecoration(
-                  //               image: DecorationImage(
-                  //                   image: AssetImage(
-                  //                       "assets/background/activitybg-childhealth.png"),
-                  //                   fit: BoxFit.cover),
-                  //               borderRadius:
-                  //                   BorderRadius.all(Radius.circular(10.0))),
-                  //           child: const Column(
-                  //             children: <Widget>[
-                  //               Text(
-                  //                 'Health Module Is Available!',
-                  //                 style: TextStyle(
-                  //                     fontSize: 20,
-                  //                     fontWeight: FontWeight.w700),
-                  //               ),
-                  //               SizedBox(
-                  //                 height: 10,
-                  //               ),
-                  //               Text(
-                  //                 'Special module to monitor your child\'s health. Now available!',
-                  //                 style: TextStyle(color: Colors.white),
-                  //               )
-                  //             ],
-                  //           )),
-                  //       Container(
-                  //           width: 250,
-                  //           margin: const EdgeInsets.only(right: 5.0),
-                  //           padding: const EdgeInsets.symmetric(
-                  //               horizontal: 10, vertical: 10),
-                  //           decoration: const BoxDecoration(
-                  //               image: DecorationImage(
-                  //                   image: AssetImage(
-                  //                       "assets/background/activitybg-buddy.png"),
-                  //                   fit: BoxFit.cover),
-                  //               borderRadius:
-                  //                   BorderRadius.all(Radius.circular(10.0))),
-                  //           child: const Column(
-                  //             children: <Widget>[
-                  //               Text(
-                  //                 'Register to Buddy Now!',
-                  //                 style: TextStyle(
-                  //                     fontSize: 20,
-                  //                     fontWeight: FontWeight.w700),
-                  //               ),
-                  //               SizedBox(
-                  //                 height: 10,
-                  //               ),
-                  //               Text(
-                  //                 'Connect with community full of lovely and passionate parents!',
-                  //                 style: TextStyle(color: Colors.white),
-                  //               )
-                  //             ],
-                  //           )),
-                  //     ],
-                  //   ),
-                  // ),
                   const SizedBox(
                     height: 30.0,
                   ),
                   Row(
                     children: <Widget>[
                       const Icon(
-                        Icons.face,
+                        Icons.calendar_month,
                         size: 25,
                       ),
                       const SizedBox(
                         width: 5,
                       ),
                       const Text(
-                        'Your Child',
+                        'Upcoming Event',
                         style: TextStyle(color: Colors.black, fontSize: 17.0),
                       ),
                       Expanded(child: Container()),
-                      StreamBuilder<List<childModel>>(
-                          stream: parentDatabase(parentId: parent.parentId)
-                              .allChildData,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Row(
-                                children: [
-                                  Text(
-                                    'No.of Children: ${snapshot.data?.length}',
-                                    style: TextStyle(
-                                        color: Colors.grey[700], fontSize: 13),
-                                  ),
-                                ],
-                              );
-                            } else {
-                              return Container();
-                            }
-                          })
                     ],
                   ),
-                  StreamBuilder<List<childModel>>(
-                      stream: parentDatabase(parentId: parent.parentId)
-                          .allChildData,
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  SizedBox(
+                    height: 600,
+                    child: StreamBuilder<List<scheduleModel>>(
+                      stream: scheduleDatabase()
+                          .scheduleDataWithParentId(parent.parentId),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return childList(
-                            children: snapshot.data,
-                          );
+                          List<scheduleModel>? schedules = snapshot.data;
+                          if (schedules!.isNotEmpty) {
+                            return SfCalendar(
+                              minDate: DateTime.now().subtract(const Duration(days: 5)),
+                              maxDate:
+                                  DateTime.now().add(const Duration(days: 30)),
+                              view: CalendarView.schedule,
+                              dataSource: scheduler(_getDataSource(schedules)),
+                              timeSlotViewSettings: const TimeSlotViewSettings(
+                                  startHour: 0,
+                                  endHour: 24,
+                                  timeIntervalHeight: 30),
+                              monthViewSettings: const MonthViewSettings(
+                                  appointmentDisplayMode:
+                                      MonthAppointmentDisplayMode.appointment),
+                            );
+                          } else {
+                            return Center(
+                              child: noData('Oops! Nothing here...'),
+                            );
+                          }
                         } else {
-                          return Container();
+                          return Center(child: noData('Oops! Nothing here...'));
                         }
-                      }),
+                      },
+                    ),
+                  ),
                   const SizedBox(
-                    height: 30.0,
+                    height: 50.0,
                   ),
                 ]),
           ),
         ),
       ]);
     }
+  }
+
+  List<Meeting> _getDataSource(List<scheduleModel>? scheduleList) {
+    final List<Color> _colorList = [
+      Colors.orange,
+      Colors.blueAccent,
+      Colors.blueGrey,
+      Colors.red,
+      Colors.brown,
+      Colors.green,
+      Colors.yellow,
+      Colors.purple,
+      Colors.teal,
+      Colors.lightBlue
+    ];
+    final List<Meeting> meetings = <Meeting>[];
+    for (int i = 0; i < scheduleList!.length; i++) {
+      meetings.add(Meeting(
+          scheduleList[i].scheduleTitle,
+          convertTimeToDate(scheduleList[i].from),
+          convertTimeToDate(scheduleList[i].to),
+          i > 9 ? _colorList[i - 10] : _colorList[i],
+          scheduleList[i].isAllDay == 'true' ? true : false));
+    }
+    return meetings;
   }
 }

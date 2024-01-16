@@ -234,7 +234,7 @@ class _academicCalendarTileState extends State<academicCalendarTile> {
                                                           ),
                                                           onPressed: () {
                                                             studentDatabase().updateStudentData(
-                                                                student!
+                                                                student
                                                                     .studentId,
                                                                 student.childId,
                                                                 student

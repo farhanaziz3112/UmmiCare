@@ -1,6 +1,7 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/parentModel.dart';
+import 'package:ummicare/services/activityDatabase.dart';
 import 'package:ummicare/services/buddyDatabase.dart';
 import 'package:ummicare/services/parentDatabase.dart';
 
@@ -152,6 +153,15 @@ class _registerBuddyState extends State<registerBuddy> {
                                   username,
                                   isPrivate ? 'private' : 'public',
                                   parent.parentProfileImg);
+                              activityDatabase().createactivityData(
+                                  parent.parentId,
+                                  '',
+                                  'Welcome to the Buddy!',
+                                  'Feel free to reach out to our parents communities!',
+                                  'buddy',
+                                  DateTime.now()
+                                      .millisecondsSinceEpoch
+                                      .toString());
                               Navigator.pop(context);
                             }
                           },

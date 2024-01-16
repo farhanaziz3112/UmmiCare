@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/childModel.dart';
 import 'package:ummicare/models/medicalStaffModel.dart';
+import 'package:ummicare/services/activityDatabase.dart';
 import 'package:ummicare/services/childDatabase.dart';
 import 'package:ummicare/services/healthDatabase.dart';
 import 'package:ummicare/services/medicalStaffDatabase.dart';
@@ -17,10 +18,9 @@ class addNewHealthData extends StatefulWidget {
 
   @override
   State<addNewHealthData> createState() => _addNewHealthDataState();
-} 
+}
 
 class _addNewHealthDataState extends State<addNewHealthData> {
-
   final _formKey = GlobalKey<FormState>();
 
   double _currentHeight = 0;
@@ -52,7 +52,8 @@ class _addNewHealthDataState extends State<addNewHealthData> {
           child: Form(
             key: _formKey,
             child: Column(
-              children: <Widget>[Container(
+              children: <Widget>[
+                Container(
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(left: 20.0),
                   child: Text(
@@ -71,10 +72,10 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                 StreamBuilder<List<ClinicModel>>(
                   stream: medicalStaffDatabase().allClinicData,
                   builder: (context, snapshot) {
-                    if(snapshot.hasData){
+                    if (snapshot.hasData) {
                       List<ClinicModel>? clinic = snapshot.data;
                       clinicList.clear();
-                      for(int i =0; i<clinic!.length; i++){
+                      for (int i = 0; i < clinic!.length; i++) {
                         clinicList.add(clinic[i].clinicName);
                       }
                       _clinic = clinicList[0];
@@ -150,7 +151,8 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                   },
                   onChanged: (value) =>
                       setState(() => _currentHeight = double.parse(value)),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                 ),
                 const SizedBox(
                   height: 30.0,
@@ -185,90 +187,96 @@ class _addNewHealthDataState extends State<addNewHealthData> {
                   },
                   onChanged: (value) =>
                       setState(() => _currentWeight = double.parse(value)),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                 ),
                 const SizedBox(
                   height: 30.0,
                 ),
                 ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                ),
-                child: const Text(
-                  'Submit',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    final healthDocument = FirebaseFirestore.instance
-                                      .collection('Health')
-                                      .doc();
-                    double bmi = _currentWeight / pow(_currentHeight, 2);
-                    final bmihDocument = FirebaseFirestore.instance
-                                                          .collection('Bmi')
-                                                          .doc();
-                    final healthStatusDocument = FirebaseFirestore.instance
-                                                                  .collection('Health Status')
-                                                                  .doc();
-                    final patientDocument = FirebaseFirestore.instance
-                                                                  .collection('Patient')
-                                                                  .doc();
-                    await childDatabase(
-                      childId: widget.child.childId
-                    ).updateChildData(
-                      widget.child.childId, 
-                      widget.child.parentId, 
-                      widget.child.childCreatedDate, 
-                      widget.child.childName, 
-                      widget.child.childFirstname, 
-                      widget.child.childLastname, 
-                      widget.child.childBirthday, 
-                      widget.child.childCurrentAge, 
-                      widget.child.childAgeCategory, 
-                      widget.child.childProfileImg, 
-                      widget.child.educationId, 
-                      healthDocument.id,
-                      widget.child.overallStatus);
-                    
-                    await HealthDatabaseService().createHealthData(
-                      healthDocument.id, 
-                      widget.child.childId, 
-                      healthStatusDocument.id,
-                      patientDocument.id);
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                    ),
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        final healthDocument = FirebaseFirestore.instance
+                            .collection('Health')
+                            .doc();
+                        double bmi = _currentWeight / pow(_currentHeight, 2);
+                        final bmihDocument =
+                            FirebaseFirestore.instance.collection('Bmi').doc();
+                        final healthStatusDocument = FirebaseFirestore.instance
+                            .collection('Health Status')
+                            .doc();
+                        final patientDocument = FirebaseFirestore.instance
+                            .collection('Patient')
+                            .doc();
+                        await childDatabase(childId: widget.child.childId)
+                            .updateChildData(
+                                widget.child.childId,
+                                widget.child.parentId,
+                                widget.child.childCreatedDate,
+                                widget.child.childName,
+                                widget.child.childFirstname,
+                                widget.child.childLastname,
+                                widget.child.childBirthday,
+                                widget.child.childCurrentAge,
+                                widget.child.childAgeCategory,
+                                widget.child.childProfileImg,
+                                widget.child.educationId,
+                                healthDocument.id,
+                                widget.child.overallStatus);
 
-                    await HealthDatabaseService()
-                        .createBmiData(
-                          bmihDocument.id,
+                        await HealthDatabaseService().createHealthData(
+                            healthDocument.id,
+                            widget.child.childId,
+                            healthStatusDocument.id,
+                            patientDocument.id);
+
+                        await HealthDatabaseService().createBmiData(
+                            bmihDocument.id,
+                            healthDocument.id,
+                            _currentHeight,
+                            _currentWeight,
+                            bmi);
+
+                        await HealthDatabaseService()
+                            .addBmi(healthDocument.id, bmihDocument.id, bmi);
+
+                        await HealthDatabaseService().createHealthStatusData(
+                          healthStatusDocument.id,
+                          ' ',
+                          ' ',
+                          ' ',
+                          patientDocument.id,
+                        );
+
+                        await PatientDatabaseService().createPatientData(
+                          patientDocument.id,
                           healthDocument.id,
-                          _currentHeight,
-                          _currentWeight,
-                          bmi);
+                          widget.child.childId,
+                          _clinicId,
+                          healthStatusDocument.id,
+                          ' ',
+                          widget.child.childProfileImg,
+                          widget.child.childName,
+                          widget.child.childCurrentAge,
+                        );
 
-                    await HealthDatabaseService().addBmi(healthDocument.id, bmihDocument.id, bmi);
-
-                    await HealthDatabaseService().createHealthStatusData(
-                      healthStatusDocument.id,
-                      ' ',
-                      ' ',
-                      ' ',
-                      patientDocument.id,
-                    );
-                    
-                    await PatientDatabaseService().createPatientData(
-                      patientDocument.id,
-                      healthDocument.id,
-                      widget.child.childId,
-                      _clinicId,
-                      healthStatusDocument.id,
-                      ' ',
-                      widget.child.childProfileImg,
-                      widget.child.childName,
-                      widget.child.childCurrentAge,
-                    );
-                  }
-                    Navigator.pop(context);
-                }
-                )
+                        await activityDatabase().createactivityData(
+                            widget.child.parentId,
+                            widget.child.childId,
+                            'Health Module Registered!',
+                            '${widget.child.childFirstname} has been registered into Health Module!',
+                            'health',
+                            DateTime.now().millisecondsSinceEpoch.toString());
+                      }
+                      Navigator.pop(context);
+                    })
               ],
             ),
           ),

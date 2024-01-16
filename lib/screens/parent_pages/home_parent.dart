@@ -44,50 +44,8 @@ class HomeParentState extends State<HomeParent> {
       pageIndex = widget.currentPage;
     });
     notificationService().init(flutterLocalNotificationsPlugin);
-    // Show notification when the page is first loaded
-    // if (!isNotificationShown) {
-    //   notificationService().showNotification(
-    //     id: '10',
-    //     title: 'Buddy!',
-    //     body: 'Someone requested to be friends with you.',
-    //     fln: flutterLocalNotificationsPlugin,
-    //   );
-    //   isNotificationShown = true;
-    // }
-    //fetchNotificationsFromFirebase();
   }
 
-  // void fetchNotificationsFromFirebase() {
-  //   final CollectionReference notificationCollection =
-  //       FirebaseFirestore.instance.collection('Notification');
-
-  //   notificationCollection.snapshots().map((value) {
-  //     value.docs.map((doc) {
-  //       print('ngehhhhhhhhhhhhhhh: ${doc.id}');
-  //       var noti = notificationModel(
-  //           notificationId: doc.id,
-  //           title: doc.get('title'),
-  //           description: doc.get('description'));
-  //       showNoti(noti);
-  //     });
-  //   });
-  // }
-
-  // void showNoti(notificationModel noti) {
-  //   // Iterate through the notificationsData and show notifications
-  //   // notificationsData.forEach((key, value) {
-  //   //   String title = value['title'];
-  //   //   String body = value['body'];
-
-  //   // Show notification
-  //   notificationService().showNotification(
-  //     id: noti.notificationId,
-  //     title: noti.title,
-  //     body: noti.description,
-  //     fln: flutterLocalNotificationsPlugin,
-  //   );
-  //   //});
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -150,13 +108,18 @@ class HomeParentState extends State<HomeParent> {
                             }
                           }),
                     ],
-                    title: const Text(
-                      "UmmiCare",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    title: Row(
+                      children: [
+                        Image.asset('assets/background/ummicarelogo.png', width: 40, height: 40),
+                        const Text(
+                          "UmmiCare",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                     centerTitle: false,
                     backgroundColor: const Color.fromARGB(255, 255, 255, 255),

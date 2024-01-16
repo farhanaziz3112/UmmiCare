@@ -62,7 +62,7 @@ class AuthService {
           '-',
           user.email.toString(),
           '-',
-          '-',
+          'https://firebasestorage.googleapis.com/v0/b/ummicare-6db1a.appspot.com/o/other%2Fistockphoto-1223671392-612x612.jpg?alt=media&token=0c876dbc-4385-4270-95bc-7a2130f243b1',
           '',
           '0');
       await activityDatabase().createactivityData(

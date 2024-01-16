@@ -260,7 +260,7 @@ class _examinationProfileState extends State<examinationProfile> {
                                 maxDate: convertTimeToDate(exam.examEndDate)
                                     .add(const Duration(days: 1)),
                                 view: CalendarView.schedule,
-                                dataSource: academicCalendarScheduler(
+                                dataSource: scheduler(
                                     _getDataSource(snapshot.data)),
                                 timeSlotViewSettings:
                                     const TimeSlotViewSettings(

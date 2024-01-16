@@ -4,6 +4,7 @@ import 'package:ummicare/models/advisorModel.dart';
 import 'package:ummicare/models/parentModel.dart';
 import 'package:ummicare/screens/parent_pages/advisor/chat.dart';
 import 'package:ummicare/screens/parent_pages/child/registerChild.dart';
+import 'package:ummicare/services/activityDatabase.dart';
 import 'package:ummicare/services/advisorDatabase.dart';
 import 'package:ummicare/services/chatDatabase.dart';
 import 'package:ummicare/services/parentDatabase.dart';
@@ -178,6 +179,15 @@ class _advisorMainState extends State<advisorMain> {
                                             .updateChatData(
                                                 assignedAdvisor.advisorId,
                                                 parent.parentId);
+                                        activityDatabase().createactivityData(
+                                            parent.parentId,
+                                            '',
+                                            'Advisor assigned to you!',
+                                            '${assignedAdvisor.advisorFirstName} has been assigned as your advisor!',
+                                            'advisor',
+                                            DateTime.now()
+                                                .millisecondsSinceEpoch
+                                                .toString());
                                         showDialog(
                                             context: context,
                                             builder: (context) => AlertDialog(

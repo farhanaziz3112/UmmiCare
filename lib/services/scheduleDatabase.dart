@@ -5,7 +5,8 @@ class scheduleDatabase {
   final CollectionReference academicCalendarScheduleCollection =
       FirebaseFirestore.instance.collection('Academic Calendar Schedule');
 
-  Stream<academicCalendarScheduleModel> scheduleData(String scheduleId) {
+  Stream<academicCalendarScheduleModel> academicScheduleData(
+      String scheduleId) {
     return academicCalendarScheduleCollection
         .doc(scheduleId)
         .snapshots()
@@ -68,7 +69,9 @@ class scheduleDatabase {
     String eventId,
     String type,
   ) async {
-    return await academicCalendarScheduleCollection.doc(academicCalendarScheduleId).set({
+    return await academicCalendarScheduleCollection
+        .doc(academicCalendarScheduleId)
+        .set({
       'academicCalendarScheduleId': academicCalendarScheduleId,
       'title': title,
       'date': date,
@@ -102,4 +105,96 @@ class scheduleDatabase {
     });
   }
 
+  final CollectionReference scheduleCollection =
+      FirebaseFirestore.instance.collection('Schedule');
+
+  Stream<scheduleModel> scheduleData(String scheduleId) {
+    return scheduleCollection
+        .doc(scheduleId)
+        .snapshots()
+        .map(_createScheduleModelObject);
+  }
+
+  Stream<List<scheduleModel>> scheduleDataWithParentId(String parentId) {
+    return scheduleCollection
+        .where('parentId', isEqualTo: parentId)
+        .snapshots()
+        .map(_createScheduleModelList);
+  }
+
+  scheduleModel _createScheduleModelObject(DocumentSnapshot snapshot) {
+    return scheduleModel(
+        scheduleId: snapshot['scheduleId'],
+        scheduleTitle: snapshot['scheduleTitle'],
+        parentId: snapshot['parentId'],
+        childId: snapshot['childId'],
+        from: snapshot['from'],
+        to: snapshot['to'],
+        type: snapshot['type'],
+        isAllDay: snapshot['isAllDay'],);
+  }
+
+  List<scheduleModel> _createScheduleModelList(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return scheduleModel(
+        scheduleId: doc.data().toString().contains('scheduleId')
+            ? doc.get('scheduleId')
+            : '',
+        scheduleTitle: doc.data().toString().contains('scheduleTitle')
+            ? doc.get('scheduleTitle')
+            : '',
+        parentId: doc.data().toString().contains('parentId')
+            ? doc.get('parentId')
+            : '',
+        childId:
+            doc.data().toString().contains('childId') ? doc.get('childId') : '',
+        from: doc.data().toString().contains('from') ? doc.get('from') : '',
+        to: doc.data().toString().contains('to') ? doc.get('to') : '',
+        type: doc.data().toString().contains('type') ? doc.get('type') : '',
+        isAllDay: doc.data().toString().contains('isAllDay') ? doc.get('isAllDay') : '',
+      );
+    }).toList();
+  }
+
+  Future<void> updateScheduleData(
+      String scheduleId,
+      String scheduleTitle,
+      String parentId,
+      String childId,
+      String from,
+      String to,
+      String type,
+      String isAllDay) async {
+    return await scheduleCollection.doc(scheduleId).set({
+      'scheduleId': scheduleId,
+      'scheduleTitle': scheduleTitle,
+      'parentId': parentId,
+      'childId': childId,
+      'from': from,
+      'to': to,
+      'type': type,
+      'isAllDay': isAllDay
+    });
+  }
+
+  Future<void> createScheduleData(
+      String scheduleTitle,
+      String parentId,
+      String childId,
+      String from,
+      String to,
+      String type,
+      String isAllDay) async {
+    final document = scheduleCollection.doc();
+    return await scheduleCollection.doc(document.id).set({
+      'scheduleId': document.id,
+      'scheduleTitle': scheduleTitle,
+      'parentId': parentId,
+      'childId': childId,
+      'from': from,
+      'to': to,
+      'type': type,
+      'isAllDay': isAllDay
+    });
+  }
 }
