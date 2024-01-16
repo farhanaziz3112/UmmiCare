@@ -2,7 +2,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/healthmodel.dart';
 import 'package:ummicare/screens/charts/childBmi.dart';
-import 'package:ummicare/screens/parent_pages/child/health/editPhysical.dart';
+import 'package:ummicare/screens/parent_pages/child/health/BmiMain.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthAppointment.dart';
 import 'package:ummicare/screens/parent_pages/child/health/healthStatus.dart';
 
@@ -21,17 +21,6 @@ class healthMain extends StatefulWidget {
 class _healthMainState extends State<healthMain> {
   List<double> bmiData = [];
 
-  void _editPhysical() {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Container(
-            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-            child: EditPhysical(childId: widget.childId, healthId: widget.healthId),
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<HealthModel>(
@@ -40,7 +29,7 @@ class _healthMainState extends State<healthMain> {
         final healthData = snapshot.data;
         return Scaffold(
           appBar: AppBar(
-            elevation: 0.0,
+            elevation: 3.0,
             title: const Text(
               "Health",
               style: TextStyle(
@@ -49,8 +38,24 @@ class _healthMainState extends State<healthMain> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            iconTheme: const IconThemeData(color: Colors.black),
             centerTitle: true,
-            backgroundColor: const Color(0xffe1eef5),
+            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+            actions: <Widget>[
+              TextButton.icon(
+                icon: const Icon(Icons.person),
+                label: const Text('BMI'),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            BmiMain(
+                                healthId: widget.healthId),
+                      ));
+                },
+              )
+            ],
           ),
           body: SingleChildScrollView(
             child: Container(
@@ -58,35 +63,28 @@ class _healthMainState extends State<healthMain> {
                 alignment: Alignment.center,
               child: Column(
                 children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      _editPhysical();
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(),
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: const Offset(
-                              0, 3,
-                            ), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 200,
-                            child: childBmi(healthId: widget.healthId),
-                          ),
-                        ],
-                      ),
+                  Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 200,
+                          child: childBmi(healthId: widget.healthId),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(

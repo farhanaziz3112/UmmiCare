@@ -29,292 +29,296 @@ class _editChildProfileState extends State<editChildProfile> {
         stream: childDatabase(childId: widget.child.childId).childData,
         builder: (context, snapshot) {
           childModel? child = snapshot.data;
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text(
-                'Edit Child Profile',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
+          if(snapshot.hasData){
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text(
+                  'Edit Child Profile',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+                elevation: 3,
+                centerTitle: true,
+                iconTheme: const IconThemeData(color: Colors.black),
+                backgroundColor: const Color.fromARGB(255, 255, 255, 255),
               ),
-              elevation: 3,
-              centerTitle: true,
-              iconTheme: const IconThemeData(color: Colors.black),
-              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-            ),
-            resizeToAvoidBottomInset: false,
-            body: Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: SingleChildScrollView(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 30.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(child!.childProfileImg),
-                              radius: 50.0,
-                              backgroundColor: Colors.grey,
-                            ),
-                            Positioned(
-                              bottom: -60,
-                              right: -15,
-                              top: 0,
-                              child: RawMaterialButton(
-                                onPressed: () async {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          scrollable: true,
-                                          title: const Padding(
-                                            padding: EdgeInsets.all(10.0),
-                                            child: Text('Upload Photo'),
-                                          ),
-                                          content: const Text(
-                                              'Please choose your method to upload photo:'),
-                                          actions: [
-                                            ElevatedButton.icon(
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    const Color(0xff8290F0),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5)),
-                                              ),
-                                              onPressed: () async {
-                                                ImagePicker imagePicker =
-                                                    ImagePicker();
-                                                XFile? file =
-                                                    await imagePicker.pickImage(
-                                                        source:
-                                                            ImageSource.camera);
-                                                print('${file!.path}');
-
-                                                StorageService _storageService =
-                                                    StorageService();
-                                                _storageService
-                                                    .uploadChildProfilePic(
-                                                        child, file);
-                                                Navigator.of(context).pop();
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                        const SnackBar(
-                                                  content: Text(
-                                                      'New photo successfully submitted!'),
-                                                ));
-                                              },
-                                              icon: const Icon(
-                                                Icons.camera_alt,
-                                                color: Colors.white,
-                                              ),
-                                              label: const Text("Camera",
-                                                  style: TextStyle(
-                                                      color: Colors.white)),
-                                            ),
-                                            ElevatedButton.icon(
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    const Color(0xff8290F0),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5)),
-                                              ),
-                                              onPressed: () async {
-                                                ImagePicker imagePicker =
-                                                    ImagePicker();
-                                                XFile? file =
-                                                    await imagePicker.pickImage(
-                                                        source: ImageSource
-                                                            .gallery);
-                                                print('${file!.path}');
-
-                                                StorageService _storageService =
-                                                    StorageService();
-                                                _storageService
-                                                    .uploadChildProfilePic(
-                                                        child, file);
-                                                Navigator.of(context).pop();
-
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                        const SnackBar(
-                                                  content: Text(
-                                                      'New photo successfully submitted!'),
-                                                ));
-                                              },
-                                              icon: const Icon(
-                                                Icons.photo_library,
-                                                color: Colors.white,
-                                              ),
-                                              label: const Text("Gallery",
-                                                  style: TextStyle(
-                                                      color: Colors.white)),
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                },
-                                constraints:
-                                    BoxConstraints.tight(const Size(30, 30)),
-                                elevation: 2.0,
-                                fillColor:
-                                    const Color.fromARGB(255, 216, 216, 216),
-                                child:
-                                    const Icon(Icons.edit, color: Colors.black),
-                                padding: const EdgeInsets.all(0.0),
-                                shape: const CircleBorder(),
+              resizeToAvoidBottomInset: false,
+              body: Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: SingleChildScrollView(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 30.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              CircleAvatar(
+                                backgroundImage:
+                                    NetworkImage(child!.childProfileImg),
+                                radius: 50.0,
+                                backgroundColor: Colors.grey,
                               ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20.0,
-                        ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: Text(
-                            'Username',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
+                              Positioned(
+                                bottom: -60,
+                                right: -15,
+                                top: 0,
+                                child: RawMaterialButton(
+                                  onPressed: () async {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            scrollable: true,
+                                            title: const Padding(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Text('Upload Photo'),
+                                            ),
+                                            content: const Text(
+                                                'Please choose your method to upload photo:'),
+                                            actions: [
+                                              ElevatedButton.icon(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      const Color(0xff8290F0),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                                ),
+                                                onPressed: () async {
+                                                  ImagePicker imagePicker =
+                                                      ImagePicker();
+                                                  XFile? file =
+                                                      await imagePicker.pickImage(
+                                                          source:
+                                                              ImageSource.camera);
+                                                  print('${file!.path}');
+            
+                                                  StorageService _storageService =
+                                                      StorageService();
+                                                  _storageService
+                                                      .uploadChildProfilePic(
+                                                          child, file);
+                                                  Navigator.of(context).pop();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                          const SnackBar(
+                                                    content: Text(
+                                                        'New photo successfully submitted!'),
+                                                  ));
+                                                },
+                                                icon: const Icon(
+                                                  Icons.camera_alt,
+                                                  color: Colors.white,
+                                                ),
+                                                label: const Text("Camera",
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                              ),
+                                              ElevatedButton.icon(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      const Color(0xff8290F0),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                                ),
+                                                onPressed: () async {
+                                                  ImagePicker imagePicker =
+                                                      ImagePicker();
+                                                  XFile? file =
+                                                      await imagePicker.pickImage(
+                                                          source: ImageSource
+                                                              .gallery);
+                                                  print('${file!.path}');
+            
+                                                  StorageService _storageService =
+                                                      StorageService();
+                                                  _storageService
+                                                      .uploadChildProfilePic(
+                                                          child, file);
+                                                  Navigator.of(context).pop();
+            
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                          const SnackBar(
+                                                    content: Text(
+                                                        'New photo successfully submitted!'),
+                                                  ));
+                                                },
+                                                icon: const Icon(
+                                                  Icons.photo_library,
+                                                  color: Colors.white,
+                                                ),
+                                                label: const Text("Gallery",
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  constraints:
+                                      BoxConstraints.tight(const Size(30, 30)),
+                                  elevation: 2.0,
+                                  fillColor:
+                                      const Color.fromARGB(255, 216, 216, 216),
+                                  child:
+                                      const Icon(Icons.edit, color: Colors.black),
+                                  padding: const EdgeInsets.all(0.0),
+                                  shape: const CircleBorder(),
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20.0,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.only(left: 20.0),
+                            child: Text(
+                              'Username',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey[500]),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          TextFormField(
+                            initialValue: _currentChildName == ''
+                                ? child.childName
+                                : _currentChildName,
+                            decoration: textInputDecoration,
+                            validator: (value) => value == ''
+                                ? 'Please enter your child\'s username'
+                                : null,
+                            onChanged: (value) =>
+                                setState(() => _currentChildName = value),
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.only(left: 20.0),
+                            child: Text(
+                              'First Name',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.grey[500]),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5.0,
-                        ),
-                        TextFormField(
-                          initialValue: _currentChildName == ''
-                              ? child.childName
-                              : _currentChildName,
-                          decoration: textInputDecoration,
-                          validator: (value) => value == ''
-                              ? 'Please enter your child\'s username'
-                              : null,
-                          onChanged: (value) =>
-                              setState(() => _currentChildName = value),
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: Text(
-                            'First Name',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey[500],
+                                color: Colors.grey[500],
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 5.0,
-                        ),
-                        TextFormField(
-                          initialValue: _currentChildFirstName == ''
-                              ? child.childFirstname
-                              : _currentChildFirstName,
-                          decoration: textInputDecoration,
-                          validator: (value) => value == ''
-                              ? 'Please enter your first name'
-                              : null,
-                          onChanged: (value) =>
-                              setState(() => _currentChildFirstName = value),
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: Text(
-                            'Last Name',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey[500],
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          TextFormField(
+                            initialValue: _currentChildFirstName == ''
+                                ? child.childFirstname
+                                : _currentChildFirstName,
+                            decoration: textInputDecoration,
+                            validator: (value) => value == ''
+                                ? 'Please enter your first name'
+                                : null,
+                            onChanged: (value) =>
+                                setState(() => _currentChildFirstName = value),
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.only(left: 20.0),
+                            child: Text(
+                              'Last Name',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[500],
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 5.0,
-                        ),
-                        TextFormField(
-                          initialValue: _currentChildLastName == ''
-                              ? child.childLastname
-                              : _currentChildLastName,
-                          decoration: textInputDecoration,
-                          validator: (value) => value == ''
-                              ? 'Please enter your first name'
-                              : null,
-                          onChanged: (value) =>
-                              setState(() => _currentChildLastName = value),
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xff8290F0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
+                          const SizedBox(
+                            height: 5.0,
                           ),
-                          child: const Text(
-                            'Update Child Details',
-                            style: TextStyle(color: Colors.white),
+                          TextFormField(
+                            initialValue: _currentChildLastName == ''
+                                ? child.childLastname
+                                : _currentChildLastName,
+                            decoration: textInputDecoration,
+                            validator: (value) => value == ''
+                                ? 'Please enter your first name'
+                                : null,
+                            onChanged: (value) =>
+                                setState(() => _currentChildLastName = value),
                           ),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              await childDatabase(childId: widget.child.childId)
-                                  .updateChildData(
-                                      child.childId,
-                                      child.parentId,
-                                      child.childCreatedDate,
-                                      _currentChildName == ''
-                                          ? child.childName
-                                          : _currentChildName,
-                                      _currentChildFirstName == ''
-                                          ? child.childFirstname
-                                          : _currentChildFirstName,
-                                      _currentChildLastName == ''
-                                          ? child.childLastname
-                                          : _currentChildLastName,
-                                      child.childBirthday,
-                                      child.childCurrentAge,
-                                      child.childAgeCategory,
-                                      child.childProfileImg,
-                                      child.educationId,
-                                      child.healthId,
-                                      child.overallStatus);
-                              Navigator.pop(context);
-                            }
-                          },
-                        )
-                      ],
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff8290F0),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+                            child: const Text(
+                              'Update Child Details',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                await childDatabase(childId: widget.child.childId)
+                                    .updateChildData(
+                                        child.childId,
+                                        child.parentId,
+                                        child.childCreatedDate,
+                                        _currentChildName == ''
+                                            ? child.childName
+                                            : _currentChildName,
+                                        _currentChildFirstName == ''
+                                            ? child.childFirstname
+                                            : _currentChildFirstName,
+                                        _currentChildLastName == ''
+                                            ? child.childLastname
+                                            : _currentChildLastName,
+                                        child.childBirthday,
+                                        child.childCurrentAge,
+                                        child.childAgeCategory,
+                                        child.childProfileImg,
+                                        child.educationId,
+                                        child.healthId,
+                                        child.overallStatus);
+                                Navigator.pop(context);
+                              }
+                            },
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          );
+            );
+          }else{
+            return Container();
+          }
         });
   }
 }
