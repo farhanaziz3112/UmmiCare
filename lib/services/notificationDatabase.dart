@@ -85,7 +85,6 @@ class notificationDatabase {
 
   //create child data
   Future<void> createNotificationData(
-      String notificationId,
       String parentId,
       String childId,
       String type,

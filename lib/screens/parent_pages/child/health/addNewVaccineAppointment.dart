@@ -1,21 +1,32 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:ummicare/models/childModel.dart';
+import 'package:ummicare/services/childDatabase.dart';
 import 'package:ummicare/services/patientDatabase.dart';
+import 'package:ummicare/services/scheduleDatabase.dart';
 import 'package:ummicare/shared/constant.dart';
 import 'package:intl/intl.dart';
 
 class addNewVaccineAppointment extends StatefulWidget {
-  const addNewVaccineAppointment({super.key, required this.selectedDay, required this.time, required this.healthId});
+  const addNewVaccineAppointment(
+      {super.key,
+      required this.selectedDay,
+      required this.time,
+      required this.healthId,
+      required this.parentId,
+      required this.childId});
   final DateTime? selectedDay;
   final TimeOfDay time;
   final String healthId;
+  final String childId;
+  final String parentId;
 
   @override
-  State<addNewVaccineAppointment> createState() => _addNewVaccineAppointmentState();
+  State<addNewVaccineAppointment> createState() =>
+      _addNewVaccineAppointmentState();
 }
 
 class _addNewVaccineAppointmentState extends State<addNewVaccineAppointment> {
-
   final _formKey = GlobalKey<FormState>();
 
   String _vaccineType = '';
@@ -29,7 +40,6 @@ class _addNewVaccineAppointmentState extends State<addNewVaccineAppointment> {
     _selectedTime = widget.time;
     _selectedDay = widget.selectedDay!;
     _formattedDate = DateFormat('dd-MM-yyyy').format(_selectedDay);
-    
   }
 
   Future<void> _selectTime(BuildContext context) async {
@@ -62,84 +72,104 @@ class _addNewVaccineAppointmentState extends State<addNewVaccineAppointment> {
       ),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.only(left: 20.0),
-                  child: Text(
-                    '${_formattedDate}',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+        child: StreamBuilder<childModel>(
+          stream: childDatabase(childId: widget.childId).childData,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              childModel? child = snapshot.data;
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Text(
+                        '${_formattedDate}',
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                SizedBox(
-                  height: 30.0,
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 20.0),
-                  child: Text(
-                    'Vaccine Type',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey[500],
+                    const SizedBox(
+                      height: 30.0,
                     ),
-                  ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Text(
+                        'Vaccine Type',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey[500],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30.0,
+                    ),
+                    TextFormField(
+                      initialValue: _vaccineType,
+                      decoration: textInputDecoration,
+                      validator: (value) =>
+                          value == '' ? 'Please enter vaccine type' : null,
+                      onChanged: (value) => setState(() => _vaccineType = value),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () => _selectTime(context),
+                      child: const Text('Select Time'),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                        ),
+                        child: const Text(
+                          'Submit',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            String formattedMinute =
+                                _selectedTime.minute.toString().padLeft(2, '0');
+                            String formattedTime =
+                                '${_selectedTime.hourOfPeriod}:$formattedMinute ${_selectedTime.period.index == 0 ? 'AM' : 'PM'}';
+                            await PatientDatabaseService()
+                                .createVaccinationAppointmentData(
+                              _vaccineType,
+                              _formattedDate,
+                              formattedTime,
+                              widget.healthId,
+                              '',
+                            );
+                            scheduleDatabase().createScheduleData(
+                                'Vaccination Appointment - ${child!.childFirstname}',
+                                widget.parentId,
+                                widget.childId,
+                                _selectedDay.millisecondsSinceEpoch.toString(),
+                                _selectedDay.millisecondsSinceEpoch.toString(),
+                                'health',
+                                'true');
+                            Navigator.pop(context);
+                          }
+                        })
+                  ],
                 ),
-                SizedBox(
-                  height: 30.0,
-                ),
-                TextFormField(
-                  initialValue: _vaccineType,
-                  decoration: textInputDecoration,
-                  validator: (value) =>
-                      value == '' ? 'Please enter vaccine type' : null,
-                  onChanged: (value) =>
-                      setState(() => _vaccineType = value),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () => _selectTime(context),
-                  child: Text('Select Time'),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                ),
-                child: Text(
-                  'Submit',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    String formattedMinute = _selectedTime.minute.toString().padLeft(2, '0');
-                    String formattedTime = '${_selectedTime.hourOfPeriod}:$formattedMinute ${_selectedTime.period.index == 0 ? 'AM' : 'PM'}';
-                    await PatientDatabaseService()
-                        .createVaccinationAppointmentData(
-                            _vaccineType,
-                            _formattedDate,
-                            formattedTime,
-                            widget.healthId,
-                            '',);
-                    Navigator.pop(context);
-                  }
-                }
-                )
-              ],
-            ),
-          ),
+              ),
+            );
+          } else {
+            return Center(
+              child: noData('Oops! Nothing here...'),
+            );
+          }}
         ),
       ),
     );

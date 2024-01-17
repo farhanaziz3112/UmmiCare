@@ -9,8 +9,9 @@ import 'package:ummicare/screens/parent_pages/child/health/healthStatus.dart';
 import 'package:ummicare/services/healthDatabase.dart';
 
 class healthMain extends StatefulWidget {
-  const healthMain({super.key, required this.childId, required this.healthId});
+  const healthMain({super.key, required this.childId, required this.healthId, required this.parentId});
   final String childId;
+  final String parentId;
   final String healthId;
 
 
@@ -186,7 +187,7 @@ class _healthMainState extends State<healthMain> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 healthAppointment(
-                                                    childId: widget.childId, healthId: widget.healthId),
+                                                    childId: widget.childId, healthId: widget.healthId, parentId: widget.parentId),
                                           ));
                                     },
                                   ),

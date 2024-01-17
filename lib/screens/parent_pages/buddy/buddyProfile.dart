@@ -213,9 +213,9 @@ class _buddyProfileState extends State<buddyProfile> {
                                         const SizedBox(
                                           height: 5,
                                         ),
-                                        const Text(
-                                          'Private',
-                                          style: TextStyle(
+                                        Text(
+                                          profile.isPrivate == 'private' ? 'Private' : 'Public',
+                                          style: const TextStyle(
                                               fontSize: 17,
                                               fontWeight: FontWeight.w800),
                                         )

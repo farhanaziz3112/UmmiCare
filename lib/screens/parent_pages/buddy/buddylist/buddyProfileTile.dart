@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/buddyModel.dart';
 import 'package:ummicare/services/buddyDatabase.dart';
+import 'package:ummicare/services/notificationDatabase.dart';
 
 class buddyProfileTile extends StatefulWidget {
   const buddyProfileTile(
@@ -164,6 +165,17 @@ class _buddyProfileTileState extends State<buddyProfileTile> {
                                                             .buddyProfileId,
                                                         profile.buddyProfileId,
                                                         'pending');
+                                                notificationDatabase()
+                                                    .createNotificationData(
+                                                        profile.buddyProfileId,
+                                                        '',
+                                                        'buddy',
+                                                        'Someone sends you friend request!',
+                                                        '${ownerProfile.buddyProfileUsername} sends you a friend request.',
+                                                        'unseen',
+                                                        DateTime.now()
+                                                            .millisecondsSinceEpoch
+                                                            .toString());
                                               },
                                               child: Container(
                                                 padding:

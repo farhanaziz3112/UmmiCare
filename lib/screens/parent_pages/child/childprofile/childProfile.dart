@@ -746,6 +746,7 @@ class _childProfileState extends State<childProfile> {
                                                               healthId:
                                                                   healthData!
                                                                       .healthId,
+                                                              parentId: child.parentId,
                                                             ),
                                                           ));
                                                     },

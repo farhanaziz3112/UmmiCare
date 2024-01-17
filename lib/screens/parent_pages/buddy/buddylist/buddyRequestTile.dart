@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ummicare/models/buddyModel.dart';
+import 'package:ummicare/services/activityDatabase.dart';
 import 'package:ummicare/services/buddyDatabase.dart';
 
 class buddyRequestTile extends StatefulWidget {
@@ -140,17 +141,37 @@ class _buddyRequestTileState extends State<buddyRequestTile> {
                                                                     profile
                                                                         .buddyProfileId,
                                                                     'active');
+                                                            activityDatabase().createactivityData(
+                                                                ownerProfile
+                                                                    .buddyProfileId,
+                                                                '',
+                                                                'New Friend!',
+                                                                '${profile.buddyProfileUsername} has now become your friend!',
+                                                                'buddy',
+                                                                DateTime.now()
+                                                                    .millisecondsSinceEpoch
+                                                                    .toString());
+                                                            activityDatabase().createactivityData(
+                                                                profile
+                                                                    .buddyProfileId,
+                                                                '',
+                                                                'New Friend!',
+                                                                '${ownerProfile.buddyProfileUsername} has now become your friend!',
+                                                                'buddy',
+                                                                DateTime.now()
+                                                                    .millisecondsSinceEpoch
+                                                                    .toString());
                                                           },
                                                           child: Container(
                                                             padding:
                                                                 const EdgeInsets
                                                                     .all(5),
                                                             decoration: const BoxDecoration(
-                                                                color: Color(0xff8290F0),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .all(
-                                                                        Radius.circular(
+                                                                color: Color(
+                                                                    0xff8290F0),
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
                                                                             5.0))),
                                                             child: const Text(
                                                               "Accept",
@@ -212,11 +233,11 @@ class _buddyRequestTileState extends State<buddyRequestTile> {
                                                               const EdgeInsets
                                                                   .all(5),
                                                           decoration: const BoxDecoration(
-                                                              color: Color(0xff8290F0),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .all(
-                                                                      Radius.circular(
+                                                              color: Color(
+                                                                  0xff8290F0),
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
                                                                           5.0))),
                                                           child: const Text(
                                                             "Accept",
