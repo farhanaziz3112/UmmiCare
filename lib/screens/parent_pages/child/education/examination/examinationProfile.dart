@@ -40,7 +40,7 @@ class _examinationProfileState extends State<examinationProfile> {
                 maxLines: 1,
                 style: const TextStyle(
                   color: Colors.black,
-                  fontSize: 25,
+                  fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -152,7 +152,7 @@ class _examinationProfileState extends State<examinationProfile> {
                                                 'Inactive',
                                                 style: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: 15),
+                                                    fontSize: 13),
                                               )
                                             ],
                                           ))
@@ -181,7 +181,7 @@ class _examinationProfileState extends State<examinationProfile> {
                                                     'Ongoing',
                                                     style: TextStyle(
                                                         color: Colors.white,
-                                                        fontSize: 15),
+                                                        fontSize: 13),
                                                   )
                                                 ],
                                               ))
@@ -209,7 +209,7 @@ class _examinationProfileState extends State<examinationProfile> {
                                                     'Ended',
                                                     style: TextStyle(
                                                         color: Colors.white,
-                                                        fontSize: 15),
+                                                        fontSize: 13),
                                                   )
                                                 ],
                                               )),

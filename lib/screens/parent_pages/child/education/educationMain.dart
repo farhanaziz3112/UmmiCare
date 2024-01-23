@@ -83,7 +83,7 @@ class _educationMainState extends State<educationMain> {
                                   children: <Widget>[
                                     const Icon(
                                       Icons.school,
-                                      size: 30.0,
+                                      size: 25.0,
                                       color: Colors.black,
                                     ),
                                     const SizedBox(width: 5),
@@ -91,7 +91,7 @@ class _educationMainState extends State<educationMain> {
                                       'School & Class Information',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          fontSize: 18.0, color: Colors.black),
+                                          fontSize: 15.0, color: Colors.black),
                                     ),
                                     student!.activationStatus == 'active'
                                         ? Flexible(
@@ -132,6 +132,7 @@ class _educationMainState extends State<educationMain> {
                                     const Text(
                                       'School Name',
                                       style: TextStyle(
+                                          fontSize: 13,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     StreamBuilder<schoolModel>(
@@ -146,6 +147,9 @@ class _educationMainState extends State<educationMain> {
                                             return Text(
                                               snapshot.data!.schoolName,
                                               overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              ),
                                             );
                                           } else {
                                             return Container();
@@ -170,19 +174,27 @@ class _educationMainState extends State<educationMain> {
                                             const Text(
                                               'Class Year',
                                               style: TextStyle(
+                                                  fontSize: 13,
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            Text(snapshot.data!.classYear),
+                                            Text(
+                                              snapshot.data!.classYear,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              ),
+                                            ),
                                             const SizedBox(
                                               height: 5.0,
                                             ),
                                             const Text(
                                               'Class Name',
                                               style: TextStyle(
+                                                  fontSize: 13,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               snapshot.data!.className,
+                                              style: TextStyle(fontSize: 15,),
                                             )
                                           ],
                                         );
@@ -199,6 +211,7 @@ class _educationMainState extends State<educationMain> {
                                     const Text(
                                       'Teacher',
                                       style: TextStyle(
+                                          fontSize: 13,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     StreamBuilder<academicCalendarModel>(
@@ -223,6 +236,9 @@ class _educationMainState extends State<educationMain> {
                                                   return Text(
                                                     snapshot
                                                         .data!.teacherFullName,
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                    ),
                                                   );
                                                 } else {
                                                   return Container();
@@ -246,6 +262,7 @@ class _educationMainState extends State<educationMain> {
                                     const Text(
                                       'Status',
                                       style: TextStyle(
+                                        fontSize: 13,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Row(
@@ -530,7 +547,8 @@ class _educationMainState extends State<educationMain> {
                                         if (snapshot.hasData) {
                                           List<classEvent>? events =
                                               snapshot.data;
-                                          events!.sort((a, b) => b.eventStartDate
+                                          events!.sort((a, b) => b
+                                              .eventStartDate
                                               .compareTo(a.eventStartDate));
                                           if (events.isEmpty) {
                                             return Center(

@@ -56,7 +56,7 @@ class _educationInfoSelectionState extends State<educationInfoSelection> {
                         ),
                         const Text(
                           ' Current Education Information',
-                          style: TextStyle(fontSize: 17.0, color: Colors.black),
+                          style: TextStyle(fontSize: 13.0, color: Colors.black),
                         ),
                         Flexible(
                           child: Container(
@@ -103,7 +103,7 @@ class _educationInfoSelectionState extends State<educationInfoSelection> {
                         ),
                         const Text(
                           ' Request Class Withdrawal',
-                          style: TextStyle(fontSize: 17.0, color: Colors.black),
+                          style: TextStyle(fontSize: 13.0, color: Colors.black),
                         ),
                         Flexible(
                           child: Container(
@@ -151,7 +151,7 @@ class _educationInfoSelectionState extends State<educationInfoSelection> {
                         ),
                         const Text(
                           ' View Education Record',
-                          style: TextStyle(fontSize: 17.0, color: Colors.black),
+                          style: TextStyle(fontSize: 13.0, color: Colors.black),
                         ),
                         Flexible(
                           child: Container(

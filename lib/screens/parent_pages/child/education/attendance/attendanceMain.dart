@@ -245,50 +245,50 @@ class _attendanceMainState extends State<attendanceMain> {
                                                                               children: [
                                                                                 const Text(
                                                                                   'Day',
-                                                                                  style: TextStyle(color: Colors.grey),
+                                                                                  style: TextStyle(color: Colors.grey, fontSize: 13),
                                                                                 ),
                                                                                 const SizedBox(height: 5),
                                                                                 Text(
                                                                                   _leaveDate.day.toString(),
-                                                                                  style: const TextStyle(fontSize: 20.0),
+                                                                                  style: const TextStyle(fontSize: 15.0),
                                                                                 ),
                                                                               ],
                                                                             ),
-                                                                            const SizedBox(width: 5),
+                                                                            const SizedBox(width: 3),
                                                                             const Text(
                                                                               ' / ',
-                                                                              style: TextStyle(fontSize: 20),
+                                                                              style: TextStyle(fontSize: 13),
                                                                             ),
-                                                                            const SizedBox(width: 5),
+                                                                            const SizedBox(width: 3),
                                                                             Column(
                                                                               children: [
                                                                                 const Text(
                                                                                   'Month',
-                                                                                  style: TextStyle(color: Colors.grey),
+                                                                                  style: TextStyle(color: Colors.grey, fontSize: 13),
                                                                                 ),
                                                                                 const SizedBox(height: 5),
                                                                                 Text(
                                                                                   _leaveDate.month.toString(),
-                                                                                  style: const TextStyle(fontSize: 20.0),
+                                                                                  style: const TextStyle(fontSize: 15.0),
                                                                                 ),
                                                                               ],
                                                                             ),
-                                                                            const SizedBox(width: 5),
+                                                                            const SizedBox(width: 3),
                                                                             const Text(
                                                                               ' / ',
-                                                                              style: TextStyle(fontSize: 20),
+                                                                              style: TextStyle(fontSize: 13),
                                                                             ),
-                                                                            const SizedBox(width: 5),
+                                                                            const SizedBox(width: 3),
                                                                             Column(
                                                                               children: [
                                                                                 const Text(
                                                                                   'Year',
-                                                                                  style: TextStyle(color: Colors.grey),
+                                                                                  style: TextStyle(color: Colors.grey, fontSize: 13),
                                                                                 ),
                                                                                 const SizedBox(height: 5),
                                                                                 Text(
                                                                                   _leaveDate.year.toString(),
-                                                                                  style: const TextStyle(fontSize: 20.0),
+                                                                                  style: const TextStyle(fontSize: 15.0),
                                                                                 ),
                                                                               ],
                                                                             ),
@@ -564,8 +564,8 @@ class _attendanceMainState extends State<attendanceMain> {
                                                                             Container(
                                                                           padding: const EdgeInsets
                                                                               .symmetric(
-                                                                              horizontal: 10,
-                                                                              vertical: 20),
+                                                                              horizontal: 5,
+                                                                              vertical: 10),
                                                                           decoration:
                                                                               BoxDecoration(
                                                                             color:
@@ -624,6 +624,7 @@ class _attendanceMainState extends State<attendanceMain> {
                                                                                   ? Expanded(
                                                                                       flex: 2,
                                                                                       child: Container(
+                                                                                          alignment: Alignment.center,
                                                                                           decoration: BoxDecoration(
                                                                                             color: Colors.yellow[500],
                                                                                             borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -631,13 +632,14 @@ class _attendanceMainState extends State<attendanceMain> {
                                                                                           padding: const EdgeInsets.all(5),
                                                                                           child: const Text(
                                                                                             'Pending',
-                                                                                            style: TextStyle(color: Colors.black, fontSize: 12),
+                                                                                            style: TextStyle(color: Colors.black, fontSize: 10),
                                                                                           )),
                                                                                     )
                                                                                   : leaves[index].status == 'approved'
                                                                                       ? Expanded(
                                                                                           flex: 2,
                                                                                           child: Container(
+                                                                                              alignment: Alignment.center,
                                                                                               decoration: BoxDecoration(
                                                                                                 color: Colors.green[500],
                                                                                                 borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -645,12 +647,13 @@ class _attendanceMainState extends State<attendanceMain> {
                                                                                               padding: const EdgeInsets.all(5),
                                                                                               child: const Text(
                                                                                                 'Approved',
-                                                                                                style: TextStyle(color: Colors.black, fontSize: 12),
+                                                                                                style: TextStyle(color: Colors.black, fontSize: 10),
                                                                                               )),
                                                                                         )
                                                                                       : Expanded(
                                                                                           flex: 2,
                                                                                           child: Container(
+                                                                                              alignment: Alignment.center,
                                                                                               decoration: BoxDecoration(
                                                                                                 color: Colors.red[500],
                                                                                                 borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -658,7 +661,7 @@ class _attendanceMainState extends State<attendanceMain> {
                                                                                               padding: const EdgeInsets.all(5),
                                                                                               child: const Text(
                                                                                                 'Rejected',
-                                                                                                style: TextStyle(color: Colors.black, fontSize: 12),
+                                                                                                style: TextStyle(color: Colors.black, fontSize: 10),
                                                                                               )),
                                                                                         )
                                                                             ],

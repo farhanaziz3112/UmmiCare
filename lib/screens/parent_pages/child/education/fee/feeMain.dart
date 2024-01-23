@@ -63,7 +63,7 @@ class _feeMainState extends State<feeMain> {
                     child: Text(
                       'Paid',
                       style: TextStyle(
-                          fontSize: 15,color: toggleView == 1 ? Colors.white : Colors.grey),
+                          fontSize: 13,color: toggleView == 1 ? Colors.white : Colors.grey),
                     ),
                   ),
                 ),
@@ -89,7 +89,7 @@ class _feeMainState extends State<feeMain> {
                     child: Text(
                       'Pending',
                       style: TextStyle(
-                          fontSize: 15,color: toggleView == 2 ? Colors.white : Colors.grey),
+                          fontSize: 13,color: toggleView == 2 ? Colors.white : Colors.grey),
                     ),
                   ),
                 ),
@@ -115,7 +115,7 @@ class _feeMainState extends State<feeMain> {
                     child: Text(
                       'Unpaid',
                       style: TextStyle(
-                          fontSize: 15, color: toggleView == 3 ? Colors.white : Colors.grey),
+                          fontSize: 13, color: toggleView == 3 ? Colors.white : Colors.grey),
                     ),
                   ),
                 )
