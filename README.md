@@ -1,16 +1,15 @@
-# ummicare
+# UmmiCare - Mobile Application
 
-A new Flutter project.
+UmmiCare: Your Child Care Guide App
 
-## Getting Started
+This project is aimed to develop a child care guide application for parents to manage their children. It would give them a way to manage their children in various aspects which are health, education and profile. This idea was initially proposed because although there are plenty of child care guide apps, most of them are lacking in product categorization and only cover some parts of parenting guide. This designated application would help the parent user to keep track of everything.
 
-This project is a starting point for a Flutter application.
+To make sure all objectives are achievable, we are planning to develop a few modules which can be seen as following: 
+1. Education
+2. Health
+3. Buddies
+4. Advisory
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+For the technologies stack for this project:
+1. Flutter: used for both mobile(parent user) and web(admin user)
+2. Firebase: used for database, storage, authentication
